@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/cityFilter"
+            android:title="city"
+            app:showAsAction="always"
+            app:actionLayout="@layout/menu_city_filter"
+            />
+        <item
+            android:id="@+id/gallery"
+            android:icon="@android:drawable/ic_menu_crop"
+            android:title="Gallery"
+            app:showAsAction="always"  />
+        <item
+            android:id="@+id/slideshow"
+            android:icon="@android:drawable/ic_menu_share"
+            android:title="Slideshow" />
+        <item
+            android:id="@+id/manage"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:title="Tools" />
+    </group>
+</menu>
