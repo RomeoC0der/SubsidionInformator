@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activities.LoginFormActivity">
-
     <Space
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,37 +22,39 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             app:srcCompat="@drawable/ic_main_logo_foreground" />
-
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/login_form"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:hint="login"
+            app:startIconDrawable="@drawable/ic_login"
             android:layout_margin="10dp"
-            android:drawableLeft="@drawable/ic_login"
-            android:hint="Login"
-            android:inputType="textPersonName"
-            android:padding="10dp"></EditText>
-
-        <EditText
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password_form"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            app:endIconMode="password_toggle"
+            android:hint="password"
+            app:startIconDrawable="@drawable/ic_baseline_lock_24"
             android:layout_margin="10dp"
-            android:drawableLeft="@drawable/ic_baseline_lock_24"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:padding="10dp"></EditText>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_login"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:id="@+id/btn_signIn"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
             android:layout_margin="16dp"
-            android:textColor="@color/white"
-            android:background="@drawable/custom_btn_fullfill"
+            style="?attr/materialButtonOutlinedStyle"
             android:text="login" />
     </LinearLayout>
-
 </LinearLayout>

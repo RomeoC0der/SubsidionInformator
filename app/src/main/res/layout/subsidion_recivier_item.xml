@@ -75,14 +75,30 @@
                 />
         </LinearLayout>
     </LinearLayout>
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:id="@+id/button3"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:foreground="?android:selectableItemBackground"
-        android:background="@drawable/custom_btn_outlined"
-        android:text="more information"
-        />
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/recivier_more_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/custom_btn_outlined"
+            android:foreground="?android:selectableItemBackground"
+            android:text="more information" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/recivier_edit_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="Редагувати"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/custom_btn_outlined"
+            android:foreground="?android:selectableItemBackground"
+            />
+    </LinearLayout>
 </LinearLayout>

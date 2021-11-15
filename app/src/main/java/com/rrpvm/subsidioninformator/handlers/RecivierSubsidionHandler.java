@@ -54,17 +54,9 @@ public class RecivierSubsidionHandler {
         pure_data = new ArrayList<>();
         dataList = new ArrayList<>();
         r_filter = new RecivierFilter();
-
-        /*manipulate with data*/
-      /*  this.pure_data.add(new SubsidingRecivier("Nikita", "Yakimenko", "Dmitrievich", "Мариуполь", "переулок трамвайный","0xAFF",321, 52, new Subsidion(false, 1337, 120, 1200, new Date(), new Date())));
-        this.pure_data.add(new SubsidingRecivier("Ruslan", "Isichenko", "Maksimovich", "Мариуполь", "unknown","0xFEFF",322 ,66, new Subsidion(false, 1339, 120, 1200, new Date(), new Date())));
-        this.pure_data.add(new SubsidingRecivier("Danilo", "Telytsin", "Danilovich", "Мариуполь", "unknown","0xFEFF",322 ,66, new Subsidion(false, 1339, 120, 1200, new Date(), new Date())));
-        this.pure_data.add(new SubsidingRecivier("Danya", "Kuznetsov", "Filippovich", "Donetsk", "unknown","0xFEFF",322 ,66, new Subsidion(false, 1339, 120, 1200, new Date(), new Date())));*/
-
         this.pure_data.add(new SubsidingRecivier("Yakimenko", "Nikita","Dmitrievich","Donetska","Mariupol", new Date(), "Naximova","ukr_gradient"));
         this.pure_data.add(new SubsidingRecivier("Isichenko", "Ruslan","Maksimovich","Donetska","Mariupol", new Date(), "Mitropolitska","gerb_foreground"));
         this.pure_data.add(new SubsidingRecivier("Telytsin", "Danilo","Vitalievich","Donetska","Mariupol", new Date(),"Tramvayna","gerb_foreground"));
-
         //pure_data = JSONHelper.importToJSON(ctx,RECIVIERS_DATA_FILENAME);
         this.dataList.addAll(this.pure_data);//copy all(no filter mode)
         adapter = new RecivierItemAdapter(ctx, item_list_resource_id, this.dataList);
