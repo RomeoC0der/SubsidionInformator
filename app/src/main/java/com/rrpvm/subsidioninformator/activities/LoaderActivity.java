@@ -11,6 +11,7 @@ import java.util.Date;
 
 public class LoaderActivity extends AppCompatActivity {
     private final int LOADER_DELAY = 1000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -39,7 +39,8 @@ public class SubsidingRecivier {
         String pib = this.name.concat(this.surname.concat(this.patronymic));
         if(filter.)
     }*/
-    public SubsidingRecivier(String surname, String name, String patronymic, String region, String city, Date birthdate, String position,String image){
+    public SubsidingRecivier(boolean male, String surname, String name, String patronymic, String region, String city, Date birthdate, String position,String image){
+        this.male = male;
         this.surname = surname;
         this.name = name;
         this.patronymic = patronymic;
@@ -73,6 +74,13 @@ public class SubsidingRecivier {
     public String getImage() {
         return image;
     }
+    public boolean isMale() {
+        return male;
+    }
+
+    public String getPIB(){
+        return surname + " " + name + " " + patronymic;
+    }
     //general data:
     private String name;
     private String surname;
@@ -81,7 +89,7 @@ public class SubsidingRecivier {
     private String city;
     private String position;
     private Date birthdate;
-
+    private boolean male;
     //RENDER DATA:
     private String image;//path for (icon of person)
 

@@ -1,26 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <group android:checkableBehavior="none">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
         <item
-            android:id="@+id/cityFilter"
-            android:title="city"
-            app:showAsAction="always"
-            app:actionLayout="@layout/menu_city_filter"
-            />
+            android:id="@+id/menu_switch_all_genders"
+            android:icon="@drawable/gerb_foreground"
+            android:title="all genders" />
         <item
-            android:id="@+id/gallery"
-            android:icon="@android:drawable/ic_menu_crop"
-            android:title="Gallery"
-            app:showAsAction="always"  />
+            android:id="@+id/menu_switch_only_men"
+            android:icon="@drawable/gerb_foreground"
+            android:title="men" />
         <item
-            android:id="@+id/slideshow"
-            android:icon="@android:drawable/ic_menu_share"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/manage"
-            android:icon="@android:drawable/ic_menu_preferences"
-            android:title="Tools" />
+            android:id="@+id/menu_switch_only_women"
+            android:icon="@drawable/gerb_foreground"
+            android:title="women" />
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="txt4">
+            <menu>
+                <item
+                    android:id="@+id/kyrs"
+                    android:icon="@drawable/gerb_foreground"
+                    android:title="txt5" />
+                <item
+                    android:id="@+id/chat"
+                    android:icon="@drawable/gerb_foreground"
+                    android:title="txt6" />
+            </menu>
+        </item>
+    </group>
+    <group android:checkableBehavior="single">
+        <item  android:title="txt7">
+            <menu>
+                <item
+                    android:id="@+id/settings"
+                    android:checkableBehavior="single"
+                    android:icon="@drawable/gerb_foreground"
+                    android:title="txt8" />
+                <item
+                    android:id="@+id/about_programme"
+                    android:checkableBehavior="single"
+                    android:icon="@drawable/gerb_foreground"
+                    android:title="txt9" />
+            </menu>
+        </item>
     </group>
 </menu>

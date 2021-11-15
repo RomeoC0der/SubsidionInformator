@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">SubsidionInformator</string>
+    <string name="app_name">Пошук отримувачів субсидій</string>
+    <string name="company_name">ДП "ІОЦ МІНСОЦПОЛІТИКИ УКРАЇНИ"</string>
+    <string name="recivier_button_more">переглянути</string>
+    <string name="recivier_button_edit">редагувати</string>
+    <string name="app_bar_sort_button">сортування</string>
 </resources>

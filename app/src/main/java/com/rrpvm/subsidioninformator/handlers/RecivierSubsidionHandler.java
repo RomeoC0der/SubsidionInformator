@@ -1,10 +1,12 @@
 package com.rrpvm.subsidioninformator.handlers;
 
 import android.content.Context;
+import android.widget.TextView;
 
 import com.rrpvm.subsidioninformator.adapters.RecivierItemAdapter;
 import com.rrpvm.subsidioninformator.objects.RecivierFilter;
 import com.rrpvm.subsidioninformator.objects.SubsidingRecivier;
+import com.rrpvm.subsidioninformator.utilities.JSONHelper;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +18,7 @@ public class RecivierSubsidionHandler {
     private ArrayList<SubsidingRecivier>pure_data;//clear, non-filterd , full data
     private ArrayList<SubsidingRecivier>dataList;//filtered-data;
     private RecivierFilter r_filter;
+    private boolean aZ_sortMode = true;
     public  void filter() {
         dataList.clear();
         try {
@@ -26,6 +29,9 @@ public class RecivierSubsidionHandler {
                     String pib = recivier.getSurname() +" "+ recivier.getName() +" "+recivier.getPatronymic();
                     pib = pib.toLowerCase(Locale.ROOT);
                     if(!pib.contains(r_filter.getNameFilter().object))shouldAdd = false;
+                }
+                if(r_filter.getGenderFilter().state == RecivierFilter.statement.WORK){
+                    if(recivier.isMale() != r_filter.getGenderFilter().object)shouldAdd = false;
                 }
                 if(r_filter.getCityFilter().state == RecivierFilter.statement.WORK){
                     if(!recivier.getCity().contains(r_filter.getCityFilter().object))shouldAdd = false;
@@ -54,9 +60,10 @@ public class RecivierSubsidionHandler {
         pure_data = new ArrayList<>();
         dataList = new ArrayList<>();
         r_filter = new RecivierFilter();
-        this.pure_data.add(new SubsidingRecivier("Yakimenko", "Nikita","Dmitrievich","Donetska","Mariupol", new Date(), "Naximova","ukr_gradient"));
-        this.pure_data.add(new SubsidingRecivier("Isichenko", "Ruslan","Maksimovich","Donetska","Mariupol", new Date(), "Mitropolitska","gerb_foreground"));
-        this.pure_data.add(new SubsidingRecivier("Telytsin", "Danilo","Vitalievich","Donetska","Mariupol", new Date(),"Tramvayna","gerb_foreground"));
+        this.pure_data.add(new SubsidingRecivier(true,"Yakimenko", "Nikita","Dmitrievich","Donetska","Mariupol", new Date(), "Naximova","wrong"));
+        this.pure_data.add(new SubsidingRecivier(true,"Isichenko", "Ruslan","Maksimovich","Donetska","Mariupol", new Date(), "Mitropolitska","wrong"));
+        this.pure_data.add(new SubsidingRecivier(true,"Telytsin", "Danilo","Vitalievich","Donetska","Mariupol", new Date(),"Tramvayna","wrong"));
+        this.pure_data.add(new SubsidingRecivier(false,"Krasnoshek", "Tamara","Valerievna","Zaporozhska","Zaporogie", new Date(),"unknown","wrong"));
         //pure_data = JSONHelper.importToJSON(ctx,RECIVIERS_DATA_FILENAME);
         this.dataList.addAll(this.pure_data);//copy all(no filter mode)
         adapter = new RecivierItemAdapter(ctx, item_list_resource_id, this.dataList);
@@ -66,5 +73,18 @@ public class RecivierSubsidionHandler {
     }
     public RecivierFilter getR_filter(){
         return this.r_filter;
+    }
+    public boolean getaZ_sortMode(){return this.aZ_sortMode;}
+    public void setAZ_sortMode(boolean b){this.aZ_sortMode = b;}
+    public  ArrayList<SubsidingRecivier> getDataList(){
+        return this.dataList;
+    }
+    public   void setDataList(ArrayList<SubsidingRecivier> list){
+       this.dataList.clear();
+       this.dataList.addAll(list);//нельзя затирать ссылку.
+    }
+
+    public ArrayList<SubsidingRecivier> getPure_data() {
+        return pure_data;
     }
 }

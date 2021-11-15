@@ -1,6 +1,7 @@
 package com.rrpvm.subsidioninformator.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,7 @@ public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> {
     private LayoutInflater inflater;
     private int layout;
     private ArrayList<SubsidingRecivier> data;
-
+    private int default_icon_s;//woman or man
     public RecivierItemAdapter(Context ctx, int resource, ArrayList<SubsidingRecivier> reciviers) {
         super(ctx, resource, reciviers);
         this.data = reciviers;
@@ -44,7 +45,9 @@ public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> {
         positionView.setText(new String("city: ").concat(currentReciever.getCity()));
         birthdateView.setText(new String("birthdate: ").concat( dateFormat.format(currentReciever.getBirthdate()).toString()));
         int imgId = recivierIconView.getContext().getResources().getIdentifier(currentReciever.getImage(), "drawable", recivierIconView.getContext().getPackageName());
+        if(imgId != 0)
         recivierIconView.setImageResource(imgId);
+        else recivierIconView.setImageResource(currentReciever.isMale() ? R.drawable.default_man_icon_foreground : R.drawable.default_women_icon_foreground);
         return convertView;
     }
 }
