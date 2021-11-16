@@ -16,6 +16,10 @@
     <style name="Theme.MainThemeNoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:drawablePadding">5dp</item>
     </style>
-
+    <style name="NavigationTheme" parent="Theme.SubsidionInformator">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginBottom">-5dp</item> </style>
+    <dimen name="design_navigation_icon_padding" tools:override="true">1dp</dimen>
 </resources>

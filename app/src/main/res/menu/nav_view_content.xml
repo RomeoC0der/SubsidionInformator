@@ -4,44 +4,47 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/menu_switch_all_genders"
-            android:icon="@drawable/gerb_foreground"
-            android:title="all genders" />
+            android:icon="@drawable/all_gender_icon_foreground"
+            android:title="@string/nav_menu_all_genders"
+            android:checked="true"/>
         <item
             android:id="@+id/menu_switch_only_men"
-            android:icon="@drawable/gerb_foreground"
-            android:title="men" />
+            android:icon="@drawable/male_gender_icon_foreground"
+            android:title="@string/nav_menu_only_men" />
         <item
             android:id="@+id/menu_switch_only_women"
-            android:icon="@drawable/gerb_foreground"
-            android:title="women" />
+            android:icon="@drawable/female_gender_icon_foreground"
+            android:title="@string/nav_menu_only_women" />
     </group>
     <group android:checkableBehavior="single">
-        <item android:title="txt4">
+        <item android:title="@string/nav_menu_geolocation">
             <menu>
                 <item
-                    android:id="@+id/kyrs"
-                    android:icon="@drawable/gerb_foreground"
-                    android:title="txt5" />
+                    android:id="@+id/menu_region_selector"
+                    android:title=""
+                    app:actionLayout="@layout/menu_input_filter"
+                    app:showAsAction="always"/>
                 <item
-                    android:id="@+id/chat"
-                    android:icon="@drawable/gerb_foreground"
-                    android:title="txt6" />
+                    android:id="@+id/menu_city_selector"
+                    android:title=""
+                    app:actionLayout="@layout/menu_input_filter"
+                    app:showAsAction="always"/>
             </menu>
         </item>
     </group>
     <group android:checkableBehavior="single">
-        <item  android:title="txt7">
+        <item  android:title="birthdate">
             <menu>
                 <item
-                    android:id="@+id/settings"
-                    android:checkableBehavior="single"
-                    android:icon="@drawable/gerb_foreground"
-                    android:title="txt8" />
+                    android:id="@+id/menu_birthdate_fill_year"
+                    android:title=""
+                    app:actionLayout="@layout/menu_input_filter"
+                    app:showAsAction="always"/>
                 <item
-                    android:id="@+id/about_programme"
-                    android:checkableBehavior="single"
-                    android:icon="@drawable/gerb_foreground"
-                    android:title="txt9" />
+                    android:id="@+id/menu_birthdate_fill_month"
+                    android:title=""
+                    app:actionLayout="@layout/menu_birthdate_input"
+                    app:showAsAction="always"/>
             </menu>
         </item>
     </group>

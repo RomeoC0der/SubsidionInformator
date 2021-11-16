@@ -39,8 +39,7 @@ public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> {
         TextView positionView = (TextView) convertView.findViewById(R.id.recivier_position);
         TextView birthdateView = (TextView) convertView.findViewById(R.id.recivier_birthdate);
         SubsidingRecivier currentReciever = data.get(position);
-        String tmpName = currentReciever.getSurname() + " " + currentReciever.getName() + " " + currentReciever.getPatronymic();
-        nameView.setText(tmpName);
+        nameView.setText(currentReciever.getPIB());
         regionView.setText(new String("region: ").concat(currentReciever.getRegion()));
         positionView.setText(new String("city: ").concat(currentReciever.getCity()));
         birthdateView.setText(new String("birthdate: ").concat( dateFormat.format(currentReciever.getBirthdate()).toString()));

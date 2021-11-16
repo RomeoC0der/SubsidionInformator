@@ -4,16 +4,18 @@ public class RecivierFilter {
     public enum statement {
         WORK(0), CLEAR(42);
         int code;
+
         statement(int code) {
             this.code = code;
         }
     }
+
     private filterObj<String> nameFilter;
     private filterObj<Boolean> genderFilter;
     private filterObj<String> cityFilter;
     private filterObj<String> oblastFilter;
     private filterObj<Integer> birth_year;
-    private filterObj<Integer> birth_month;
+    private filterObj<String> birth_month;
     private filterObj<Integer> birth_day;
 
     public filterObj<String> getNameFilter() {
@@ -39,6 +41,7 @@ public class RecivierFilter {
     public void setOblastFilter(filterObj<String> oblastFilter) {
         this.oblastFilter = oblastFilter;
     }
+
     public filterObj<Integer> getBirth_year() {
         return birth_year;
     }
@@ -47,11 +50,11 @@ public class RecivierFilter {
         this.birth_year = birth_year;
     }
 
-    public filterObj<Integer> getBirth_month() {
+    public filterObj<String> getBirth_month() {
         return birth_month;
     }
 
-    public void setBirth_month(filterObj<Integer> birth_month) {
+    public void setBirth_month(filterObj<String> birth_month) {
         this.birth_month = birth_month;
     }
 
@@ -62,13 +65,16 @@ public class RecivierFilter {
     public filterObj<Boolean> getGenderFilter() {
         return genderFilter;
     }
+
     public void setGenderFilter(filterObj<Boolean> genderFilter) {
         this.genderFilter = genderFilter;
     }
+
     public void setBirth_day(filterObj<Integer> birth_day) {
         this.birth_day = birth_day;
     }
-    public RecivierFilter(){
+
+    public RecivierFilter() {
         this.nameFilter = new filterObj<>();
         this.cityFilter = new filterObj<>();
         this.oblastFilter = new filterObj<>();

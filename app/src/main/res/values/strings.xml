@@ -4,4 +4,27 @@
     <string name="recivier_button_more">переглянути</string>
     <string name="recivier_button_edit">редагувати</string>
     <string name="app_bar_sort_button">сортування</string>
+    <string name="nav_menu_region_hint">область</string>
+    <string name="nav_menu_city_hint">місто</string>
+    <string name="nav_menu_only_men">чоловіки</string>
+    <string name="nav_menu_only_women">жінки</string>
+    <string name="nav_menu_all_genders">будь-яка стать</string>
+    <string name="nav_menu_geolocation">розташування</string>
+    <string name="nav_menu_yearHint">рiк народження</string>
+    <string name="nav_menu_monthHint">місяць народження(назва)</string>
+    <string-array name="nav_menu_month_select">
+        <item>"all"</item>
+        <item>січень</item>
+        <item>лютий</item>
+        <item>березень</item>
+        <item>квітень</item>
+        <item>травень</item>
+        <item>червень</item>
+        <item>липень</item>
+        <item>серпень</item>
+        <item>вересень</item>
+        <item>жовтень</item>
+        <item>листопад</item>
+        <item>грудень</item>
+    </string-array>
 </resources>
