@@ -66,18 +66,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.menu_switch_all_genders: {
-                        recivierSubsidionHandler.getR_filter().getGenderFilter().state = RecivierFilter.statement.CLEAR;
+                    case R.id.menu_switch_men: {
+                        if (item.isChecked()) item.setChecked(false);
+                        else item.setChecked(true);
+                        recivierSubsidionHandler.getR_filter().getGenderFilter().object[0] = item.isChecked();
                         break;
                     }
-                    case R.id.menu_switch_only_men: {
-                        recivierSubsidionHandler.getR_filter().getGenderFilter().state = RecivierFilter.statement.WORK;
-                        recivierSubsidionHandler.getR_filter().getGenderFilter().object = true;
-                        break;
-                    }
-                    case R.id.menu_switch_only_women: {
-                        recivierSubsidionHandler.getR_filter().getGenderFilter().state = RecivierFilter.statement.WORK;
-                        recivierSubsidionHandler.getR_filter().getGenderFilter().object = false;
+                    case R.id.menu_switch_women: {
+                        if (item.isChecked()) item.setChecked(false);
+                        else item.setChecked(true);
+                        recivierSubsidionHandler.getR_filter().getGenderFilter().object[1] = item.isChecked();
                         break;
                     }
                     default:
@@ -91,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         Menu nav_menu = view.getMenu();
         this.setupNavigationViewItems(nav_menu);
         this.subsidionRecivierList.setAdapter(recivierSubsidionHandler.getAdapter()); //set data of list
+        this.recivierSubsidionHandler.sortData();
     }
 
     /*nav_header_menu method*/
@@ -119,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
         });
         return true;
     }
-
     /*nav_header_menu method*/
     @Override
     public boolean onOptionsItemSelected(MenuItem menu_item) {
@@ -127,15 +125,7 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             case R.id.app_bar_sort: {
                 this.recivierSubsidionHandler.setAZ_sortMode(!this.recivierSubsidionHandler.getaZ_sortMode());
-                ArrayList<SubsidingRecivier> _tmpdata = new ArrayList<>(this.recivierSubsidionHandler.getDataList());
-                if (this.recivierSubsidionHandler.getaZ_sortMode()) {//we love shit code
-                    _tmpdata.sort(new ComparatorUp());
-                } else {
-                    this.recivierSubsidionHandler.getDataList().sort(new ComparatorDn());
-                    _tmpdata.sort(new ComparatorDn());
-                }
-                this.recivierSubsidionHandler.setDataList(_tmpdata);
-                this.recivierSubsidionHandler.getAdapter().notifyDataSetChanged();
+                this.recivierSubsidionHandler.sortData();
                 break;
             }
             default: {
@@ -144,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(menu_item);
     }
-
     private void setupNavigationViewItems(Menu menu) {
         MenuItem city_selector = menu.findItem(R.id.menu_city_selector);
         MenuItem region_selector = menu.findItem(R.id.menu_region_selector);
@@ -214,8 +203,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String _str = charSequence.toString().trim();
-                if(_str.length() >9){
-                    _str = _str.substring(0,9);
+                if (_str.length() > 9) {
+                    _str = _str.substring(0, 9);
                     til_year_selector.getEditText().setText(_str);
                 }
                 if (_str.length() > 0) {
@@ -248,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                         final String regex = "(.*)" + allMonths[x] + "(.*)";//меняем имя месяца на его порядковый номер
                         _return = _str.replaceAll(regex, Integer.toString(x - 1));
                         if (!_return.equals(_str)) {
-                            obj += _return+",";//была произведена замена
+                            obj += _return + ",";//была произведена замена
                         }
                     }
                     recivierSubsidionHandler.getR_filter().getBirth_month().object = obj;
@@ -265,7 +254,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
     public void updateCounters() {
         TextView menu_counter_current_elements = findViewById(R.id.menu_counter_current);
         TextView menu_counter_all_elements = findViewById(R.id.menu_counter_all);

@@ -11,6 +11,7 @@
     <string name="nav_menu_all_genders">будь-яка стать</string>
     <string name="nav_menu_geolocation">розташування</string>
     <string name="nav_menu_yearHint">рiк народження</string>
+    <string name="nav_menu_dateHint">день народження</string>
     <string name="nav_menu_monthHint">місяць народження(назва)</string>
     <string-array name="nav_menu_month_select">
         <item>"all"</item>

@@ -40,9 +40,9 @@ public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> {
         TextView birthdateView = (TextView) convertView.findViewById(R.id.recivier_birthdate);
         SubsidingRecivier currentReciever = data.get(position);
         nameView.setText(currentReciever.getPIB());
-        regionView.setText(new String("region: ").concat(currentReciever.getRegion()));
-        positionView.setText(new String("city: ").concat(currentReciever.getCity()));
-        birthdateView.setText(new String("birthdate: ").concat( dateFormat.format(currentReciever.getBirthdate()).toString()));
+        regionView.setText(convertView.getResources().getText(R.string.nav_menu_region_hint).toString() + ": " + currentReciever.getRegion());
+        positionView.setText(convertView.getResources().getText(R.string.nav_menu_city_hint).toString()+ ": " +currentReciever.getCity());
+        birthdateView.setText(convertView.getResources().getText(R.string.nav_menu_dateHint).toString()+ ": " + dateFormat.format(currentReciever.getBirthdate()).toString());
         int imgId = recivierIconView.getContext().getResources().getIdentifier(currentReciever.getImage(), "drawable", recivierIconView.getContext().getPackageName());
         if(imgId != 0)
         recivierIconView.setImageResource(imgId);

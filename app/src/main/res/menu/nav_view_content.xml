@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="none">
         <item
-            android:id="@+id/menu_switch_all_genders"
-            android:icon="@drawable/all_gender_icon_foreground"
-            android:title="@string/nav_menu_all_genders"
-            android:checked="true"/>
-        <item
-            android:id="@+id/menu_switch_only_men"
+            android:id="@+id/menu_switch_men"
             android:icon="@drawable/male_gender_icon_foreground"
-            android:title="@string/nav_menu_only_men" />
+            android:title="@string/nav_menu_only_men"
+            android:checked="true"
+            />
         <item
-            android:id="@+id/menu_switch_only_women"
+            android:id="@+id/menu_switch_women"
             android:icon="@drawable/female_gender_icon_foreground"
-            android:title="@string/nav_menu_only_women" />
+            android:title="@string/nav_menu_only_women"
+            android:checked="true"
+           />
     </group>
     <group android:checkableBehavior="single">
         <item android:title="@string/nav_menu_geolocation">
@@ -33,7 +32,7 @@
         </item>
     </group>
     <group android:checkableBehavior="single">
-        <item  android:title="birthdate">
+        <item  android:title="@string/nav_menu_dateHint">
             <menu>
                 <item
                     android:id="@+id/menu_birthdate_fill_year"
