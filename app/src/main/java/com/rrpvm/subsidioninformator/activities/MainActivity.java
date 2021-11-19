@@ -6,10 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -91,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
         this.subsidionRecivierList.setAdapter(recivierSubsidionHandler.getAdapter()); //set data of list
         this.recivierSubsidionHandler.sortData();
     }
-
     /*nav_header_menu method*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -255,11 +258,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public void updateCounters() {
-        TextView menu_counter_current_elements = findViewById(R.id.menu_counter_current);
-        TextView menu_counter_all_elements = findViewById(R.id.menu_counter_all);
-        if (menu_counter_all_elements != null && menu_counter_current_elements != null) {
-            menu_counter_all_elements.setText("all elements: " + recivierSubsidionHandler.getPure_data().size());
-            menu_counter_current_elements.setText("displayed elements: " + recivierSubsidionHandler.getDataList().size());
+        TextView header_status = findViewById(R.id.nav_header_status);
+        if (header_status != null) {
+            header_status.setText("displayed:" + recivierSubsidionHandler.getDataList().size()+"/" +recivierSubsidionHandler.getPure_data().size());
         }
     }
 }

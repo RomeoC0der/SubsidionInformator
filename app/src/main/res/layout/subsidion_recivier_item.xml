@@ -37,30 +37,25 @@
                 android:lines="1"
                 android:text="template_name"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
-
+                android:textSize="18sp"/>
             <TextView
                 android:id="@+id/receiving_region"
-                style="@style/recivier_item_style"
+                style="@style/default_paragraph"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="1dp"
-                android:layout_weight="1" />
-
+                android:layout_weight="1"
+                android:textColor="@color/paragraph_color"/>
             <TextView
                 android:id="@+id/recivier_position"
-                style="@style/recivier_item_style"
+                style="@style/default_paragraph"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="1dp"
                 android:layout_weight="1" />
-
             <TextView
                 android:id="@+id/recivier_birthdate"
-                style="@style/recivier_item_style"
+                style="@style/default_paragraph"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="1dp"
                 android:layout_weight="1" />
         </LinearLayout>
     </LinearLayout>

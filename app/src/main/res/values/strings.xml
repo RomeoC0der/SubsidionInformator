@@ -28,4 +28,13 @@
         <item>листопад</item>
         <item>грудень</item>
     </string-array>
+    <string name="dialog_string_tin_number">IНП</string>
+    <string name="dialog_string_passportId">Номер паспорту</string>
+    <string name="dialog_string_geopos">Місце прописки</string>
+    <string name="dialog_string_subsidion_statement">Cтан субсидии</string>
+    <string name="dialog_string_subsidion_id">Номер заяви</string>
+    <string name="dialog_string_month_subs_size">Розмір Субсидії ЖКП За Місяць, грн</string>
+    <string name="dialog_string_year_subs_size">Розмір Субсидії СГТП Річний, грн.</string>
+    <string name="dialog_string_arrived_diaposon">Призначено За Період</string>
+    <string name="dialog_string_get_diaposon">Нараховано За Період</string>
 </resources>

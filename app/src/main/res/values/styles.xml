@@ -13,4 +13,11 @@
         <item name="android:layout_marginLeft">5dp</item>
         <item name="android:layout_marginRight">5dp</item>
     </style>
+    <style name="default_paragraph">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/paragraph_color</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontWeight">400</item>
+        <item name="fontFamily">sans-serif</item>
+    </style>
 </resources>

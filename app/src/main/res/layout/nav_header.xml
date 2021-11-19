@@ -3,26 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="176dp"
+    android:layout_height="180dp"
     android:background="@drawable/ukr_gradient"
     android:gravity="bottom"
-    android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     >
-
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
         app:srcCompat="@drawable/gerb_foreground" />
-
     <TextView
-        android:id="@+id/menu_counter_all"
+        android:id="@+id/nav_header_status"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/menu_counter_current"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
+        android:text=""
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
+        android:layout_height="25dp"
+        android:textColor="@color/black"/>
 </LinearLayout>

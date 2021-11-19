@@ -8,6 +8,7 @@ import com.rrpvm.subsidioninformator.objects.ComparatorDn;
 import com.rrpvm.subsidioninformator.objects.ComparatorUp;
 import com.rrpvm.subsidioninformator.objects.RecivierFilter;
 import com.rrpvm.subsidioninformator.objects.SubsidingRecivier;
+import com.rrpvm.subsidioninformator.objects.Subsidion;
 import com.rrpvm.subsidioninformator.utilities.JSONHelper;
 
 import java.text.SimpleDateFormat;
@@ -96,11 +97,11 @@ public class RecivierSubsidionHandler {
         pure_data = new ArrayList<>();
         dataList = new ArrayList<>();
         r_filter = new RecivierFilter();
-        this.pure_data.add(new SubsidingRecivier(true, "Yakimenko", "Nikita", "Dmitrievich", "Donetska", "Mariupol", new Date(), "Naximova", "wrong"));
-        this.pure_data.add(new SubsidingRecivier(false, "Abakumova", "Dariya", "Gennadievna", "Xarkovska", "Xarkov", new Date(), "wtf", "wrong"));
-        this.pure_data.add(new SubsidingRecivier(true, "Isichenko", "Ruslan", "Maksimovich", "Donetska", "Mariupol", new Date(), "Mitropolitska", "wrong"));
-        this.pure_data.add(new SubsidingRecivier(true, "Telytsin", "Danilo", "Vitalievich", "Donetska", "Mariupol", new Date(), "Tramvayna", "wrong"));
-        this.pure_data.add(new SubsidingRecivier(false, "Krasnoshek", "Tamara", "Valerievna", "Zaporozhska", "Zaporogie", new Date(), "unknown", "wrong"));
+        this.pure_data.add(new SubsidingRecivier(true, "Якименко", "Микита", "Дмитрович", "Донецька", "Маріуполь", new Date(), "Naximova","1449013711","001842541", new Subsidion(true,31423,1900,11400,"10.01.2019-10.01.2020","10.01.2019-10.01.2020"),"wrong"));
+        this.pure_data.add(new SubsidingRecivier(false, "Абакумова", "Дар'я", "Геннадіївна", "Харківська", "Харків", new Date(), "wtf","2449013711","002842541",new Subsidion(true,31425,2900,23500,"10.01.2019-10.01.2020","10.01.2019-10.01.2020"), "wrong"));
+        this.pure_data.add(new SubsidingRecivier(true, "Ісіченко", "Руслан", "Максимович", "Донецька", "Маріуполь", new Date(), "Mitropolitska","3449013711","003842541",new Subsidion(true,31429,1500,15400,"10.01.2019-10.01.2020","10.01.2019-10.01.2020"), "wrong"));
+        this.pure_data.add(new SubsidingRecivier(true, "Теліцин", "Данило", "Віталійович", "Донецька", "Маріуполь", new Date(), "Tramvayna", "4449013711","004842541",new Subsidion(true,23168,2100,21800,"10.01.2019-10.01.2020","10.01.2019-10.01.2020"),"wrong"));
+        this.pure_data.add(new SubsidingRecivier(false, "Краснощок", "Тамара", "Валеріївна", "Запорізька", "Запоріжжя", new Date(), "unknown", "5449013711","005842541",new Subsidion(true,15231,3000,31600,"10.01.2019-10.01.2020","10.01.2019-10.01.2020"),"wrong"));
         //pure_data = JSONHelper.importToJSON(ctx,RECIVIERS_DATA_FILENAME);
         this.dataList.addAll(this.pure_data);//copy all(no filter mode)
         adapter = new RecivierItemAdapter(ctx, item_list_resource_id, this.dataList);

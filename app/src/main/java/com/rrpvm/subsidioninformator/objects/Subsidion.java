@@ -1,7 +1,5 @@
 package com.rrpvm.subsidioninformator.objects;
 
-import java.util.Date;
-
 public class Subsidion {
     public boolean getStatement() {
         return statement;
@@ -19,12 +17,8 @@ public class Subsidion {
         return CGTP;
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public Date getLastRecieveDate() {
-        return lastRecieveDate;
+    public String getRecievRange() {
+        return recievRange;
     }
 
     public void setStatement(boolean statement) {
@@ -43,12 +37,16 @@ public class Subsidion {
         this.CGTP = CGTP;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setRecievRange(String recievRange) {
+        this.recievRange = recievRange;
     }
 
-    public void setLastRecieveDate(Date lastRecieveDate) {
-        this.lastRecieveDate = lastRecieveDate;
+    public String getGotRange() {
+        return gotRange;
+    }
+
+    public void setGotRange(String gotRange) {
+        this.gotRange = gotRange;
     }
 
     public Subsidion() {
@@ -56,23 +54,23 @@ public class Subsidion {
         this.id = -1;
         this.JKP = -1.0;
         this.CGTP = -1.0;
-        this.startDate = null;
-        this.lastRecieveDate = null;
+        this.recievRange = null;
+        this.gotRange = null;
     }
 
-    public Subsidion(boolean statement, int id, double JKP, double CGTP, Date startDate, Date lastRecieveDate) {
+    public Subsidion(boolean statement, int id, double JKP, double CGTP, String recievRange, String getRange) {
         this.statement = statement;
         this.id = id;
         this.JKP = JKP;
         this.CGTP = CGTP;
-        this.startDate = startDate;
-        this.lastRecieveDate = lastRecieveDate;
+        this.recievRange = recievRange;
+        this.gotRange = getRange;
     }
 
     private boolean statement;//состояние субсидии
     private int id;//номер субсидии
     private double JKP;//Розмір Субсидії ЖКП За Місяць, грн.*
     private double CGTP;//Розмір Субсидії СГТП Річний, грн.
-    private Date startDate;//Призначено За Період
-    private Date lastRecieveDate;//Нараховано За Період
+    private String recievRange;//Призначено За Період
+    private String gotRange;//Призначено За Період
 }
