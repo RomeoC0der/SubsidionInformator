@@ -8,3 +8,4 @@
 * Export/Import data(JSON based)
 * simple search/filter/filter system
 * sidebar menu(nav.view + drawerLayout)
+![Альтернативный текст](/https://github.com/RomeoC0der/SubsidionInformator/blob/master/git_image/mainActivity.png "Подсказка")
