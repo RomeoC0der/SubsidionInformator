@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.itextpdf.io.font.PdfEncodings;
 
@@ -42,7 +43,6 @@ public class RecivierDialogInformation extends DialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
     }
-
     public Dialog onCreateDialog(Bundle saveInstanceState) {
         final SubsidingRecivier recivier = (SubsidingRecivier) getArguments().getSerializable("recivier_data");
         if (recivier == null) return null;//todo: try + catch
@@ -51,28 +51,22 @@ public class RecivierDialogInformation extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View recivierLayout = generateLayoutData(inflater.inflate(R.layout.recivier_info_dialog, null), recivier);
         builder.setView(recivierLayout);
-        return builder.setTitle("Information").
-                setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        return builder.setTitle("Дані").
+                setNeutralButton(getResources().getText(R.string.dialog_string_button_exportPDF), new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        exportToPDF(recivier);
                     }
-                }).setNeutralButton("Export to PDF", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                exportToPDF(recivier);
-            }
-        }).setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                }).setPositiveButton(getResources().getText(R.string.dialog_string_button_closeDialog), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
             }
         }).create();
     }
-
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
     }
-
     public View generateLayoutData(View layout, SubsidingRecivier subsidingRecivier) {
         ImageView logo = layout.findViewById(R.id.dialog_data_image);
         TextView pibView = layout.findViewById(R.id.dialog_data_pib);
@@ -103,24 +97,33 @@ public class RecivierDialogInformation extends DialogFragment {
             logo.setImageResource(subsidingRecivier.isMale() ? R.drawable.default_man_icon_foreground : R.drawable.default_women_icon_foreground);
         return layout;
     }
-
     void exportToPDF(SubsidingRecivier subsidingRecivier) {//todo:доделать
         final String filePath = subsidingRecivier.getPIB() + ".pdf";
+        File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "");
+        if (!directory.exists()) {
+            directory.mkdirs();//create directory with parents
+        }
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), filePath);
         try {
             PdfFont font = PdfFontFactory.createFont(FONT_NAME, PdfEncodings.IDENTITY_H);
             PdfDocument pdfDocument = new PdfDocument(new PdfWriter(file));//mode:creation
             Document document = new Document(pdfDocument, PageSize.A6);
-            document.setMargins(23, 23, 23, 23);
+            document.setMargins(32, 32, 32, 32);
             PdfDocumentInfo information = document.getPdfDocument().getDocumentInfo();//содержит информацию о документе
             document.setFont(font);
-            document.add(new Paragraph(subsidingRecivier.getPIB()).setFontSize(16).setTextAlignment(TextAlignment.CENTER));
-            document.setFontSize(8);
-            document.add(new Paragraph("passport ID: " + subsidingRecivier.getPassportId()));
-            document.add(new Paragraph("TIN ID: " + subsidingRecivier.getITN()));
-            document.add(new Paragraph("POSITION: " + subsidingRecivier.getRegion() + " " + subsidingRecivier.getCity() + " " + subsidingRecivier.getPosition()));
-            document.add(new Paragraph("SUBSISIDION STATEMENT: " + subsidingRecivier.getSubsidionData().getStatement()));
+            document.setFontSize(10);
+            document.add(new Paragraph("ПIБ отримувача: " + subsidingRecivier.getPIB()));
+            document.add(new Paragraph("IНП: " + subsidingRecivier.getPassportId()));
+            document.add(new Paragraph("Номер паспорту: " + subsidingRecivier.getITN()));
+            document.add(new Paragraph("Місце прописки: " + subsidingRecivier.getRegion() + " " + subsidingRecivier.getCity() + " " + subsidingRecivier.getPosition()));
+            document.add(new Paragraph("Cтан субсидии: " + subsidingRecivier.getSubsidionData().getStatement()));
+            document.add(new Paragraph("Номер заяви: " + subsidingRecivier.getSubsidionData().getId()));
+            document.add(new Paragraph("Розмір Субсидії ЖКП За Місяць, грн: " + subsidingRecivier.getSubsidionData().getJKP()));
+            document.add(new Paragraph("Розмір Субсидії СГТП Річний, грн: " + subsidingRecivier.getSubsidionData().getCGTP()));
+            document.add(new Paragraph("Призначено За Період: " + subsidingRecivier.getSubsidionData().getRecievRange()));
+            document.add(new Paragraph("Нараховано За Період: " + subsidingRecivier.getSubsidionData().getGotRange()));
             document.close();
+            Toast.makeText(ctx, "документ збережено за адресою: " + directory.getAbsolutePath(), Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
         }

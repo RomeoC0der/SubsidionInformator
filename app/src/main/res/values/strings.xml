@@ -37,4 +37,6 @@
     <string name="dialog_string_year_subs_size">Розмір Субсидії СГТП Річний, грн.</string>
     <string name="dialog_string_arrived_diaposon">Призначено За Період</string>
     <string name="dialog_string_get_diaposon">Нараховано За Період</string>
+    <string name="dialog_string_button_exportPDF">зберегти в PDF</string>
+    <string name="dialog_string_button_closeDialog">закрити</string>
 </resources>
