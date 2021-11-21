@@ -8,3 +8,6 @@
 * Export/Import data(JSON based)
 * simple search/filter/filter system
 * sidebar menu(nav.view + drawerLayout)
+##### Screenshots
+![screenshot](https://github.com/RomeoC0der/SubsidionInformator/blob/master/git_image/mainActivity.png?raw=true "mainActivity")
+![screenshot](https://github.com/RomeoC0der/SubsidionInformator/blob/master/git_image/menu.png?raw=true "mainActivity")
