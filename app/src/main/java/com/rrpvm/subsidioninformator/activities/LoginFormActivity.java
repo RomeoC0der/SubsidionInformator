@@ -9,36 +9,33 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.rrpvm.subsidioninformator.R;
 import com.rrpvm.subsidioninformator.handlers.AuthorizationHandler;
 import com.rrpvm.subsidioninformator.objects.User;
 
 import java.util.Locale;
-
+//почти финальный класс
 public class LoginFormActivity extends AppCompatActivity {
-    private AuthorizationHandler authorizationHandler;
+    //Android objects:
     private TextInputLayout loginForm;
     private TextInputLayout passwordForm;
-    private Context ctx;
     private Button singInBtn;
-
+    private Context context;//sometimes needed
+    //end section;
+    public final static int REDIRECT_DELAY = 150;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_form);
-        authorizationHandler = new AuthorizationHandler();//хто був ответственный за авторизацию?
-          authorizationHandler.getAuth_data().add(new User("klimenko391", "qwerty","waffel"));
-         authorizationHandler.getAuth_data().add(new User("jukov31", "zxcvbn","waffel"));
-        authorizationHandler.exportData(this);
-        authorizationHandler.importData(this);//RELEASE MODE
-        ctx = this;
-        if (authorizationHandler.getSession().getSessionStatement()) {
+        context = this;
+       // debugFillUsers();//!release only -> provides creating data and export to json                                      IF DATA EMPTY = UNCOMMENT THIS
+        AuthorizationHandler authorizationHandler = AuthorizationHandler.getInstance();//хто був ответственный за авторизацию?
+        authorizationHandler.importFromJSON(context);//take data of users(release)
+        if(authorizationHandler.getUserSession().calculateSessionStatement()){   //did we import current statement?(return true if current)
             redirect();
         }
+        /*Android only*/
         singInBtn = findViewById(R.id.btn_signIn);
         loginForm = findViewById(R.id.login_form);
         passwordForm = findViewById(R.id.password_form);
@@ -48,15 +45,14 @@ public class LoginFormActivity extends AppCompatActivity {
                 String login = loginForm.getEditText().getText().toString().toLowerCase(Locale.ROOT).trim();
                 String password = passwordForm.getEditText().getText().toString().trim();
                 if (login.length() < 4 || password.length() < 4) {
-                    loginForm.setError("login must be longer than 4 symbols");//заранее
-                    passwordForm.setError("password must be longer than 4 symbols");//заранее
+                    loginForm.setError("login must be longer than 4 symbols");//todo: string resource
+                    passwordForm.setError("password must be longer than 4 symbols");//todo:string resource
                     loginForm.setErrorEnabled(true);
                     passwordForm.setErrorEnabled(true);
                     return;
                 }
-                if (authorizationHandler.Authorize(login, password)) {
-                    passwordForm.getEditText().setText("");//tak nado
-                    //authorizationHandler.exportData(ctx);//update session file
+                if (authorizationHandler.signIn(login, password)) {
+                    passwordForm.getEditText().setText("");//reset
                     redirect();
                 } else {
                     loginForm.setError("login or password incorrect");//заранее
@@ -116,7 +112,7 @@ public class LoginFormActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(50);
+                    Thread.sleep(REDIRECT_DELAY);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -126,5 +122,13 @@ public class LoginFormActivity extends AppCompatActivity {
             }
         }.start();
 
+    }
+    private void debugFillUsers(){
+        AuthorizationHandler authorizationHandler = AuthorizationHandler.getInstance();//singleton
+        authorizationHandler.getAuthorizationData().add(new User("klimenko391", "qwerty", "Sancho13"));
+        authorizationHandler.getAuthorizationData().add(new User("jukov31", "zxcvbn", "ZxcKiller"));
+        //try:
+        authorizationHandler.getUserSession().importFromJSON(this);
+        authorizationHandler.exportToJSON(this);//save data
     }
 }

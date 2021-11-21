@@ -1,9 +1,9 @@
 package com.rrpvm.subsidioninformator.objects;
-
+//final release class
 public class User {
     private String login;
     private String password;
-    public String name;
+    private String name;
 
     public User(String l, String pass, String name) {
         this.login = l;
@@ -14,7 +14,7 @@ public class User {
     public User(String login, String pass) {
         this.login = login;
         this.password = pass;
-        this.name = " ";
+        this.name = "";
     }
 
     public String getLogin() {
@@ -31,5 +31,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

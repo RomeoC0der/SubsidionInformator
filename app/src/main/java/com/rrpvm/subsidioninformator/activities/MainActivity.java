@@ -6,66 +6,52 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.rrpvm.subsidioninformator.R;
-import com.rrpvm.subsidioninformator.objects.ComparatorDn;
-import com.rrpvm.subsidioninformator.objects.ComparatorUp;
+import com.rrpvm.subsidioninformator.handlers.AuthorizationHandler;
 import com.rrpvm.subsidioninformator.objects.RecivierFilter;
 import com.rrpvm.subsidioninformator.handlers.RecivierSubsidionHandler;
-import com.rrpvm.subsidioninformator.objects.SubsidingRecivier;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    //app_objects_start
-    private RecivierSubsidionHandler recivierSubsidionHandler;
-    //app_objects_end
-    //android_objects_start
-    private DrawerLayout drawerLayoutMenu;
-    private Toolbar toolbar;
-    private ListView subsidionRecivierList;
-    private SearchView searchView;
-
-    //android_objects_end
+    private void configSideMenu(){
+        this.drawerLayoutMenu = (DrawerLayout) findViewById(R.id.drawer_layout);
+        this.toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar); // устанавливаем тулбар как экшн бар
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, this.drawerLayoutMenu, this.toolbar, 0, 0);//вспомогательная кнопка для навбара
+        drawerLayoutMenu.addDrawerListener(toggle);
+        toggle.syncState();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //init
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recivierSubsidionHandler = new RecivierSubsidionHandler(this, R.layout.subsidion_recivier_item);//bind by ctx +  layout of item in list
-        this.drawerLayoutMenu = (DrawerLayout) findViewById(R.id.drawer_layout);
-        this.toolbar = (Toolbar) findViewById(R.id.toolbar);
         this.subsidionRecivierList = (ListView) findViewById(R.id.receivirs_list);
-        //end_init;
-        /* side_menu_init*/
-        setSupportActionBar(toolbar); // устанавливаем тулбар как экшн бар
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, this.drawerLayoutMenu, this.toolbar, 0, 0);//вспомогательная кнопка для навбара
-        drawerLayoutMenu.addDrawerListener(toggle);
-        toggle.syncState();
+        this.recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();
+     //   this.recivierSubsidionHandler.bindContext(this);//debug
+     //   this.recivierSubsidionHandler.exportToJSON(this);//debug
+        this.recivierSubsidionHandler.importFromJSON(this);
+        this.recivierSubsidionHandler.bindDataToView(this, R.layout.subsidion_recivier_item);//create adapter for listview
+        this.subsidionRecivierList.setAdapter(recivierSubsidionHandler.getAdapter()); //bind
+        configSideMenu();//sidebar
         NavigationView view = (NavigationView) findViewById(R.id.navigation_view);
+        TextView header_status = (TextView)(view.getHeaderView(0)).findViewById(R.id.nav_header_status);
+        header_status.setText(AuthorizationHandler.getInstance().getUserSession().getUserName());//в меню устанавливаем имя пользователя (RELEASE MODE)
         view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -73,28 +59,28 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.menu_switch_men: {
                         if (item.isChecked()) item.setChecked(false);
                         else item.setChecked(true);
-                        recivierSubsidionHandler.getR_filter().getGenderFilter().object[0] = item.isChecked();
+                        recivierSubsidionHandler.getSimpleFilter().getGenderFilter().object[0] = item.isChecked();
                         break;
                     }
                     case R.id.menu_switch_women: {
                         if (item.isChecked()) item.setChecked(false);
                         else item.setChecked(true);
-                        recivierSubsidionHandler.getR_filter().getGenderFilter().object[1] = item.isChecked();
+                        recivierSubsidionHandler.getSimpleFilter().getGenderFilter().object[1] = item.isChecked();
                         break;
                     }
                     default:
                         break;
                 }
                 recivierSubsidionHandler.filter();
-                updateCounters();
+               // updateCounters();
                 return true;
             }
         });
         Menu nav_menu = view.getMenu();
         this.setupNavigationViewItems(nav_menu);
-        this.subsidionRecivierList.setAdapter(recivierSubsidionHandler.getAdapter()); //set data of list
         this.recivierSubsidionHandler.sortData();
     }
+
     /*nav_header_menu method*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,25 +95,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String s) {
                 if (s.isEmpty())
-                    recivierSubsidionHandler.getR_filter().getNameFilter().state = RecivierFilter.statement.CLEAR;
+                    recivierSubsidionHandler.getSimpleFilter().getNameFilter().state = RecivierFilter.statement.CLEAR;
                 else
-                    recivierSubsidionHandler.getR_filter().getNameFilter().state = RecivierFilter.statement.WORK;
+                    recivierSubsidionHandler.getSimpleFilter().getNameFilter().state = RecivierFilter.statement.WORK;
 
-                recivierSubsidionHandler.getR_filter().getNameFilter().object = s.toLowerCase(Locale.ROOT);//update the filter
+                recivierSubsidionHandler.getSimpleFilter().getNameFilter().object = s.toLowerCase(Locale.ROOT);//update the filter
                 recivierSubsidionHandler.filter();//do filtering
-                updateCounters();
+               // updateCounters();
                 return true;
             }
         });
         return true;
     }
+
     /*nav_header_menu method*/
     @Override
     public boolean onOptionsItemSelected(MenuItem menu_item) {
         int id = menu_item.getItemId();
         switch (id) {
             case R.id.app_bar_sort: {
-                this.recivierSubsidionHandler.setAZ_sortMode(!this.recivierSubsidionHandler.getaZ_sortMode());
+                this.recivierSubsidionHandler.setaZSortMode(!this.recivierSubsidionHandler.isaZSortMode());
                 this.recivierSubsidionHandler.sortData();
                 break;
             }
@@ -164,12 +151,12 @@ public class MainActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String _str = charSequence.toString().trim();
                 if (_str.length() > 0) {
-                    recivierSubsidionHandler.getR_filter().getCityFilter().object = _str;
-                    recivierSubsidionHandler.getR_filter().getCityFilter().state = RecivierFilter.statement.WORK;
+                    recivierSubsidionHandler.getSimpleFilter().getCityFilter().object = _str;
+                    recivierSubsidionHandler.getSimpleFilter().getCityFilter().state = RecivierFilter.statement.WORK;
                 } else
-                    recivierSubsidionHandler.getR_filter().getCityFilter().state = RecivierFilter.statement.CLEAR;
+                    recivierSubsidionHandler.getSimpleFilter().getCityFilter().state = RecivierFilter.statement.CLEAR;
                 recivierSubsidionHandler.filter();
-                updateCounters();
+             //   updateCounters();
             }
 
             @Override
@@ -186,12 +173,12 @@ public class MainActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String _str = charSequence.toString().trim();
                 if (_str.length() > 0) {
-                    recivierSubsidionHandler.getR_filter().getOblastFilter().object = _str;
-                    recivierSubsidionHandler.getR_filter().getOblastFilter().state = RecivierFilter.statement.WORK;
+                    recivierSubsidionHandler.getSimpleFilter().getOblastFilter().object = _str;
+                    recivierSubsidionHandler.getSimpleFilter().getOblastFilter().state = RecivierFilter.statement.WORK;
                 } else
-                    recivierSubsidionHandler.getR_filter().getOblastFilter().state = RecivierFilter.statement.CLEAR;
+                    recivierSubsidionHandler.getSimpleFilter().getOblastFilter().state = RecivierFilter.statement.CLEAR;
                 recivierSubsidionHandler.filter();
-                updateCounters();
+              //  updateCounters();
             }
 
             @Override
@@ -211,12 +198,12 @@ public class MainActivity extends AppCompatActivity {
                     til_year_selector.getEditText().setText(_str);
                 }
                 if (_str.length() > 0) {
-                    recivierSubsidionHandler.getR_filter().getBirth_year().object = Integer.parseInt(_str);
-                    recivierSubsidionHandler.getR_filter().getBirth_year().state = RecivierFilter.statement.WORK;
+                    recivierSubsidionHandler.getSimpleFilter().getBirth_year().object = Integer.parseInt(_str);
+                    recivierSubsidionHandler.getSimpleFilter().getBirth_year().state = RecivierFilter.statement.WORK;
                 } else
-                    recivierSubsidionHandler.getR_filter().getBirth_year().state = RecivierFilter.statement.CLEAR;
+                    recivierSubsidionHandler.getSimpleFilter().getBirth_year().state = RecivierFilter.statement.CLEAR;
                 recivierSubsidionHandler.filter();
-                updateCounters();
+               // updateCounters();
             }
 
             @Override
@@ -226,41 +213,76 @@ public class MainActivity extends AppCompatActivity {
         view_month_selector.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String _str = charSequence.toString().trim();
-                String obj = new String();
-                String _return = new String();
-                String[] allMonths = getResources().getStringArray(R.array.nav_menu_month_select);
-                if (_str.length() > 0) {
-                    for (int x = 1; x < allMonths.length; x++) {
-                        final String regex = "(.*)" + allMonths[x] + "(.*)";//меняем имя месяца на его порядковый номер
-                        _return = _str.replaceAll(regex, Integer.toString(x - 1));
-                        if (!_return.equals(_str)) {
-                            obj += _return + ",";//была произведена замена
+            /*   @Override         HERE IMPLEMENTATION 1,2
+               public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                   String _str = charSequence.toString().trim().toLowerCase(Locale.ROOT);
+                   //String obj = new String();
+                   //String _return = new String();
+                   String[] allMonths = getResources().getStringArray(R.array.nav_menu_month_select);
+                   if (_str.length() > 0) {
+                    /*   for (int x = 1; x < allMonths.length; x++) {
+                           final String regex = "(.*)" + allMonths[x] + "(.*)";//меняем имя месяца на его порядковый номер
+                           _return = _str.replaceAll(regex, Integer.toString(x - 1));
+                           if (!_return.equals(_str)) {
+                               obj += _return + ",";//была произведена замена
+                           }
+                       }*/
+                   /* for (int x = 1; x < allMonths.length; x++) {
+                        for (int j = 0; j < _str.length(); j++) {
+                            final short monthLength = (short) allMonths[x].length();
+                            if (j + monthLength <= _str.length())
+                                if (_str.substring(j, j + monthLength).equals(allMonths[x]))
+                                    _str = _str.replace(_str.substring(j, j + allMonths[x].length()), Integer.toString(x - 1));
                         }
                     }
-                    recivierSubsidionHandler.getR_filter().getBirth_month().object = obj;
+                    recivierSubsidionHandler.getR_filter().getBirth_month().object = _str;
                     recivierSubsidionHandler.getR_filter().getBirth_month().state = RecivierFilter.statement.WORK;
                 } else
                     recivierSubsidionHandler.getR_filter().getBirth_month().state = RecivierFilter.statement.CLEAR;
                 recivierSubsidionHandler.filter();
                 updateCounters();
+            }*/
+            @Override /*ITS IMPLEMENTATION 3, on my mind - the best*/
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String[] data = charSequence.toString().trim().toLowerCase(Locale.ROOT).split(",");
+                String[] allMonths = getResources().getStringArray(R.array.nav_menu_month_select);
+                String result = new String();
+                if (data.length > 0) {
+                    for (String substr : data) {
+                        for (int x = 1; x < allMonths.length; x++) {
+                            if (allMonths[x].contains(substr)) {
+                                result += Integer.toString(x - 1)+",";
+                            }
+                        }
+                    }
+                    recivierSubsidionHandler.getSimpleFilter().getBirth_month().object = result;
+                    recivierSubsidionHandler.getSimpleFilter().getBirth_month().state = RecivierFilter.statement.WORK;
+                } else
+                    recivierSubsidionHandler.getSimpleFilter().getBirth_month().state = RecivierFilter.statement.CLEAR;
+                recivierSubsidionHandler.filter();
+               // updateCounters();
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
             }
         });
     }
-    public void updateCounters() {
+    public void updateCounters() { /*DEBUG ONLY*/
         TextView header_status = findViewById(R.id.nav_header_status);
         if (header_status != null) {
-            header_status.setText("displayed:" + recivierSubsidionHandler.getDataList().size()+"/" +recivierSubsidionHandler.getPure_data().size());
+            header_status.setText("displayed:" + recivierSubsidionHandler.getDataList().size() + "/" + recivierSubsidionHandler.getPureData().size());
         }
     }
+    //app_objects_start
+    private RecivierSubsidionHandler recivierSubsidionHandler;//but it's stil Singleton(we store only the link)
+    //app_objects_end
+    //android_objects_start
+    private DrawerLayout drawerLayoutMenu;
+    private Toolbar toolbar;
+    private ListView subsidionRecivierList;
+    private SearchView searchView;
+
+    //android_objects_end
 }

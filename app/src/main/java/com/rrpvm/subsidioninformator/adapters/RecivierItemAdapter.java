@@ -24,8 +24,6 @@ public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> {
     private LayoutInflater inflater;
     private int layout;
     private ArrayList<SubsidingRecivier> data;
-    private int default_icon_s;//woman or man
-
     public RecivierItemAdapter(Context ctx, int resource, ArrayList<SubsidingRecivier> reciviers) {
         super(ctx, resource, reciviers);
         this.data = reciviers;
@@ -61,9 +59,10 @@ public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("recivier_data", currentReciever);//в поток
                 infoDialogFragment.setArguments(bundle);//передаем фрагменту этот поток данных
-                infoDialogFragment.show(((Activity) getContext()).getFragmentManager(), "custom");//todo: know what meaning "custom"
+                infoDialogFragment.show(((Activity) getContext()).getFragmentManager(), "custom");
             }
         });
+
 
         return convertView;
     }
