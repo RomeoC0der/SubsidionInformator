@@ -8,7 +8,7 @@
     <string name="nav_menu_city_hint">місто</string>
     <string name="nav_menu_only_men">чоловіки</string>
     <string name="nav_menu_only_women">жінки</string>
-    <string name="nav_menu_all_genders">будь-яка стать</string>
+    <string name="nav_menu_genders">Стать</string>
     <string name="nav_menu_geolocation">розташування</string>
     <string name="nav_menu_yearHint">рiк народження</string>
     <string name="nav_menu_dateHint">день народження</string>
@@ -28,6 +28,7 @@
         <item>листопад</item>
         <item>грудень</item>
     </string-array>
+    <string name="string_PIB">ПІБ одержувача</string>
     <string name="dialog_string_tin_number">IНП</string>
     <string name="dialog_string_passportId">Номер паспорту</string>
     <string name="dialog_string_geopos">Місце прописки</string>
@@ -39,4 +40,6 @@
     <string name="dialog_string_get_diaposon">Нараховано За Період</string>
     <string name="dialog_string_button_exportPDF">зберегти в PDF</string>
     <string name="dialog_string_button_closeDialog">закрити</string>
+    <string name="dialog_edit_male">чоловіча</string>
+    <string name="dialog_edit_female">жіноча</string>
 </resources>

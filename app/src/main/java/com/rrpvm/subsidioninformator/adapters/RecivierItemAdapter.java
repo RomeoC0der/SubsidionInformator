@@ -2,6 +2,7 @@ package com.rrpvm.subsidioninformator.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rrpvm.subsidioninformator.R;
+import com.rrpvm.subsidioninformator.activities.EditRecivierDataActivity;
+import com.rrpvm.subsidioninformator.activities.MainActivity;
 import com.rrpvm.subsidioninformator.fragments.RecivierDialogInformation;
 import com.rrpvm.subsidioninformator.objects.SubsidingRecivier;
 
@@ -21,16 +24,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> {
-    private LayoutInflater inflater;
-    private int layout;
-    private ArrayList<SubsidingRecivier> data;
     public RecivierItemAdapter(Context ctx, int resource, ArrayList<SubsidingRecivier> reciviers) {
         super(ctx, resource, reciviers);
         this.data = reciviers;
         this.layout = resource;
         this.inflater = LayoutInflater.from(ctx);
     }
-
+    public void bindContext(Context context){
+        this.mainActivityContext = context;
+    }
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = inflater.inflate(this.layout, parent, false);
@@ -42,6 +44,7 @@ public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> {
         TextView positionView = (TextView) convertView.findViewById(R.id.recivier_position);
         TextView birthdateView = (TextView) convertView.findViewById(R.id.recivier_birthdate);
         Button moreDetailsButton = (Button) convertView.findViewById(R.id.recivier_more_button);
+        Button editDetailsButton = (Button) convertView.findViewById(R.id.recivier_edit_button);
         final SubsidingRecivier currentReciever = data.get(position);
         nameView.setText(currentReciever.getPIB());
         regionView.setText(convertView.getResources().getText(R.string.nav_menu_region_hint).toString() + ": " + currentReciever.getRegion());
@@ -62,8 +65,20 @@ public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> {
                 infoDialogFragment.show(((Activity) getContext()).getFragmentManager(), "custom");
             }
         });
-
-
+        editDetailsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                Intent message = new Intent(mainActivityContext, EditRecivierDataActivity.class);
+                bundle.putSerializable("recivier_data", currentReciever);//в поток
+                message.putExtras(bundle);
+                mainActivityContext.startActivity(message);
+            }
+        });
         return convertView;
     }
+    private LayoutInflater inflater;
+    private int layout;
+    private ArrayList<SubsidingRecivier> data;
+    private Context mainActivityContext;
 }

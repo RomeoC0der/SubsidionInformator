@@ -35,6 +35,7 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
     public void bindDataToView(Context ctx, int item_list_resource_id) {
         this.context= ctx;
         adapter = new RecivierItemAdapter(ctx, item_list_resource_id, this.dataList);
+        adapter.bindContext(ctx);
     }
     public void bindContext(Context ctx){
         this.context = ctx;
@@ -48,6 +49,18 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
         }
         this.setDataList(tmpdata);
         this.adapter.notifyDataSetChanged();
+    }
+    public int getIdInPureData(SubsidingRecivier recivier)
+    {
+        int position;
+        for (position = 0; position < pureData.size(); position++)//hello shit-code
+        {
+            SubsidingRecivier tmp = pureData.get(position);
+            if (tmp.equals(recivier)) {
+                break;
+            }
+        }
+        return position;
     }
     @Override
     public void importFromJSON(Context ctx){
@@ -117,7 +130,7 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
             this.pureData.add(new SubsidingRecivier(true, "Теліцин", "Данило", "Віталійович", "Донецька", "Маріуполь", new Date(), "Tramvayna", "4449013711", "004842541", new Subsidion(true, 23168, 2100, 21800, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
             this.pureData.add(new SubsidingRecivier(false, "Краснощок", "Тамара", "Валеріївна", "Запорізька", "Запоріжжя", new Date(), "unknown", "5449013711", "005842541", new Subsidion(true, 15231, 3000, 31600, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
             this.dataList.addAll(pureData);
-            this.exportToJSON(context);
+            if(context != null) this.exportToJSON(context);
         } catch (Exception e) {
             e.printStackTrace();
         }

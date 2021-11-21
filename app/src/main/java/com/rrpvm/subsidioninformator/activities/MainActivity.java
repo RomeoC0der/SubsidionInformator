@@ -12,6 +12,8 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
@@ -28,7 +30,7 @@ import com.rrpvm.subsidioninformator.handlers.RecivierSubsidionHandler;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    private void configSideMenu(){
+    private void configSideMenu() {
         this.drawerLayoutMenu = (DrawerLayout) findViewById(R.id.drawer_layout);
         this.toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar); // устанавливаем тулбар как экшн бар
@@ -43,14 +45,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.subsidionRecivierList = (ListView) findViewById(R.id.receivirs_list);
         this.recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();
-     //   this.recivierSubsidionHandler.bindContext(this);//debug
-     //   this.recivierSubsidionHandler.exportToJSON(this);//debug
+        //   this.recivierSubsidionHandler.bindContext(this);//debug
+        //   this.recivierSubsidionHandler.exportToJSON(this);//debug
         this.recivierSubsidionHandler.importFromJSON(this);
         this.recivierSubsidionHandler.bindDataToView(this, R.layout.subsidion_recivier_item);//create adapter for listview
         this.subsidionRecivierList.setAdapter(recivierSubsidionHandler.getAdapter()); //bind
         configSideMenu();//sidebar
         NavigationView view = (NavigationView) findViewById(R.id.navigation_view);
-        TextView header_status = (TextView)(view.getHeaderView(0)).findViewById(R.id.nav_header_status);
+        TextView header_status = (TextView) (view.getHeaderView(0)).findViewById(R.id.nav_header_status);
         header_status.setText(AuthorizationHandler.getInstance().getUserSession().getUserName());//в меню устанавливаем имя пользователя (RELEASE MODE)
         view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 recivierSubsidionHandler.filter();
-               // updateCounters();
+                // updateCounters();
                 return true;
             }
         });
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
                 recivierSubsidionHandler.getSimpleFilter().getNameFilter().object = s.toLowerCase(Locale.ROOT);//update the filter
                 recivierSubsidionHandler.filter();//do filtering
-               // updateCounters();
+                // updateCounters();
                 return true;
             }
         });
@@ -124,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(menu_item);
     }
+
     private void setupNavigationViewItems(Menu menu) {
         MenuItem city_selector = menu.findItem(R.id.menu_city_selector);
         MenuItem region_selector = menu.findItem(R.id.menu_region_selector);
@@ -156,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 } else
                     recivierSubsidionHandler.getSimpleFilter().getCityFilter().state = RecivierFilter.statement.CLEAR;
                 recivierSubsidionHandler.filter();
-             //   updateCounters();
+                //   updateCounters();
             }
 
             @Override
@@ -178,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                 } else
                     recivierSubsidionHandler.getSimpleFilter().getOblastFilter().state = RecivierFilter.statement.CLEAR;
                 recivierSubsidionHandler.filter();
-              //  updateCounters();
+                //  updateCounters();
             }
 
             @Override
@@ -203,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
                 } else
                     recivierSubsidionHandler.getSimpleFilter().getBirth_year().state = RecivierFilter.statement.CLEAR;
                 recivierSubsidionHandler.filter();
-               // updateCounters();
+                // updateCounters();
             }
 
             @Override
@@ -214,35 +217,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
-            /*   @Override         HERE IMPLEMENTATION 1,2
-               public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                   String _str = charSequence.toString().trim().toLowerCase(Locale.ROOT);
-                   //String obj = new String();
-                   //String _return = new String();
-                   String[] allMonths = getResources().getStringArray(R.array.nav_menu_month_select);
-                   if (_str.length() > 0) {
-                    /*   for (int x = 1; x < allMonths.length; x++) {
-                           final String regex = "(.*)" + allMonths[x] + "(.*)";//меняем имя месяца на его порядковый номер
-                           _return = _str.replaceAll(regex, Integer.toString(x - 1));
-                           if (!_return.equals(_str)) {
-                               obj += _return + ",";//была произведена замена
-                           }
-                       }*/
-                   /* for (int x = 1; x < allMonths.length; x++) {
-                        for (int j = 0; j < _str.length(); j++) {
-                            final short monthLength = (short) allMonths[x].length();
-                            if (j + monthLength <= _str.length())
-                                if (_str.substring(j, j + monthLength).equals(allMonths[x]))
-                                    _str = _str.replace(_str.substring(j, j + allMonths[x].length()), Integer.toString(x - 1));
-                        }
-                    }
-                    recivierSubsidionHandler.getR_filter().getBirth_month().object = _str;
-                    recivierSubsidionHandler.getR_filter().getBirth_month().state = RecivierFilter.statement.WORK;
-                } else
-                    recivierSubsidionHandler.getR_filter().getBirth_month().state = RecivierFilter.statement.CLEAR;
-                recivierSubsidionHandler.filter();
-                updateCounters();
-            }*/
+
             @Override /*ITS IMPLEMENTATION 3, on my mind - the best*/
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String[] data = charSequence.toString().trim().toLowerCase(Locale.ROOT).split(",");
@@ -252,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
                     for (String substr : data) {
                         for (int x = 1; x < allMonths.length; x++) {
                             if (allMonths[x].contains(substr)) {
-                                result += Integer.toString(x - 1)+",";
+                                result += Integer.toString(x - 1) + ",";
                             }
                         }
                     }
@@ -261,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
                 } else
                     recivierSubsidionHandler.getSimpleFilter().getBirth_month().state = RecivierFilter.statement.CLEAR;
                 recivierSubsidionHandler.filter();
-               // updateCounters();
+                // updateCounters();
             }
 
             @Override
@@ -269,12 +244,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     public void updateCounters() { /*DEBUG ONLY*/
         TextView header_status = findViewById(R.id.nav_header_status);
         if (header_status != null) {
             header_status.setText("displayed:" + recivierSubsidionHandler.getDataList().size() + "/" + recivierSubsidionHandler.getPureData().size());
         }
     }
+
     //app_objects_start
     private RecivierSubsidionHandler recivierSubsidionHandler;//but it's stil Singleton(we store only the link)
     //app_objects_end

@@ -1,6 +1,8 @@
 package com.rrpvm.subsidioninformator.objects;
 
-public class Subsidion {
+import java.io.Serializable;
+
+public class Subsidion implements Serializable {
     public boolean getStatement() {
         return statement;
     }

@@ -12,11 +12,12 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputLayout;
 import com.rrpvm.subsidioninformator.R;
 import com.rrpvm.subsidioninformator.handlers.AuthorizationHandler;
+import com.rrpvm.subsidioninformator.interfaces.Redirectable;
 import com.rrpvm.subsidioninformator.objects.User;
 
 import java.util.Locale;
 //почти финальный класс
-public class LoginFormActivity extends AppCompatActivity {
+public class LoginFormActivity extends AppCompatActivity implements Redirectable {
     //Android objects:
     private TextInputLayout loginForm;
     private TextInputLayout passwordForm;
@@ -107,7 +108,8 @@ public class LoginFormActivity extends AppCompatActivity {
             }
         });
     }
-    private void redirect() {
+    @Override
+    public void redirect() {
         new Thread() {
             @Override
             public void run() {
