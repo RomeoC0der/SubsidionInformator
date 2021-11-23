@@ -51,6 +51,9 @@ public class UserSession implements Packable {
     @Override
     public void importFromJSON(Context ctx) {
         this.userSessionData = JSONHelper.importFromJSON(ctx, SESSION_FILENAME, new TypeToken<UserSessionData>(){},true);
+        if(this.userSessionData==null){
+            this.userSessionData=new UserSessionData();
+        }
     }
 
     public static final int SESSION_DURATION = 3600000;//*100->cast to mseconds : getTime return ms

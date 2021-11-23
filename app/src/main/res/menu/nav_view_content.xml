@@ -5,18 +5,18 @@
         <item
             android:id="@+id/menu_switch_men"
             android:icon="@drawable/male_gender_icon_foreground"
-            android:title="@string/nav_menu_only_men"
+            android:title="@string/navigation_only_male"
             android:checked="true"
             />
         <item
             android:id="@+id/menu_switch_women"
             android:icon="@drawable/female_gender_icon_foreground"
-            android:title="@string/nav_menu_only_women"
+            android:title="@string/navigation_only_female"
             android:checked="true"
            />
     </group>
     <group android:checkableBehavior="single">
-        <item android:title="@string/nav_menu_geolocation">
+        <item android:title="@string/navigation_geolocation">
             <menu>
                 <item
                     android:id="@+id/menu_region_selector"
@@ -32,7 +32,7 @@
         </item>
     </group>
     <group android:checkableBehavior="single">
-        <item  android:title="@string/nav_menu_dateHint">
+        <item  android:title="@string/navigation_birthdate">
             <menu>
                 <item
                     android:id="@+id/menu_birthdate_fill_year"

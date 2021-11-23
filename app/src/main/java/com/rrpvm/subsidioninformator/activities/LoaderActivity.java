@@ -19,7 +19,6 @@ public class LoaderActivity extends AppCompatActivity implements Redirectable {
         setContentView(R.layout.activity_loader);
         redirect();
     }
-
     @Override
     public void redirect() {
         new Thread() {

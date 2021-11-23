@@ -18,13 +18,6 @@ import com.rrpvm.subsidioninformator.objects.User;
 import java.util.Locale;
 //почти финальный класс
 public class LoginFormActivity extends AppCompatActivity implements Redirectable {
-    //Android objects:
-    private TextInputLayout loginForm;
-    private TextInputLayout passwordForm;
-    private Button singInBtn;
-    private Context context;//sometimes needed
-    //end section;
-    public final static int REDIRECT_DELAY = 150;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,8 +39,8 @@ public class LoginFormActivity extends AppCompatActivity implements Redirectable
                 String login = loginForm.getEditText().getText().toString().toLowerCase(Locale.ROOT).trim();
                 String password = passwordForm.getEditText().getText().toString().trim();
                 if (login.length() < 4 || password.length() < 4) {
-                    loginForm.setError("login must be longer than 4 symbols");//todo: string resource
-                    passwordForm.setError("password must be longer than 4 symbols");//todo:string resource
+                    loginForm.setError(getText(R.string.error_characters_too_small));
+                    passwordForm.setError(getText(R.string.error_characters_too_small));
                     loginForm.setErrorEnabled(true);
                     passwordForm.setErrorEnabled(true);
                     return;
@@ -56,8 +49,8 @@ public class LoginFormActivity extends AppCompatActivity implements Redirectable
                     passwordForm.getEditText().setText("");//reset
                     redirect();
                 } else {
-                    loginForm.setError("login or password incorrect");//заранее
-                    passwordForm.setError("login or password incorrect");//заранее
+                    loginForm.setError(getText(R.string.error_data_incorrect));
+                    passwordForm.setError(getText(R.string.error_data_incorrect));
                     loginForm.setErrorEnabled(true);
                     passwordForm.setErrorEnabled(true);
                 }
@@ -119,6 +112,7 @@ public class LoginFormActivity extends AppCompatActivity implements Redirectable
                     e.printStackTrace();
                 }
                 Intent redirectActivity = new Intent(LoginFormActivity.this, MainActivity.class);
+                redirectActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(redirectActivity);
                 finish();
             }
@@ -133,4 +127,11 @@ public class LoginFormActivity extends AppCompatActivity implements Redirectable
         authorizationHandler.getUserSession().importFromJSON(this);
         authorizationHandler.exportToJSON(this);//save data
     }
+    //Android objects:
+    private TextInputLayout loginForm;
+    private TextInputLayout passwordForm;
+    private Button singInBtn;
+    private Context context;//sometimes needed
+    //end section;
+    public final static int REDIRECT_DELAY = 150;
 }

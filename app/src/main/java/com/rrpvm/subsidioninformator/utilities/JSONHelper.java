@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JSONHelper {//todo: implement method for export single object
+public class JSONHelper {
 
     public static <T> boolean exportToJSON(Context context, List<T> data, String fileName) {
         Gson gson = new Gson();

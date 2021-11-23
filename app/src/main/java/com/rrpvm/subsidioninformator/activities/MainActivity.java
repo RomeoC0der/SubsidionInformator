@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.subsidionRecivierList = (ListView) findViewById(R.id.receivirs_list);
         this.recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();
-        //   this.recivierSubsidionHandler.bindContext(this);//debug
+         //  this.recivierSubsidionHandler.bindContext(this);//debug
         //   this.recivierSubsidionHandler.exportToJSON(this);//debug
         this.recivierSubsidionHandler.importFromJSON(this);
         this.recivierSubsidionHandler.bindDataToView(this, R.layout.subsidion_recivier_item);//create adapter for listview
@@ -137,10 +137,10 @@ public class MainActivity extends AppCompatActivity {
         TextInputLayout til_year_selector = (TextInputLayout) year_selector.getActionView();
         TextInputLayout til_month_selector = (TextInputLayout) month_selector.getActionView();
         AutoCompleteTextView view_month_selector = til_month_selector.findViewById(R.id.menu_birthdate_month_autocomplete);
-        til_region_selector.setHint(R.string.nav_menu_region_hint);
-        til_city_selector.setHint(R.string.nav_menu_city_hint);
-        til_year_selector.setHint(R.string.nav_menu_yearHint);
-        view_month_selector.setHint(R.string.nav_menu_monthHint);
+        til_region_selector.setHint(R.string.hint_region_name);//использование 1 и того же ресурса
+        til_city_selector.setHint(R.string.hint_city_name);//использование 1 и того же ресурса
+        til_year_selector.setHint(R.string.navigation_select_year);
+        view_month_selector.setHint(R.string.navigation_select_month);
         til_year_selector.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
         ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(this, R.array.nav_menu_month_select, android.R.layout.simple_dropdown_item_1line);
         view_month_selector.setAdapter(adapter);//set data to spinner

@@ -9,8 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -42,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:hint="@string/dialog_string_tin_number"
+                    android:hint="@string/hint_TIN_number"
                     android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,24 +57,45 @@
                     android:layout_height="wrap_content"
 
                     android:background="@color/white"
-                    android:hint="@string/dialog_string_passportId"
+                    android:hint="@string/hint_passport_id"
                     android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/edit_snID"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_snID"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:hint="@string/dialog_string_subsidion_id"
-                android:inputType="numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:hint="@string/hint_subsidion_id"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_birthdate"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:hint="@string/hint_birth_date"
+                    android:inputType="date" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -93,7 +113,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:hint="@string/nav_menu_city_hint"
+                    android:hint="@string/hint_city_name"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,7 +128,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:hint="@string/nav_menu_region_hint"
+                    android:hint="@string/hint_region_name"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -116,11 +136,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
-            android:text="@string/nav_menu_genders"
+            android:text="@string/hint_genders_selection"
             android:textColor="@color/paragraph_color"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <RadioGroup
             android:id="@+id/edit_genderSwitch"
@@ -134,7 +153,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/dialog_edit_male" />
+                android:text="@string/gender_name_male" />
 
             <RadioButton
                 android:id="@+id/edit_rg_female"
@@ -142,7 +161,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/dialog_edit_female" />
+                android:text="@string/gender_name_female" />
         </RadioGroup>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -156,7 +175,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:hint="@string/dialog_string_month_subs_size"
+                android:hint="@string/hint_month_subsidion_size"
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -170,14 +189,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:hint="@string/dialog_string_year_subs_size"
+                android:hint="@string/hint_year_subsidion_size"
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/dialog_string_arrived_diaposon"
+            android:text="@string/string_arrived_diaposon"
             android:textColor="@color/paragraph_color"
             android:textSize="16sp" />
 
@@ -185,20 +205,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/dialog_string_get_diaposon"
+            android:text="@string/string_taken_diaposon"
             android:textColor="@color/paragraph_color"
             android:textSize="16sp" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="right|bottom"
-            android:layout_margin="10dp">
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floatingActionButtonDeleteRecivier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                app:srcCompat="@android:drawable/ic_menu_delete" />
-        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:gravity="right|bottom">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButtonDeleteRecivier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:foregroundGravity="center"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
     </LinearLayout>
 </LinearLayout>

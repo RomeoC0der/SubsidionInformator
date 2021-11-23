@@ -125,8 +125,8 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
     private void debugGenerateData() {
         try {
             this.pureData.add(new SubsidingRecivier(true, "Якименко", "Микита", "Дмитрович", "Донецька", "Маріуполь", new Date(), "Naximova", "1449013711", "001842541", new Subsidion(true, 31423, 1900, 11400, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
-            this.pureData.add(new SubsidingRecivier(false, "Абакумова", "Дар'я", "Геннадіївна", "Харківська", "Харків", new Date(), "wtf", "2449013711", "002842541", new Subsidion(true, 31425, 2900, 23500, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
-            this.pureData.add(new SubsidingRecivier(true, "Ісіченко", "Руслан", "Максимович", "Донецька", "Маріуполь", new Date(), "Mitropolitska", "3449013711", "003842541", new Subsidion(true, 31429, 1500, 15400, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
+            this.pureData.add(new SubsidingRecivier(false, "Абакумова", "Даря", "Геннадіївна", "Харківська", "Харків", new Date(), "wtf", "2449013711", "002842541", new Subsidion(true, 31425, 2900, 23500, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
+            this.pureData.add(new SubsidingRecivier(true, "Петренко", "Руслан", "Максимович", "Донецька", "Маріуполь", new Date(), "Mitropolitska", "3449013711", "003842541", new Subsidion(true, 31429, 1500, 15400, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
             this.pureData.add(new SubsidingRecivier(true, "Теліцин", "Данило", "Віталійович", "Донецька", "Маріуполь", new Date(), "Tramvayna", "4449013711", "004842541", new Subsidion(true, 23168, 2100, 21800, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
             this.pureData.add(new SubsidingRecivier(false, "Краснощок", "Тамара", "Валеріївна", "Запорізька", "Запоріжжя", new Date(), "unknown", "5449013711", "005842541", new Subsidion(true, 15231, 3000, 31600, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
             this.dataList.addAll(pureData);

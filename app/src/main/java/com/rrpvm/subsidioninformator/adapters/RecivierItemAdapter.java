@@ -18,26 +18,31 @@ import com.rrpvm.subsidioninformator.R;
 import com.rrpvm.subsidioninformator.activities.EditRecivierDataActivity;
 import com.rrpvm.subsidioninformator.activities.MainActivity;
 import com.rrpvm.subsidioninformator.fragments.RecivierDialogInformation;
+import com.rrpvm.subsidioninformator.interfaces.Redirectable;
 import com.rrpvm.subsidioninformator.objects.SubsidingRecivier;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> {
+public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> implements Redirectable {
     public RecivierItemAdapter(Context ctx, int resource, ArrayList<SubsidingRecivier> reciviers) {
         super(ctx, resource, reciviers);
         this.data = reciviers;
         this.layout = resource;
         this.inflater = LayoutInflater.from(ctx);
     }
-    public void bindContext(Context context){
+
+    public void bindContext(Context context) {
         this.mainActivityContext = context;
     }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = inflater.inflate(this.layout, parent, false);
         }
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
+        final SubsidingRecivier currentReciever = data.get(position);
+        //<get all views>
         ImageView recivierIconView = (ImageView) convertView.findViewById(R.id.recivier_logotype);
         TextView nameView = (TextView) convertView.findViewById(R.id.receiving_pib);
         TextView regionView = (TextView) convertView.findViewById(R.id.receiving_region);
@@ -45,11 +50,11 @@ public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> {
         TextView birthdateView = (TextView) convertView.findViewById(R.id.recivier_birthdate);
         Button moreDetailsButton = (Button) convertView.findViewById(R.id.recivier_more_button);
         Button editDetailsButton = (Button) convertView.findViewById(R.id.recivier_edit_button);
-        final SubsidingRecivier currentReciever = data.get(position);
+        //<data manipulations>
         nameView.setText(currentReciever.getPIB());
-        regionView.setText(convertView.getResources().getText(R.string.nav_menu_region_hint).toString() + ": " + currentReciever.getRegion());
-        positionView.setText(convertView.getResources().getText(R.string.nav_menu_city_hint).toString() + ": " + currentReciever.getCity());
-        birthdateView.setText(convertView.getResources().getText(R.string.nav_menu_dateHint).toString() + ": " + dateFormat.format(currentReciever.getBirthdate()).toString());
+        regionView.setText(convertView.getResources().getString(R.string.datable_region_string, currentReciever.getRegion()));
+        positionView.setText(convertView.getResources().getString(R.string.datable_city_string, currentReciever.getCity()));
+        birthdateView.setText(convertView.getResources().getString(R.string.datable_birthdate_string, dateFormat.format(currentReciever.getBirthdate())));
         int imgId = recivierIconView.getContext().getResources().getIdentifier(currentReciever.getImage(), "drawable", recivierIconView.getContext().getPackageName());
         if (imgId != 0)
             recivierIconView.setImageResource(imgId);
@@ -68,17 +73,27 @@ public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> {
         editDetailsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                Intent message = new Intent(mainActivityContext, EditRecivierDataActivity.class);
-                bundle.putSerializable("recivier_data", currentReciever);//в поток
-                message.putExtras(bundle);
-                mainActivityContext.startActivity(message);
+                toSerializeRecivier = currentReciever;
+                redirect();
             }
         });
         return convertView;
     }
+
+    @Override
+    public void redirect() {
+        Bundle bundle = new Bundle();
+        Intent message = new Intent(mainActivityContext, EditRecivierDataActivity.class);
+        message.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        bundle.putSerializable("recivier_data", toSerializeRecivier);//в поток
+        message.putExtras(bundle);
+        mainActivityContext.startActivity(message);
+    }
+
     private LayoutInflater inflater;
     private int layout;
     private ArrayList<SubsidingRecivier> data;
     private Context mainActivityContext;
+    private SubsidingRecivier toSerializeRecivier;
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
 }
