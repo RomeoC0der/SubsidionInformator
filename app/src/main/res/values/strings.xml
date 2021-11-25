@@ -35,6 +35,7 @@
     <string name="hint_birth_date">Birthday</string>
     <string name="hint_city_name">City</string>
     <string name="hint_region_name">Region</string>
+    <string name="hint_street_name">Street</string>
     <string name="hint_genders_selection">Gender</string>
     <string name="hint_month_subsidion_size">Розмір Субсидії ЖКП За Місяць, грн</string>
     <string name="hint_year_subsidion_size">Розмір Субсидії СГТП Річний, грн.</string>
@@ -56,28 +57,25 @@
     <!-- EditRecivierDataActivity.java-->
     <string name="dialog_warning_title">Warning</string>
     <string name="dialog_confirm">Ok</string>
-    <string name="dialog_denied">Close</string>
+    <string name="dialog_denied">Cancel</string>
+    <string name="dialog_close">Close</string>
     <string name="toast_success">Sucess</string>
     <string name="toast_deleted">Deleted successfully</string>
+    <string name="datepicker_range_take">Arrived range</string>
+    <string name="datepicker_range_send">Taken range</string>
+    <string name="title_create_mode">Create a new Recivier</string>
     <!-- /EditRecivierDataActivity.java-->
-
-    <!-- LoginFormActivity.java-->
-    <string name="error_characters_too_small">login or password must be greater than 4 characters</string>
-    <string name="error_data_incorrect">username or password is incorrect</string>
-    <!-- /LoginFormActivity.java-->
 
     <!--MainActivity.java-->
     <string name="navigation_select_year">year</string>
     <string name="navigation_select_month">month</string>
     <!--/MainActivity.java-->
 
-
     <!-- RecivierItemAdapter.java-->
-    <string name="datable_region_string">region %s</string>
-    <string name="datable_city_string">city %s</string>
-    <string name="datable_birthdate_string">birthdate %s</string>
+    <string name="datable_region_string">region: %s</string>
+    <string name="datable_city_string">city: %s</string>
+    <string name="datable_birthdate_string">birthdate: %s</string>
     <!-- /RecivierItemAdapter-->
-
 
     <!-- RecivierDialogInformation.java-->
     <string name="dialog_confirm_export_pdf">Export to PDF</string>
@@ -97,6 +95,21 @@
     <string name="element_arrived_diaposon">Arrived: %s</string>
     <string name="element_taken_diaposon">Taken: %s</string>
     <!--/ can be generic -->
+    <!-- Toasts -->
+    <string name="toast_document_saved">Exported to Documents folder</string>
+    <!-- /Toasts -->
+    <!-- errors-->
+    <string name="error_save_changes_failure">fill this field!</string>
+    <!-- LoginFormActivity.java-->
+    <string name="error_characters_too_small">login or password must be greater than 4 characters</string>
+    <string name="error_data_incorrect">username or password is incorrect</string>
+    <!-- /LoginFormActivity.java-->
+    <!-- /errors-->
+    <string name="title_dialog_more_information">Data</string>
 
+    <!--EditElementDialog.java-->
+    <string name="dialog_title_edit_warning">Warning</string>
+    <string name="dialog_edit_message">You must fill all fields</string>
+    <!--/EditElementDialog.java-->
 
 </resources>

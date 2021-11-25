@@ -86,6 +86,7 @@ public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> impleme
         Intent message = new Intent(mainActivityContext, EditRecivierDataActivity.class);
         message.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         bundle.putSerializable("recivier_data", toSerializeRecivier);//в поток
+        bundle.putInt(EditRecivierDataActivity.bundleArgumentMode, EditRecivierDataActivity.EDIT_MODE.EDIT_EXIST_USER.getValue());//в поток
         message.putExtras(bundle);
         mainActivityContext.startActivity(message);
     }

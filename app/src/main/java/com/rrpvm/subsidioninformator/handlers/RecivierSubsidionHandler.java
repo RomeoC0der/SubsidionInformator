@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
 //final release class
 public class RecivierSubsidionHandler implements Packable {//time to Singleton->
 
@@ -32,14 +33,17 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
         //debug mode: generate data of reciviers
         debugGenerateData();//if release -> overrides
     }
+
     public void bindDataToView(Context ctx, int item_list_resource_id) {
-        this.context= ctx;
+        this.context = ctx;
         adapter = new RecivierItemAdapter(ctx, item_list_resource_id, this.dataList);
         adapter.bindContext(ctx);
     }
-    public void bindContext(Context ctx){
+
+    public void bindContext(Context ctx) {
         this.context = ctx;
     }
+
     public void sortData() {
         ArrayList<SubsidingRecivier> tmpdata = new ArrayList<>(this.dataList);
         if (this.aZSortMode) {//we love shit code
@@ -50,8 +54,8 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
         this.setDataList(tmpdata);
         this.adapter.notifyDataSetChanged();
     }
-    public int getIdInPureData(SubsidingRecivier recivier)
-    {
+
+    public int getIdInPureData(SubsidingRecivier recivier) {
         int position;
         for (position = 0; position < pureData.size(); position++)//hello shit-code
         {
@@ -62,8 +66,9 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
         }
         return position;
     }
+
     @Override
-    public void importFromJSON(Context ctx){
+    public void importFromJSON(Context ctx) {
         try {
             this.pureData = JSONHelper.importFromJSON(ctx, RECIVIERS_DATA_FILENAME, (new TypeToken<ArrayList<SubsidingRecivier>>() {
             }).getType());
@@ -73,12 +78,10 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
             e.printStackTrace();
         }
     }
+
     @Override
-    public void exportToJSON(Context ctx){
-        JSONHelper.exportToJSON(ctx,this.pureData, RECIVIERS_DATA_FILENAME);
-    }
-    public static void setInstance(RecivierSubsidionHandler instance) {
-        RecivierSubsidionHandler.instance = instance;
+    public void exportToJSON(Context ctx) {
+        JSONHelper.exportToJSON(ctx, this.pureData, RECIVIERS_DATA_FILENAME);
     }
 
     public RecivierItemAdapter getAdapter() {
@@ -124,18 +127,17 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
 
     private void debugGenerateData() {
         try {
-            this.pureData.add(new SubsidingRecivier(true, "Якименко", "Микита", "Дмитрович", "Донецька", "Маріуполь", new Date(), "Naximova", "1449013711", "001842541", new Subsidion(true, 31423, 1900, 11400, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
-            this.pureData.add(new SubsidingRecivier(false, "Абакумова", "Даря", "Геннадіївна", "Харківська", "Харків", new Date(), "wtf", "2449013711", "002842541", new Subsidion(true, 31425, 2900, 23500, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
-            this.pureData.add(new SubsidingRecivier(true, "Петренко", "Руслан", "Максимович", "Донецька", "Маріуполь", new Date(), "Mitropolitska", "3449013711", "003842541", new Subsidion(true, 31429, 1500, 15400, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
-            this.pureData.add(new SubsidingRecivier(true, "Теліцин", "Данило", "Віталійович", "Донецька", "Маріуполь", new Date(), "Tramvayna", "4449013711", "004842541", new Subsidion(true, 23168, 2100, 21800, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
-            this.pureData.add(new SubsidingRecivier(false, "Краснощок", "Тамара", "Валеріївна", "Запорізька", "Запоріжжя", new Date(), "unknown", "5449013711", "005842541", new Subsidion(true, 15231, 3000, 31600, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
+            this.pureData.add(new SubsidingRecivier(true, "Якименко", "Микита", "Дмитрович", "Донецька", "Маріуполь", new Date(), "Zelinskogo 42/13", "1449013711", "001842541", new Subsidion(true, 31423, 1900, 11400, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
+            this.pureData.add(new SubsidingRecivier(false, "Абакумова", "Даря", "Геннадіївна", "Харківська", "Харків", new Date(), "Naximova 44/15", "2449013711", "002842541", new Subsidion(true, 31425, 2900, 23500, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
+            this.pureData.add(new SubsidingRecivier(true, "Петренко", "Руслан", "Максимович", "Донецька", "Маріуполь", new Date(), "Peremogi 11/67", "3449013711", "003842541", new Subsidion(true, 31429, 1500, 15400, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
+            this.pureData.add(new SubsidingRecivier(true, "Теліцин", "Данило", "Віталійович", "Донецька", "Маріуполь", new Date(), "Tramvayna 88/35", "4449013711", "004842541", new Subsidion(true, 23168, 2100, 21800, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
+            this.pureData.add(new SubsidingRecivier(false, "Краснощок", "Тамара", "Валеріївна", "Запорізька", "Запоріжжя", new Date(), "Miru 92/47", "5449013711", "005842541", new Subsidion(true, 15231, 3000, 31600, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
             this.dataList.addAll(pureData);
-            if(context != null) this.exportToJSON(context);
+            if (context != null) this.exportToJSON(context);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
     public void filter() {
         dataList.clear();
         try {
@@ -144,9 +146,13 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
                 boolean shouldAdd = true;
                 Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Ukraine"));//date не позволяет точно работать с месяцами и тд
                 cal.setTime(recivier.getBirthdate());
-                if (simpleFilter.getNameFilter().state == RecivierFilter.statement.WORK) {
+                if (simpleFilter.getStringFilter().state == RecivierFilter.statement.WORK) { //READ COMMENT: NAMEFILTER() + PASSID FILTER + TIN FILTER
                     String pib = recivier.getPIB().toLowerCase(Locale.ROOT);
-                    if (!pib.contains(simpleFilter.getNameFilter().object)) shouldAdd = false;
+                    String filterString = simpleFilter.getStringFilter().object.trim().toLowerCase(Locale.ROOT);
+                    if (!pib.contains(filterString)
+                            && !(recivier.getPassportId().equals(filterString)) // you can replace it with contains
+                            && !(recivier.getITN().equals(filterString)))// you can replace it with contains
+                        shouldAdd = false;
                 }
                 if (true) { //нарушение общей концепции стейтмента(условие всегда должно проходить), но так удобней. Условие нужно лишь для поддержания внешнего вида кода
                     if (recivier.isMale() && !simpleFilter.getGenderFilter().object[0]) {//если ты мужчина + отключена выборка по мужчинам -> нет
@@ -210,5 +216,5 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
     private ArrayList<SubsidingRecivier> dataList;//filtered-data;
     private RecivierFilter simpleFilter;
     private boolean aZSortMode = true;
-    private Context context=null;
+    private Context context = null;
 }

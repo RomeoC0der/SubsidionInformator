@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -20,6 +21,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.rrpvm.subsidioninformator.R;
@@ -43,10 +45,11 @@ public class MainActivity extends AppCompatActivity {
         //init
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.addRecivierButton = (FloatingActionButton)findViewById(R.id.main_fab_add_recivier);
         this.subsidionRecivierList = (ListView) findViewById(R.id.receivirs_list);
         this.recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();
          //  this.recivierSubsidionHandler.bindContext(this);//debug
-        //   this.recivierSubsidionHandler.exportToJSON(this);//debug
+         //  this.recivierSubsidionHandler.exportToJSON(this);//debug
         this.recivierSubsidionHandler.importFromJSON(this);
         this.recivierSubsidionHandler.bindDataToView(this, R.layout.subsidion_recivier_item);//create adapter for listview
         this.subsidionRecivierList.setAdapter(recivierSubsidionHandler.getAdapter()); //bind
@@ -81,6 +84,16 @@ public class MainActivity extends AppCompatActivity {
         Menu nav_menu = view.getMenu();
         this.setupNavigationViewItems(nav_menu);
         this.recivierSubsidionHandler.sortData();
+        this.addRecivierButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent activity_message = new Intent(MainActivity.this, EditRecivierDataActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt(EditRecivierDataActivity.bundleArgumentMode,EditRecivierDataActivity.EDIT_MODE.CREATE_NEW_USER.getValue() );
+                activity_message.putExtras(bundle);
+                startActivity(activity_message);
+            }
+        });
     }
 
     /*nav_header_menu method*/
@@ -97,11 +110,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String s) {
                 if (s.isEmpty())
-                    recivierSubsidionHandler.getSimpleFilter().getNameFilter().state = RecivierFilter.statement.CLEAR;
+                    recivierSubsidionHandler.getSimpleFilter().getStringFilter().state = RecivierFilter.statement.CLEAR;
                 else
-                    recivierSubsidionHandler.getSimpleFilter().getNameFilter().state = RecivierFilter.statement.WORK;
+                    recivierSubsidionHandler.getSimpleFilter().getStringFilter().state = RecivierFilter.statement.WORK;
 
-                recivierSubsidionHandler.getSimpleFilter().getNameFilter().object = s.toLowerCase(Locale.ROOT);//update the filter
+                recivierSubsidionHandler.getSimpleFilter().getStringFilter().object = s.toLowerCase(Locale.ROOT);//update the filter
                 recivierSubsidionHandler.filter();//do filtering
                 // updateCounters();
                 return true;
@@ -260,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ListView subsidionRecivierList;
     private SearchView searchView;
+    private FloatingActionButton addRecivierButton;
 
     //android_objects_end
 }

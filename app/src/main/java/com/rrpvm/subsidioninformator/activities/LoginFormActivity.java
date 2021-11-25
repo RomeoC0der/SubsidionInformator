@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+
 import com.google.android.material.textfield.TextInputLayout;
 import com.rrpvm.subsidioninformator.R;
 import com.rrpvm.subsidioninformator.handlers.AuthorizationHandler;
@@ -16,6 +17,7 @@ import com.rrpvm.subsidioninformator.interfaces.Redirectable;
 import com.rrpvm.subsidioninformator.objects.User;
 
 import java.util.Locale;
+
 //почти финальный класс
 public class LoginFormActivity extends AppCompatActivity implements Redirectable {
     @Override
@@ -23,10 +25,10 @@ public class LoginFormActivity extends AppCompatActivity implements Redirectable
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_form);
         context = this;
-       // debugFillUsers();//!release only -> provides creating data and export to json                                      IF DATA EMPTY = UNCOMMENT THIS
+        // debugFillUsers();//!release only -> provides creating data and export to json                                      IF DATA EMPTY = UNCOMMENT THIS
         AuthorizationHandler authorizationHandler = AuthorizationHandler.getInstance();//хто був ответственный за авторизацию?
         authorizationHandler.importFromJSON(context);//take data of users(release)
-        if(authorizationHandler.getUserSession().calculateSessionStatement()){   //did we import current statement?(return true if current)
+        if (authorizationHandler.getUserSession().calculateSessionStatement()) {   //did we import current statement?(return true if current)
             redirect();
         }
         /*Android only*/
@@ -101,6 +103,7 @@ public class LoginFormActivity extends AppCompatActivity implements Redirectable
             }
         });
     }
+
     @Override
     public void redirect() {
         new Thread() {
@@ -119,14 +122,16 @@ public class LoginFormActivity extends AppCompatActivity implements Redirectable
         }.start();
 
     }
-    private void debugFillUsers(){
+
+    private void debugFillUsers() {
         AuthorizationHandler authorizationHandler = AuthorizationHandler.getInstance();//singleton
-        authorizationHandler.getAuthorizationData().add(new User("klimenko391", "qwerty", "Sancho13"));
-        authorizationHandler.getAuthorizationData().add(new User("jukov31", "zxcvbn", "ZxcKiller"));
+        authorizationHandler.getAuthorizationData().add(new User("qwerty", "qwerty", "Administator", User.UserType.C_ADMIN));
+        authorizationHandler.getAuthorizationData().add(new User("jukov31", "zxcqwe", "ZxcKiller", User.UserType.C_USER));
         //try:
         authorizationHandler.getUserSession().importFromJSON(this);
         authorizationHandler.exportToJSON(this);//save data
     }
+
     //Android objects:
     private TextInputLayout loginForm;
     private TextInputLayout passwordForm;

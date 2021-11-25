@@ -10,7 +10,7 @@ public class RecivierFilter {
         }
     }
 
-    private filterObj<String> nameFilter;
+    private filterObj<String> stringFilter;
     private filterObj<Boolean[]> genderFilter;
     private filterObj<String> cityFilter;
     private filterObj<String> oblastFilter;
@@ -18,12 +18,12 @@ public class RecivierFilter {
     private filterObj<String> birth_month;
     private filterObj<Integer> birth_day;
 
-    public filterObj<String> getNameFilter() {
-        return nameFilter;
+    public filterObj<String> getStringFilter() {
+        return stringFilter;
     }
 
-    public void setNameFilter(filterObj<String> nameFilter) {
-        this.nameFilter = nameFilter;
+    public void setStringFilter(filterObj<String> stringFilter) {
+        this.stringFilter = stringFilter;
     }
 
     public filterObj<String> getCityFilter() {
@@ -65,15 +65,17 @@ public class RecivierFilter {
     public filterObj<Boolean[]> getGenderFilter() {
         return genderFilter;
     }
+
     public void setGenderFilter(filterObj<Boolean[]> genderFilter) {
         this.genderFilter = genderFilter;
     }
+
     public void setBirth_day(filterObj<Integer> birth_day) {
         this.birth_day = birth_day;
     }
 
     public RecivierFilter() {
-        this.nameFilter = new filterObj<>();
+        this.stringFilter = new filterObj<>();
         this.cityFilter = new filterObj<>();
         this.oblastFilter = new filterObj<>();
         this.birth_year = new filterObj<>();

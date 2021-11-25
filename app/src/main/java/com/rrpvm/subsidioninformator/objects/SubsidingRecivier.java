@@ -23,6 +23,21 @@ public class SubsidingRecivier implements Serializable {
         this.subsidionData = subsidion;
     }
 
+    public SubsidingRecivier() {
+        this.male = false;
+        this.surname = new String();
+        this.name = new String();
+        this.patronymic = new String();
+        this.region = new String();
+        this.city = new String();
+        this.birthdate = new Date();
+        this.position = new String();
+        this.image = new String();
+        this.ITN = new String();
+        this.passportId = new String();
+        this.subsidionData = new Subsidion();
+    }
+
     public String getName() {
         return name;
     }
@@ -74,18 +89,20 @@ public class SubsidingRecivier implements Serializable {
     public String getPIB() {
         return surname + " " + name + " " + patronymic;
     }
-    public void setSNP(String splitedString){//NSP-name,surname,patronomyc
+
+    public void setSNP(String splitedString) {//NSP-name,surname,patronomyc
         splitedString = splitedString.trim();
         String strs[] = splitedString.split(" ");
         name = strs[1];
-        surname=strs[0];
-        patronymic=strs[2];
+        surname = strs[0];
+        patronymic = strs[2];
     }
 
 
     public void setName(String name) {
         this.name = name;
     }
+
     public void setSurname(String surname) {
         this.surname = surname;
     }
@@ -135,7 +152,7 @@ public class SubsidingRecivier implements Serializable {
         if (this == s1) return true;
         SubsidingRecivier s = (SubsidingRecivier) s1;
         if (passportId.equals(s.passportId) && ITN.equals(s.ITN) && region.equals(s.region) && city.equals(s.city))
-            if (name.equals(s.name)&&surname.equals(s.surname)&&patronymic.equals(s.patronymic)&&birthdate.equals(s.birthdate))
+            if (name.equals(s.name) && surname.equals(s.surname) && patronymic.equals(s.patronymic) && birthdate.equals(s.birthdate))
                 return true;
         return false;
     }

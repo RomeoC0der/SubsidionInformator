@@ -1,20 +1,32 @@
 package com.rrpvm.subsidioninformator.objects;
-//final release class
-public class User {
-    private String login;
-    private String password;
-    private String name;
 
-    public User(String l, String pass, String name) {
+//final release class(25.11.2021 updated)
+public class User {
+    public enum UserType {
+        C_USER(0), C_ADMIN(4);
+        private final int id;
+
+        UserType(int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
+    }
+
+    public User(String l, String pass, String name, UserType userType) {
         this.login = l;
         this.password = pass;
         this.name = name;
+        this.userType = userType;
     }
 
-    public User(String login, String pass) {
+    public User(String login, String pass, UserType userType) {
         this.login = login;
         this.password = pass;
-        this.name = "";
+        this.name = new String();
+        this.userType = userType;
     }
 
     public String getLogin() {
@@ -40,4 +52,9 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
+
+    private String login;
+    private String password;
+    private String name;
+    private UserType userType;
 }

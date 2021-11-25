@@ -27,7 +27,6 @@ public class RecivierDialogInformation extends DialogFragment {
         super.onAttach(context);
         ctx = context;
     }
-
     public Dialog onCreateDialog(Bundle saveInstanceState) {
         final SubsidingRecivier recivier = (SubsidingRecivier) getArguments().getSerializable("recivier_data");
         if (recivier == null) return null;
@@ -35,12 +34,12 @@ public class RecivierDialogInformation extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View recivierLayout = generateLayoutData(inflater.inflate(R.layout.recivier_info_dialog, null), recivier);
         builder.setView(recivierLayout);
-        return builder.setTitle("Дані").
+        return builder.setTitle(getResources().getText(R.string.title_dialog_more_information)).
                 setNeutralButton(getResources().getText(R.string.dialog_confirm_export_pdf), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (PDFHelper.export(recivier))
-                            Toast.makeText(ctx, "документ збережено в Documents", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ctx, getText(R.string.toast_document_saved), Toast.LENGTH_SHORT).show();
                     }
                 }).setPositiveButton(getResources().getText(R.string.dialog_confirm_close), new DialogInterface.OnClickListener() {
             @Override
@@ -48,11 +47,9 @@ public class RecivierDialogInformation extends DialogFragment {
             }
         }).create();
     }
-
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
     }
-
     public View generateLayoutData(View layout, SubsidingRecivier subsidingRecivier) {
         /*Get all vies*/
         ImageView logo = layout.findViewById(R.id.dialog_data_image);
@@ -70,7 +67,7 @@ public class RecivierDialogInformation extends DialogFragment {
         pibView.setText(subsidingRecivier.getPIB());
         tinView.setText(this.getResources().getString(R.string.element_tin_number, subsidingRecivier.getITN()));
         passIdView.setText(this.getResources().getString(R.string.element_passport_ID, subsidingRecivier.getPassportId()));
-        positionView.setText(this.getResources().getString(R.string.element_geodata, subsidingRecivier.getCity()));
+        positionView.setText(this.getResources().getString(R.string.element_geodata, String.format("%s/%s/%s", subsidingRecivier.getRegion(),subsidingRecivier.getCity(), subsidingRecivier.getPosition())));
         subsudionStatement.setText(this.getResources().getString(R.string.element_subsidion_statement, getResources().getText(subsidingRecivier.getSubsidionData().getStatement() ? R.string.element_subsidion_statement_true : R.string.element_subsidion_statement_false)));
         subsidionIdView.setText(this.getResources().getString(R.string.element_subsidion_ID, subsidingRecivier.getSubsidionData().getId()));
         monthSubsidionView.setText(this.getResources().getString(R.string.element_month_subsidion_size, subsidingRecivier.getSubsidionData().getJKP()));
