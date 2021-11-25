@@ -25,7 +25,7 @@ public class LoginFormActivity extends AppCompatActivity implements Redirectable
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_form);
         context = this;
-        // debugFillUsers();//!release only -> provides creating data and export to json                                      IF DATA EMPTY = UNCOMMENT THIS
+       if(MainActivity.DEBUG_RECREATE) debugFillUsers();//!release only -> provides creating data and export to json                                      IF DATA EMPTY = UNCOMMENT THIS
         AuthorizationHandler authorizationHandler = AuthorizationHandler.getInstance();//хто був ответственный за авторизацию?
         authorizationHandler.importFromJSON(context);//take data of users(release)
         if (authorizationHandler.getUserSession().calculateSessionStatement()) {   //did we import current statement?(return true if current)
@@ -48,7 +48,7 @@ public class LoginFormActivity extends AppCompatActivity implements Redirectable
                     return;
                 }
                 if (authorizationHandler.signIn(login, password)) {
-                    passwordForm.getEditText().setText("");//reset
+                    passwordForm.getEditText().setText(new String());//reset
                     redirect();
                 } else {
                     loginForm.setError(getText(R.string.error_data_incorrect));
@@ -122,7 +122,6 @@ public class LoginFormActivity extends AppCompatActivity implements Redirectable
         }.start();
 
     }
-
     private void debugFillUsers() {
         AuthorizationHandler authorizationHandler = AuthorizationHandler.getInstance();//singleton
         authorizationHandler.getAuthorizationData().add(new User("qwerty", "qwerty", "Administator", User.UserType.C_ADMIN));

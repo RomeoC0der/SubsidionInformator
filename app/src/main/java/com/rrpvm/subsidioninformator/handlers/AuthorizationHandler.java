@@ -62,6 +62,7 @@ public class AuthorizationHandler implements Packable { //time to Singleton
                 this.userSession.setSessionStatement(true);
                 this.userSession.setSessionStartTime(new Date().getTime());
                 this.userSession.setUserName(user.getName());
+                this.userSession.setUserType(user.getUserType());
                 if (lastCtx != null) {
                     this.userSession.exportToJSON(lastCtx);//save
                 }
@@ -69,6 +70,12 @@ public class AuthorizationHandler implements Packable { //time to Singleton
             }
         }
         return false;
+    }
+
+    public void logOut(){
+        userSession.setSessionStatement(false);
+        userSession.setSessionStartTime(0);
+        userSession.exportToJSON(lastCtx);
     }
 
     public static final String DATA_FILENAME = "Users.json";

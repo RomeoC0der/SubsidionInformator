@@ -3,8 +3,7 @@ package com.rrpvm.subsidioninformator.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +15,11 @@ import android.widget.TextView;
 
 import com.rrpvm.subsidioninformator.R;
 import com.rrpvm.subsidioninformator.activities.EditRecivierDataActivity;
-import com.rrpvm.subsidioninformator.activities.MainActivity;
 import com.rrpvm.subsidioninformator.fragments.RecivierDialogInformation;
+import com.rrpvm.subsidioninformator.handlers.AuthorizationHandler;
 import com.rrpvm.subsidioninformator.interfaces.Redirectable;
 import com.rrpvm.subsidioninformator.objects.SubsidingRecivier;
+import com.rrpvm.subsidioninformator.objects.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,16 +50,24 @@ public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> impleme
         TextView birthdateView = (TextView) convertView.findViewById(R.id.recivier_birthdate);
         Button moreDetailsButton = (Button) convertView.findViewById(R.id.recivier_more_button);
         Button editDetailsButton = (Button) convertView.findViewById(R.id.recivier_edit_button);
+
+        //PERMISSIONS:
+        if (AuthorizationHandler.getInstance().getUserSession().getUserType() == User.UserType.C_USER)
+            editDetailsButton.setEnabled(false);
+
         //<data manipulations>
         nameView.setText(currentReciever.getPIB());
         regionView.setText(convertView.getResources().getString(R.string.datable_region_string, currentReciever.getRegion()));
         positionView.setText(convertView.getResources().getString(R.string.datable_city_string, currentReciever.getCity()));
         birthdateView.setText(convertView.getResources().getString(R.string.datable_birthdate_string, dateFormat.format(currentReciever.getBirthdate())));
-        int imgId = recivierIconView.getContext().getResources().getIdentifier(currentReciever.getImage(), "drawable", recivierIconView.getContext().getPackageName());
-        if (imgId != 0)
-            recivierIconView.setImageResource(imgId);
-        else
-            recivierIconView.setImageResource(currentReciever.isMale() ? R.drawable.default_man_icon_foreground : R.drawable.default_women_icon_foreground);
+        Bitmap imgToPresent = null;
+        try {
+            imgToPresent = currentReciever.getImage().getBitmap().get();
+            recivierIconView.setImageBitmap(imgToPresent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            recivierIconView.setImageResource(currentReciever.isMale() ? R.drawable.default_man_icon_foreground : R.drawable.default_women_icon_foreground);//default icon if we cant find normal image
+        }
         moreDetailsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

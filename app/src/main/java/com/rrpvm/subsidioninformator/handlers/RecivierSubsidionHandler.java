@@ -1,16 +1,20 @@
 package com.rrpvm.subsidioninformator.handlers;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.google.gson.reflect.TypeToken;
+import com.rrpvm.subsidioninformator.R;
 import com.rrpvm.subsidioninformator.adapters.RecivierItemAdapter;
 import com.rrpvm.subsidioninformator.interfaces.Packable;
+import com.rrpvm.subsidioninformator.objects.BitmapWrapper;
 import com.rrpvm.subsidioninformator.objects.ComparatorDn;
 import com.rrpvm.subsidioninformator.objects.ComparatorUp;
 import com.rrpvm.subsidioninformator.objects.RecivierFilter;
 import com.rrpvm.subsidioninformator.objects.SubsidingRecivier;
 import com.rrpvm.subsidioninformator.objects.Subsidion;
 import com.rrpvm.subsidioninformator.utilities.JSONHelper;
+import com.rrpvm.subsidioninformator.utilities.Utilities;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,9 +33,8 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
     public RecivierSubsidionHandler() {
         this.pureData = new ArrayList<>();
         this.dataList = new ArrayList<>();
+        this.bitmapList = new ArrayList<>();
         this.simpleFilter = new RecivierFilter();
-        //debug mode: generate data of reciviers
-        debugGenerateData();//if release -> overrides
     }
 
     public void bindDataToView(Context ctx, int item_list_resource_id) {
@@ -70,10 +73,16 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
     @Override
     public void importFromJSON(Context ctx) {
         try {
+            this.dataList.clear();
+            this.bitmapList = JSONHelper.importFromJSON(ctx, RECIVIERS_BITMAP_SET, (new TypeToken<ArrayList<String>>() {
+            }).getType());
             this.pureData = JSONHelper.importFromJSON(ctx, RECIVIERS_DATA_FILENAME, (new TypeToken<ArrayList<SubsidingRecivier>>() {
             }).getType());
-            this.dataList.clear();
-            this.dataList.addAll(this.pureData);
+            for (int i = 0; i < pureData.size(); i++) {
+                SubsidingRecivier _ref = pureData.get(i);
+                _ref.setImage(new BitmapWrapper(Utilities.getBitmapFromString(bitmapList.get(i))));
+                this.dataList.add(_ref);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,7 +90,13 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
 
     @Override
     public void exportToJSON(Context ctx) {
-        JSONHelper.exportToJSON(ctx, this.pureData, RECIVIERS_DATA_FILENAME);
+        bitmapList.clear();
+        for (SubsidingRecivier recivier : pureData) {
+            bitmapList.add(Utilities.getStringFromBitmap(recivier.getImage().getBitmap().get()));
+        }
+        JSONHelper.exportToJSON(ctx, bitmapList, RECIVIERS_BITMAP_SET);
+        JSONHelper.exportToJSON(ctx, pureData, RECIVIERS_DATA_FILENAME);//export default data
+        bitmapList.clear();//clear memory
     }
 
     public RecivierItemAdapter getAdapter() {
@@ -125,19 +140,20 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
         this.aZSortMode = aZSortMode;
     }
 
-    private void debugGenerateData() {
+    public void debugGenerateData() {//public in debug, private in release
         try {
-            this.pureData.add(new SubsidingRecivier(true, "Якименко", "Микита", "Дмитрович", "Донецька", "Маріуполь", new Date(), "Zelinskogo 42/13", "1449013711", "001842541", new Subsidion(true, 31423, 1900, 11400, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
-            this.pureData.add(new SubsidingRecivier(false, "Абакумова", "Даря", "Геннадіївна", "Харківська", "Харків", new Date(), "Naximova 44/15", "2449013711", "002842541", new Subsidion(true, 31425, 2900, 23500, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
-            this.pureData.add(new SubsidingRecivier(true, "Петренко", "Руслан", "Максимович", "Донецька", "Маріуполь", new Date(), "Peremogi 11/67", "3449013711", "003842541", new Subsidion(true, 31429, 1500, 15400, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
-            this.pureData.add(new SubsidingRecivier(true, "Теліцин", "Данило", "Віталійович", "Донецька", "Маріуполь", new Date(), "Tramvayna 88/35", "4449013711", "004842541", new Subsidion(true, 23168, 2100, 21800, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
-            this.pureData.add(new SubsidingRecivier(false, "Краснощок", "Тамара", "Валеріївна", "Запорізька", "Запоріжжя", new Date(), "Miru 92/47", "5449013711", "005842541", new Subsidion(true, 15231, 3000, 31600, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), "wrong"));
+            this.pureData.add(new SubsidingRecivier(true, "Якименко", "Микита", "Дмитрович", "Донецька", "Маріуполь", new Date(), "Zelinskogo 42/13", "1449013711", "001842541", new Subsidion(true, 31423, 1900, 11400, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), new BitmapWrapper(Utilities.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_add_24_foreground)))));
+            this.pureData.add(new SubsidingRecivier(false, "Абакумова", "Даря", "Геннадіївна", "Харківська", "Харків", new Date(), "Naximova 44/15", "2449013711", "002842541", new Subsidion(true, 31425, 2900, 23500, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), new BitmapWrapper(Utilities.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_plus_24_foreground)))));
+            this.pureData.add(new SubsidingRecivier(true, "Петренко", "Руслан", "Максимович", "Донецька", "Маріуполь", new Date(), "Peremogi 11/67", "3449013711", "003842541", new Subsidion(true, 31429, 1500, 15400, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), new BitmapWrapper(Utilities.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_man_icon_foreground)))));
+            this.pureData.add(new SubsidingRecivier(true, "Теліцин", "Данило", "Віталійович", "Донецька", "Маріуполь", new Date(), "Tramvayna 88/35", "4449013711", "004842541", new Subsidion(true, 23168, 2100, 21800, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), new BitmapWrapper(Utilities.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_man_icon_foreground)))));
+            this.pureData.add(new SubsidingRecivier(false, "Краснощок", "Тамара", "Валеріївна", "Запорізька", "Запоріжжя", new Date(), "Miru 92/47", "5449013711", "005842541", new Subsidion(true, 15231, 3000, 31600, "10.01.2019-10.01.2020", "10.01.2019-10.01.2020"), new BitmapWrapper(Utilities.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_man_icon_foreground)))));
             this.dataList.addAll(pureData);
             if (context != null) this.exportToJSON(context);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public void filter() {
         dataList.clear();
         try {
@@ -210,10 +226,12 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
     }
 
     public final static String RECIVIERS_DATA_FILENAME = "ReciviersList.json";
+    public final static String RECIVIERS_BITMAP_SET = "IMAGES_DATA.json";
     private static RecivierSubsidionHandler instance;
     private RecivierItemAdapter adapter;
     private ArrayList<SubsidingRecivier> pureData;//clear, non-filterd , full data
     private ArrayList<SubsidingRecivier> dataList;//filtered-data;
+    private ArrayList<String> bitmapList;//allBitmaps
     private RecivierFilter simpleFilter;
     private boolean aZSortMode = true;
     private Context context = null;

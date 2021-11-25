@@ -19,6 +19,27 @@
             android:orientation="vertical"
             android:padding="10dp">
 
+            <ImageView
+                android:id="@+id/edit_img_preview"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:src="@drawable/default_man_icon_foreground" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/edit_img_select_button"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="choose an Image" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp">
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_pib"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
@@ -98,6 +119,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
+                        android:focusable="false"
                         android:hint="@string/hint_birth_date"
                         android:inputType="date" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -138,12 +160,14 @@
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_street"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -151,14 +175,15 @@
                     android:hint="@string/hint_street_name"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:gravity="center_vertical"
                 android:text="@string/hint_genders_selection"
                 android:textColor="@color/paragraph_color"
-                android:textSize="16sp"
-                android:layout_margin="5dp"/>
+                android:textSize="16sp" />
 
             <RadioGroup
                 android:id="@+id/edit_genderSwitch"
@@ -172,6 +197,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:checked="true"
                     android:text="@string/gender_name_male" />
 
                 <RadioButton
@@ -224,10 +250,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:focusable="false"
                     android:hint="@string/string_arrived_diaposon"
-                    android:inputType="numberDecimal"
-                    android:focusable="false"/>
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_taken"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
@@ -235,21 +262,23 @@
                 android:layout_height="wrap_content"
 
                 android:layout_column="0">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:hint="@string/string_taken_diaposon"
-                    android:inputType="numberDecimal"
                     android:focusable="false"
-                    />
+                    android:hint="@string/string_taken_diaposon"
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:gravity="right|bottom">
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floatingActionButtonDeleteRecivier"
                 android:layout_width="wrap_content"

@@ -7,15 +7,23 @@ import androidx.core.util.Pair;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,10 +32,15 @@ import com.rrpvm.subsidioninformator.R;
 import com.rrpvm.subsidioninformator.fragments.EditElementDialog;
 import com.rrpvm.subsidioninformator.handlers.RecivierSubsidionHandler;
 import com.rrpvm.subsidioninformator.interfaces.Redirectable;
+import com.rrpvm.subsidioninformator.objects.BitmapWrapper;
 import com.rrpvm.subsidioninformator.objects.SubsidingRecivier;
+import com.rrpvm.subsidioninformator.utilities.Utilities;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class EditRecivierDataActivity extends AppCompatActivity implements Redirectable {
     @Override
@@ -58,6 +71,13 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);//back button
         actionBar.setDisplayHomeAsUpEnabled(true);//display back button
+        extras.clear();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.clear();
     }
 
     @Override
@@ -110,7 +130,7 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
         return invalid_list;
     }
 
-    private void saveChanges() {//todo: сделать saveChanges универсальным - для создания новых и сохранения имеющихся
+    private void saveChanges() {
         ArrayList<TextInputLayout> invalids = inputValidation();
         if (!invalids.isEmpty()) {
             EditElementDialog dialog = new EditElementDialog();
@@ -170,6 +190,10 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
             foundedRecivier.getSubsidionData().setCGTP(Double.parseDouble(editCGTPSize.getEditText().getText().toString()));
             foundedRecivier.getSubsidionData().setRecievRange(editArrived.getEditText().getText().toString());
             foundedRecivier.getSubsidionData().setGotRange(editTaken.getEditText().getText().toString());
+            Bitmap newBitmap = Utilities.drawableToBitmap(imagePreview.getDrawable());
+            if (foundedRecivier.getImage() == null) {
+                foundedRecivier.setImage(new BitmapWrapper(newBitmap));
+            } else foundedRecivier.getImage().setBitmap(newBitmap);
         } catch (Exception parseExecption) {
             parseExecption.printStackTrace();//не обрабатываем : todo: handle exception
             return;
@@ -211,6 +235,8 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
         editTaken = (TextInputLayout) findViewById(R.id.edit_taken);
         editPosition = (TextInputLayout) findViewById(R.id.edit_street);
         deleteActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButtonDeleteRecivier);
+        imagePreview = (ImageView) findViewById(R.id.edit_img_preview);
+        buttonSetImage = (MaterialButton) findViewById(R.id.edit_img_select_button);
     }
 
     private void fillViewWithData() {
@@ -227,6 +253,14 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
         editSubsidionID.getEditText().setText(Integer.toString(currentSubsidionRecivier.getSubsidionData().getId()));
         editJKPSize.getEditText().setText(Double.toString(currentSubsidionRecivier.getSubsidionData().getJKP()));
         editCGTPSize.getEditText().setText(Double.toString(currentSubsidionRecivier.getSubsidionData().getCGTP()));
+        Drawable imgToPresent = null;
+        Bitmap bitmap = currentSubsidionRecivier.getImage().getBitmap().get();
+        try {
+            imagePreview.setImageBitmap(bitmap);
+        } catch (Exception e) {
+            e.printStackTrace();
+            imagePreview.setImageResource(currentSubsidionRecivier.isMale() ? R.drawable.default_man_icon_foreground : R.drawable.default_women_icon_foreground);//default icon if we cant find normal image
+        }
     }
 
     private void bindListeners() {
@@ -279,6 +313,50 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
                 dialogFragment.show();
             }
         });
+        buttonSetImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                //Запускаем переход с ожиданием обратного результата в виде информации об изображении:
+                startActivityForResult(photoPickerIntent, Pick_image);
+
+            }
+        });
+        editBirthdate.getEditText().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MaterialDatePicker picker = MaterialDatePicker.Builder.datePicker().setInputMode(MaterialDatePicker.INPUT_MODE_TEXT).setSelection(MaterialDatePicker.thisMonthInUtcMilliseconds()).
+                        setTitleText(getString(R.string.datepicker_range_take)).build();
+                picker.show(getSupportFragmentManager(), editArrived.toString());
+                picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
+                    @Override
+                    public void onPositiveButtonClick(Object selection) {
+                        Long value = (Long) selection;
+                        editBirthdate.getEditText().setText(genericDateFormat.format(new Date(value)));
+                    }
+                });
+                if (editArrived.isErrorEnabled()) editArrived.setErrorEnabled(false);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        switch (requestCode) {
+            case Pick_image:
+                if (resultCode == RESULT_OK) {
+                    try {
+                        final Uri imageUri = imageReturnedIntent.getData();
+                        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                        imagePreview.setImageBitmap(selectedImage);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+        }
     }
 
     @Override
@@ -312,6 +390,8 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
     private TextInputLayout editPosition;//street
     private RadioGroup genderSwitch;//а чё, звучит мемно
     private FloatingActionButton deleteActionButton;
+    private ImageView imagePreview;
+    private MaterialButton buttonSetImage;
     /*section_end*/
     private SubsidingRecivier currentSubsidionRecivier;
     private Context context;
@@ -332,4 +412,5 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
     }
 
     public static String bundleArgumentMode = "ARG_MODE";
+    public final int Pick_image = 1;
 }

@@ -28,6 +28,7 @@ import com.rrpvm.subsidioninformator.R;
 import com.rrpvm.subsidioninformator.handlers.AuthorizationHandler;
 import com.rrpvm.subsidioninformator.objects.RecivierFilter;
 import com.rrpvm.subsidioninformator.handlers.RecivierSubsidionHandler;
+import com.rrpvm.subsidioninformator.objects.User;
 
 import java.util.Locale;
 
@@ -40,16 +41,20 @@ public class MainActivity extends AppCompatActivity {
         drawerLayoutMenu.addDrawerListener(toggle);
         toggle.syncState();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //init
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.addRecivierButton = (FloatingActionButton)findViewById(R.id.main_fab_add_recivier);
+        this.addRecivierButton = (FloatingActionButton) findViewById(R.id.main_fab_add_recivier);
         this.subsidionRecivierList = (ListView) findViewById(R.id.receivirs_list);
         this.recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();
-         //  this.recivierSubsidionHandler.bindContext(this);//debug
-         //  this.recivierSubsidionHandler.exportToJSON(this);//debug
+        if (DEBUG_RECREATE) {
+            this.recivierSubsidionHandler.bindContext(this);//debug
+            this.recivierSubsidionHandler.debugGenerateData();//debug
+            this.recivierSubsidionHandler.exportToJSON(this);//debug
+        }
         this.recivierSubsidionHandler.importFromJSON(this);
         this.recivierSubsidionHandler.bindDataToView(this, R.layout.subsidion_recivier_item);//create adapter for listview
         this.subsidionRecivierList.setAdapter(recivierSubsidionHandler.getAdapter()); //bind
@@ -73,6 +78,13 @@ public class MainActivity extends AppCompatActivity {
                         recivierSubsidionHandler.getSimpleFilter().getGenderFilter().object[1] = item.isChecked();
                         break;
                     }
+                    case R.id.logout_button: {
+                        AuthorizationHandler.getInstance().logOut();
+                        Intent loginActivityI = new Intent(MainActivity.this, LoginFormActivity.class);
+                        startActivity(loginActivityI);
+                        finish();//close this activity
+                        break;
+                    }
                     default:
                         break;
                 }
@@ -89,11 +101,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent activity_message = new Intent(MainActivity.this, EditRecivierDataActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putInt(EditRecivierDataActivity.bundleArgumentMode,EditRecivierDataActivity.EDIT_MODE.CREATE_NEW_USER.getValue() );
+                bundle.putInt(EditRecivierDataActivity.bundleArgumentMode, EditRecivierDataActivity.EDIT_MODE.CREATE_NEW_USER.getValue());
                 activity_message.putExtras(bundle);
                 startActivity(activity_message);
             }
         });
+        if (AuthorizationHandler.getInstance().getUserSession().getUserType() == User.UserType.C_USER) {
+            this.addRecivierButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     /*nav_header_menu method*/
@@ -274,6 +289,6 @@ public class MainActivity extends AppCompatActivity {
     private ListView subsidionRecivierList;
     private SearchView searchView;
     private FloatingActionButton addRecivierButton;
-
+    public static boolean DEBUG_RECREATE = false;
     //android_objects_end
 }

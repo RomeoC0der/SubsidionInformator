@@ -9,6 +9,7 @@ import com.rrpvm.subsidioninformator.utilities.JSONHelper;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 //final release of this class
 public class UserSession implements Packable {
     public UserSession() {
@@ -25,6 +26,14 @@ public class UserSession implements Packable {
 
     public String getUserName() {
         return this.userSessionData.userName;
+    }
+
+    public User.UserType getUserType() {
+        return this.userSessionData.userType;
+    }
+
+    public void setUserType(User.UserType type) {
+        this.userSessionData.userType = type;
     }
 
     public void setSessionStartTime(long newSessionStartTime) {
@@ -44,15 +53,18 @@ public class UserSession implements Packable {
         this.userSessionData.bSessionCurrent = (date.getTime() - userSessionData.sessionStartTime) <= SESSION_DURATION;
         return this.userSessionData.bSessionCurrent;
     }
+
     @Override
     public void exportToJSON(Context ctx) {
-        JSONHelper.exportToJSON(ctx, SESSION_FILENAME,this.userSessionData);
+        JSONHelper.exportToJSON(ctx, SESSION_FILENAME, this.userSessionData);
     }
+
     @Override
     public void importFromJSON(Context ctx) {
-        this.userSessionData = JSONHelper.importFromJSON(ctx, SESSION_FILENAME, new TypeToken<UserSessionData>(){},true);
-        if(this.userSessionData==null){
-            this.userSessionData=new UserSessionData();
+        this.userSessionData = JSONHelper.importFromJSON(ctx, SESSION_FILENAME, new TypeToken<UserSessionData>() {
+        }, true);
+        if (this.userSessionData == null) {
+            this.userSessionData = new UserSessionData();
         }
     }
 
@@ -62,20 +74,23 @@ public class UserSession implements Packable {
 }
 
 class UserSessionData {
-    public UserSessionData(boolean bSessionCurrent, long sessionStartTime, String userName) {
+    public UserSessionData(boolean bSessionCurrent, long sessionStartTime, String userName, User.UserType type) {
         this.bSessionCurrent = bSessionCurrent;
         this.sessionStartTime = sessionStartTime;
         this.userName = userName;
+        this.userType = type;
     }
 
     public UserSessionData() {
         bSessionCurrent = false;
         sessionStartTime = -42;
         userName = new String();
+        this.userType = User.UserType.C_USER;
     }
 
     public boolean bSessionCurrent;
     public long sessionStartTime;
     public String userName;
+    public User.UserType userType;
 }
 

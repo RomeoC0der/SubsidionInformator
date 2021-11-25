@@ -1,5 +1,6 @@
 package com.rrpvm.subsidioninformator.objects;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
@@ -8,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class SubsidingRecivier implements Serializable {
-    public SubsidingRecivier(boolean male, String surname, String name, String patronymic, String region, String city, Date birthdate, String position, String itn, String passportId, Subsidion subsidion, String image) {
+    public SubsidingRecivier(boolean male, String surname, String name, String patronymic, String region, String city, Date birthdate, String position, String itn, String passportId, Subsidion subsidion, BitmapWrapper image) {
         this.male = male;
         this.surname = surname;
         this.name = name;
@@ -22,7 +23,6 @@ public class SubsidingRecivier implements Serializable {
         this.passportId = passportId;
         this.subsidionData = subsidion;
     }
-
     public SubsidingRecivier() {
         this.male = false;
         this.surname = new String();
@@ -32,7 +32,7 @@ public class SubsidingRecivier implements Serializable {
         this.city = new String();
         this.birthdate = new Date();
         this.position = new String();
-        this.image = new String();
+        this.image = null;
         this.ITN = new String();
         this.passportId = new String();
         this.subsidionData = new Subsidion();
@@ -66,7 +66,7 @@ public class SubsidingRecivier implements Serializable {
         return birthdate;
     }
 
-    public String getImage() {
+    public BitmapWrapper getImage() {
         return image;
     }
 
@@ -143,7 +143,7 @@ public class SubsidingRecivier implements Serializable {
         this.subsidionData = subsidionData;
     }
 
-    public void setImage(String image) {
+    public void setImage(BitmapWrapper image) {
         this.image = image;
     }
 
@@ -170,5 +170,5 @@ public class SubsidingRecivier implements Serializable {
     private String passportId;//номер паспорта
     private Subsidion subsidionData;
     //RENDER DATA:
-    private String image;//path for (icon of person)
+    private BitmapWrapper image;
 }
