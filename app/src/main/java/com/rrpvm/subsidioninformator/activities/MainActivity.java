@@ -30,6 +30,9 @@ import com.rrpvm.subsidioninformator.objects.RecivierFilter;
 import com.rrpvm.subsidioninformator.handlers.RecivierSubsidionHandler;
 import com.rrpvm.subsidioninformator.objects.User;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,6 +53,14 @@ public class MainActivity extends AppCompatActivity {
         this.addRecivierButton = (FloatingActionButton) findViewById(R.id.main_fab_add_recivier);
         this.subsidionRecivierList = (ListView) findViewById(R.id.receivirs_list);
         this.recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();
+        try {
+            FileInputStream fis = openFileInput(RecivierSubsidionHandler.RECIVIERS_DATA_FILENAME);
+            fis.close();
+        } catch (Exception e) {
+            this.recivierSubsidionHandler.bindContext(this);//debug
+            this.recivierSubsidionHandler.debugGenerateData();//debug
+            this.recivierSubsidionHandler.exportToJSON(this);//debug
+        }
         if (DEBUG_RECREATE) {
             this.recivierSubsidionHandler.bindContext(this);//debug
             this.recivierSubsidionHandler.debugGenerateData();//debug
@@ -266,18 +277,10 @@ public class MainActivity extends AppCompatActivity {
                 recivierSubsidionHandler.filter();
                 // updateCounters();
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
             }
         });
-    }
-
-    public void updateCounters() { /*DEBUG ONLY*/
-        TextView header_status = findViewById(R.id.nav_header_status);
-        if (header_status != null) {
-            header_status.setText("displayed:" + recivierSubsidionHandler.getDataList().size() + "/" + recivierSubsidionHandler.getPureData().size());
-        }
     }
 
     //app_objects_start

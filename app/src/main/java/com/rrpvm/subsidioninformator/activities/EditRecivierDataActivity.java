@@ -67,6 +67,7 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
         } else {
             setTitle(getString(R.string.title_create_mode));
             deleteActionButton.setVisibility(View.INVISIBLE);
+            currentSubsidionRecivier = new SubsidingRecivier();
         }
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);//back button
@@ -155,7 +156,7 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
 
                     }
                 });
-                if (!textInputLayout.equals(editArrived) && !textInputLayout.equals(editTaken))//на них уже есть свои листенеры
+                if (!textInputLayout.equals(editArrived) && !textInputLayout.equals(editTaken) && !textInputLayout.equals(editBirthdate))//на них уже есть свои листенеры
                     textInputLayout.getEditText().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -172,7 +173,7 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
             if (position == recivierSubsidionHandler.getPureData().size()) return;//not found
             foundedRecivier = recivierSubsidionHandler.getPureData().get(position);
         } else {
-            foundedRecivier = new SubsidingRecivier();
+            foundedRecivier = currentSubsidionRecivier;
         }
         try {
             //<SetDataSelection>
@@ -190,12 +191,12 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
             foundedRecivier.getSubsidionData().setCGTP(Double.parseDouble(editCGTPSize.getEditText().getText().toString()));
             foundedRecivier.getSubsidionData().setRecievRange(editArrived.getEditText().getText().toString());
             foundedRecivier.getSubsidionData().setGotRange(editTaken.getEditText().getText().toString());
-            Bitmap newBitmap = Utilities.drawableToBitmap(imagePreview.getDrawable());
+            BitmapWrapper newBitmap = currentSubsidionRecivier.getImage();
             if (foundedRecivier.getImage() == null) {
-                foundedRecivier.setImage(new BitmapWrapper(newBitmap));
-            } else foundedRecivier.getImage().setBitmap(newBitmap);
+                foundedRecivier.setImage(newBitmap);
+            } else foundedRecivier.getImage().setBitmap(newBitmap.getBitmap());
         } catch (Exception parseExecption) {
-            parseExecption.printStackTrace();//не обрабатываем : todo: handle exception
+            parseExecption.printStackTrace();
             return;
         }
         if (this.editMode == EDIT_MODE.CREATE_NEW_USER.getValue()) {
@@ -254,7 +255,7 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
         editJKPSize.getEditText().setText(Double.toString(currentSubsidionRecivier.getSubsidionData().getJKP()));
         editCGTPSize.getEditText().setText(Double.toString(currentSubsidionRecivier.getSubsidionData().getCGTP()));
         Drawable imgToPresent = null;
-        Bitmap bitmap = currentSubsidionRecivier.getImage().getBitmap().get();
+        Bitmap bitmap = currentSubsidionRecivier.getImage().getBitmap();
         try {
             imagePreview.setImageBitmap(bitmap);
         } catch (Exception e) {
@@ -351,7 +352,9 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
                         final Uri imageUri = imageReturnedIntent.getData();
                         final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                         final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                        imagePreview.setImageBitmap(selectedImage);
+                        currentSubsidionRecivier.setImage(new BitmapWrapper(selectedImage));
+                        currentSubsidionRecivier.getImage().normalize();
+                        imagePreview.setImageBitmap(currentSubsidionRecivier.getImage().getBitmap());
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }

@@ -91,7 +91,7 @@ public class RecivierDialogInformation extends DialogFragment {
         arrivedSubsidionView.setText(this.getResources().getString(R.string.element_arrived_diaposon, subsidingRecivier.getSubsidionData().getRecievRange()));
         getSubsidionView.setText(this.getResources().getString(R.string.element_taken_diaposon, subsidingRecivier.getSubsidionData().getGotRange()));
         try {
-            Bitmap imgToPresent = subsidingRecivier.getImage().getBitmap().get();
+            Bitmap imgToPresent = subsidingRecivier.getImage().getBitmap();
             logo.setImageBitmap(imgToPresent);
         } catch (Exception e) {
             e.printStackTrace();

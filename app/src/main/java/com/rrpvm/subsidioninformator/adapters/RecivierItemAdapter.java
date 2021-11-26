@@ -62,7 +62,7 @@ public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> impleme
         birthdateView.setText(convertView.getResources().getString(R.string.datable_birthdate_string, dateFormat.format(currentReciever.getBirthdate())));
         Bitmap imgToPresent = null;
         try {
-            imgToPresent = currentReciever.getImage().getBitmap().get();
+            imgToPresent = currentReciever.getImage().getBitmap();
             recivierIconView.setImageBitmap(imgToPresent);
         } catch (Exception e) {
             e.printStackTrace();

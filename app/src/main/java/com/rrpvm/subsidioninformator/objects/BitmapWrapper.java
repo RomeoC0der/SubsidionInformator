@@ -13,21 +13,22 @@ import java.lang.ref.WeakReference;
 
 public class BitmapWrapper implements Serializable {
     private Bitmap bitmap;
-    public static final int SIZE = 200;
+    public static final double SIZE = 200;
+    private boolean normalized = false;
 
     public BitmapWrapper(Bitmap bitmap) {
-        this.bitmap = Bitmap.createScaledBitmap(bitmap, SIZE, SIZE, false);
-        // this.bitmap = bitmap;
+        this.bitmap = bitmap;
+        normalize();
     }
-
-    public WeakReference<Bitmap> getBitmap() {
-        return new WeakReference<>(bitmap);
+    public Bitmap getBitmap() {
+        return bitmap;
     }
-
     public void setBitmap(Bitmap bitmap) {
-        this.bitmap = Bitmap.createScaledBitmap(bitmap, SIZE, SIZE, false);
-        // this.bitmap = bitmap;
+        double aspectRatio = aspectRatio(bitmap);
+        //  this.bitmap = Bitmap.createScaledBitmap(bitmap, (int) (SIZE * aspectRatio), (int) SIZE, false);
+        this.bitmap = bitmap;
     }
+
     private void writeObject(ObjectOutputStream out) throws IOException {
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         boolean success = bitmap.compress(Bitmap.CompressFormat.PNG, 70, byteStream);
@@ -36,6 +37,7 @@ public class BitmapWrapper implements Serializable {
             out.write(bitmapBytes, 0, bitmapBytes.length);
         byteStream.close();
     }
+
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         int b;
@@ -43,7 +45,19 @@ public class BitmapWrapper implements Serializable {
             byteStream.write(b);
         byte bitmapBytes[] = byteStream.toByteArray();
         bitmap = BitmapFactory.decodeByteArray(bitmapBytes, 0, bitmapBytes.length);
-        bitmap = Bitmap.createScaledBitmap(bitmap, SIZE, SIZE, false);
+        // double aspectRatio = aspectRatio(bitmap);
+        // bitmap = Bitmap.createScaledBitmap(bitmap, (int) (SIZE / aspectRatio), (int) SIZE, false);
         byteStream.close();
+    }
+
+    public static double aspectRatio(Bitmap bitmap) {
+        return (double) bitmap.getWidth() / (double) bitmap.getHeight();
+    }
+    public void normalize() {
+        if (!normalized) {
+            double aspectRatio = aspectRatio(this.bitmap);
+            this.bitmap = Bitmap.createScaledBitmap(bitmap, (int) (SIZE * aspectRatio), (int) SIZE, false);
+            this.normalized = true;
+        }
     }
 }

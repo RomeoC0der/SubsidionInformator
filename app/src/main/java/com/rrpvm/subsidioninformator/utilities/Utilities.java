@@ -22,11 +22,13 @@ public class Utilities {
         encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
         return encodedImage;
     }
-
     public static Bitmap getBitmapFromString(String stringPicture) {
         byte[] decodedString = Base64.decode(stringPicture, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        return Bitmap.createScaledBitmap(decodedByte, BitmapWrapper.SIZE, BitmapWrapper.SIZE, false);
+        double aspectRatio = BitmapWrapper.aspectRatio(decodedByte);
+       // return Bitmap.createScaledBitmap(decodedByte, (int) (BitmapWrapper.SIZE*aspectRatio), (int) BitmapWrapper.SIZE, false);
+       // return Bitmap.createScaledBitmap(decodedByte, (int) (BitmapWrapper.SIZE), (int) BitmapWrapper.SIZE, false);
+        return decodedByte;
     }
 
     public static Bitmap drawableToBitmap(Drawable drawable) {
