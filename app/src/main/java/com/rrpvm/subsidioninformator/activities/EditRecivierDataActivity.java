@@ -10,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,7 +33,7 @@ import com.rrpvm.subsidioninformator.handlers.RecivierSubsidionHandler;
 import com.rrpvm.subsidioninformator.interfaces.Redirectable;
 import com.rrpvm.subsidioninformator.objects.BitmapWrapper;
 import com.rrpvm.subsidioninformator.objects.SubsidingRecivier;
-import com.rrpvm.subsidioninformator.utilities.Utilities;
+
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -139,23 +138,7 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
             for (TextInputLayout textInputLayout : invalids) {
                 textInputLayout.setError(getString(R.string.error_save_changes_failure));
                 textInputLayout.setErrorEnabled(true);
-                textInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        textInputLayout.setErrorEnabled(false);
-                        textInputLayout.getEditText().removeTextChangedListener(this);
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-
-                    }
-                });
+                setErrorDisableOnClick(textInputLayout);
                 if (!textInputLayout.equals(editArrived) && !textInputLayout.equals(editTaken) && !textInputLayout.equals(editBirthdate))//на них уже есть свои листенеры
                     textInputLayout.getEditText().setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -177,7 +160,14 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
         }
         try {
             //<SetDataSelection>
-            foundedRecivier.setSNP(textInputLayoutName.getEditText().getText().toString());
+            try {
+                foundedRecivier.setSNP(textInputLayoutName.getEditText().getText().toString().trim());
+            } catch (Exception e) {
+                textInputLayoutName.setError(e.getMessage());
+                textInputLayoutName.setErrorEnabled(true);
+                setErrorDisableOnClick(textInputLayoutName);
+                return;
+            }
             foundedRecivier.setITN(editTIN.getEditText().getText().toString());
             foundedRecivier.setPassportId(editPassportID.getEditText().getText().toString());
             foundedRecivier.setRegion(editRegion.getEditText().getText().toString());
@@ -207,6 +197,26 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
         recivierSubsidionHandler.exportToJSON(this);
         Toast.makeText(this, getText(R.string.toast_success), Toast.LENGTH_LONG).show();
         redirect();
+    }
+
+    private void setErrorDisableOnClick(TextInputLayout object) {
+        object.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                object.setErrorEnabled(false);
+                object.getEditText().removeTextChangedListener(this);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     private void deleteRecivier() {

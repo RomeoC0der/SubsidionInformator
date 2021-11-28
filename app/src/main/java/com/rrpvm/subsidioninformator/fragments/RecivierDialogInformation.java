@@ -32,9 +32,11 @@ public class RecivierDialogInformation extends DialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         ctx = context;
+
     }
 
     public Dialog onCreateDialog(Bundle saveInstanceState) {
+        PDFHelper.context = this.getContext();
         final SubsidingRecivier recivier = (SubsidingRecivier) getArguments().getSerializable("recivier_data");
         if (recivier == null) return null;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

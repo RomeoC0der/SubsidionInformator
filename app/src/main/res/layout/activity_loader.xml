@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".activities.LoaderActivity">
+    tools:context=".activities.LoaderActivity"
+    tools:viewBindingIgnore="true">
 
     <ImageView
         android:id="@+id/imageView"

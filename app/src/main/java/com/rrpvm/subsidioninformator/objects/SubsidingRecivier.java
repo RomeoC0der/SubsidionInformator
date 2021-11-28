@@ -23,6 +23,7 @@ public class SubsidingRecivier implements Serializable {
         this.passportId = passportId;
         this.subsidionData = subsidion;
     }
+
     public SubsidingRecivier() {
         this.male = false;
         this.surname = new String();
@@ -90,12 +91,18 @@ public class SubsidingRecivier implements Serializable {
         return surname + " " + name + " " + patronymic;
     }
 
-    public void setSNP(String splitedString) {//NSP-name,surname,patronomyc
+    public void setSNP(String splitedString) throws Exception {//NSP-name,surname,patronomyc
         splitedString = splitedString.trim();
         String strs[] = splitedString.split(" ");
-        name = strs[1];
-        surname = strs[0];
-        patronymic = strs[2];
+        if (strs.length <= 1) {
+            throw new Exception("full name too small(missed name or surname)");
+        } else if (strs.length == 2) {
+            surname = strs[0];
+            name = strs[1];
+        }
+        if (strs.length == 3) {
+            patronymic = strs[2];
+        }
     }
 
 

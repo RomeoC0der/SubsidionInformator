@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="nav_menu_month_select">
+        <item>"all"</item>
+        <item>січень</item>
+        <item>лютий</item>
+        <item>березень</item>
+        <item>квітень</item>
+        <item>травень</item>
+        <item>червень</item>
+        <item>липень</item>
+        <item>серпень</item>
+        <item>вересень</item>
+        <item>жовтень</item>
+        <item>листопад</item>
+        <item>грудень</item>
+    </string-array>
+    <!--different xml -->
+    <string name="app_name">Пошук отримувачів субсидій</string>
+    <string name="company_name">ДП "ІОЦ МІНСОЦПОЛІТИКИ УКРАЇНИ"</string>
+    <string name="recivier_button_more">переглянути</string>
+    <string name="recivier_button_edit">редагувати</string>
+    <!--/different xml -->
+    <!--recivier data section-->
+    <string name="string_PIB">ПІБ одержувача</string>
+
+    <!--group-->
+    <string name="gender_name_male">Чоловіча</string>
+    <string name="gender_name_female">Жіноча</string>
+    <!--/group-->
+    <!-- activity_edit_recivier_data.xml-->
+    <string name="hint_TIN_number">IНП</string>
+    <string name="hint_passport_id">Номер паспорту</string>
+    <string name="hint_subsidion_id">Номер заяви</string>
+    <string name="hint_birth_date">день народження</string>
+    <string name="hint_city_name">мiсто</string>
+    <string name="hint_region_name">область</string>
+    <string name="hint_street_name">вулиця</string>
+    <string name="hint_genders_selection">Стать</string>
+    <string name="hint_month_subsidion_size">Розмір Субсидії ЖКП За Місяць, грн</string>
+    <string name="hint_year_subsidion_size">Розмір Субсидії СГТП Річний, грн.</string>
+
+    <string name="string_arrived_diaposon">Призначено За Період</string>
+    <string name="string_taken_diaposon">Нараховано За Період</string>
+    <!-- /activity_edit_recivier_data.xml-->
+    <!-- header_menu.xml -->
+    <string name="hint_appbar_sort">сортування</string>
+    <!-- header_menu.xml -->
+
+    <!-- nav_view_content.xml-->
+    <string name="navigation_only_male">Чоловіки</string>
+    <string name="navigation_only_female">Жінки</string>
+    <string name="navigation_geolocation">розташування</string>
+    <string name="navigation_birthdate">місяць народження(назва)</string>
+    <!-- /nav_view_content.xml-->
+
+    <!-- EditRecivierDataActivity.java-->
+    <string name="dialog_warning_title">Увага</string>
+    <string name="dialog_confirm">Ok</string>
+    <string name="dialog_denied">Скасувати</string>
+    <string name="dialog_close">Закрити</string>
+    <string name="toast_success">Успіх</string>
+    <string name="toast_deleted">Успішно видалено</string>
+    <string name="datepicker_range_take">Розмір Субсидії ЖКП За Місяць, грн</string>
+    <string name="datepicker_range_send">Розмір Субсидії СГТП Річний, грн</string>
+    <string name="title_create_mode">Створення нового одержувача</string>
+    <!-- /EditRecivierDataActivity.java-->
+
+    <!--MainActivity.java-->
+    <string name="navigation_select_year">рік</string>
+    <string name="navigation_select_month">місяць</string>
+    <!--/MainActivity.java-->
+
+    <!-- RecivierItemAdapter.java-->
+    <string name="datable_region_string">Область %s</string>
+    <string name="datable_city_string">Мiсто: %s</string>
+    <string name="datable_birthdate_string">День народження: %s</string>
+    <!-- /RecivierItemAdapter-->
+
+    <!-- RecivierDialogInformation.java-->
+    <string name="dialog_confirm_export_pdf">Експортувати в PDF</string>
+    <string name="dialog_confirm_close">Закрити</string>
+    <!-- /RecivierItemAdapter-->
+
+    <!-- can be generic : RecivierDialogInformation.java -->
+    <string name="element_tin_number">Ідентифікаційні номери платника податків: %s</string>
+    <string name="element_passport_ID">паспорт ID: %s</string>
+    <string name="element_subsidion_ID">номер заяви: %d</string>
+    <string name="element_subsidion_statement">стан субсидії: %s</string>
+    <string name="element_geodata">geolocation: %s</string>
+    <string name="element_subsidion_statement_true">працює</string>
+    <string name="element_subsidion_statement_false">не працює</string>
+    <string name="element_month_subsidion_size">Розмір Субсидії ЖКП За Місяць, грн: %.2f</string>
+    <string name="element_year_subsidion_size">Розмір Субсидії СГТП Річний, грн: %.2f</string>
+    <string name="element_arrived_diaposon">Призначено За Період: %s</string>
+    <string name="element_taken_diaposon">Нараховано За Період: %s</string>
+    <!--/ can be generic -->
+    <!-- Toasts -->
+    <string name="toast_document_saved">Експортовано до папки «Документи».</string>
+    <!-- /Toasts -->
+    <!-- errors-->
+    <string name="error_save_changes_failure">заповніть це поле!</string>
+    <!-- LoginFormActivity.java-->
+    <string name="error_characters_too_small">логін або пароль повинні містити більше 4 символів</string>
+    <string name="error_data_incorrect">ім\'я користувача або пароль неправильні</string>
+    <!-- /LoginFormActivity.java-->
+    <!-- /errors-->
+    <string name="title_dialog_more_information">Дані</string>
+
+    <!--EditElementDialog.java-->
+    <string name="dialog_title_edit_warning">Увага</string>
+    <string name="dialog_edit_message">Ви повинні заповнити всі поля</string>
+    <!--/EditElementDialog.java-->
+
+
+</resources>

@@ -12,14 +12,21 @@
         <entry key="..\:/kursovayaFinal/app/src/main/res/drawable/female_gender_icon_background.xml" value="0.3402777777777778" />
         <entry key="..\:/kursovayaFinal/app/src/main/res/drawable/gerb_background.xml" value="0.3828125" />
         <entry key="..\:/kursovayaFinal/app/src/main/res/drawable/gerb_foreground.xml" value="0.3828125" />
+        <entry key="..\:/kursovayaFinal/app/src/main/res/drawable/ic_add_24_background.xml" value="0.18425925925925926" />
         <entry key="..\:/kursovayaFinal/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.3828125" />
         <entry key="..\:/kursovayaFinal/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3828125" />
         <entry key="..\:/kursovayaFinal/app/src/main/res/drawable/ic_login.xml" value="0.3828125" />
         <entry key="..\:/kursovayaFinal/app/src/main/res/drawable/ic_main_logo_background.xml" value="0.3828125" />
         <entry key="..\:/kursovayaFinal/app/src/main/res/drawable/ic_main_logo_foreground.xml" value="0.3828125" />
+        <entry key="..\:/kursovayaFinal/app/src/main/res/drawable/ic_sort_24_background.xml" value="0.18425925925925926" />
+        <entry key="..\:/kursovayaFinal/app/src/main/res/drawable/ic_sort_24_foreground.xml" value="0.18425925925925926" />
+        <entry key="..\:/kursovayaFinal/app/src/main/res/drawable/male_gender_icon_foreground.xml" value="0.18425925925925926" />
+        <entry key="..\:/kursovayaFinal/app/src/main/res/drawable/pdf_header.xml" value="0.3402777777777778" />
+        <entry key="..\:/kursovayaFinal/app/src/main/res/drawable/pdf_header_image_background.xml" value="0.18425925925925926" />
         <entry key="..\:/kursovayaFinal/app/src/main/res/drawable/sort_button_background.xml" value="0.3402777777777778" />
         <entry key="..\:/kursovayaFinal/app/src/main/res/drawable/ukr_gradient.xml" value="0.3828125" />
         <entry key="..\:/kursovayaFinal/app/src/main/res/drawable/view_bottom_line.xml" value="0.31302083333333336" />
+        <entry key="..\:/kursovayaFinal/app/src/main/res/font/chivo.xml" value="0.21944444444444444" />
         <entry key="..\:/kursovayaFinal/app/src/main/res/font/monteserrat.xml" value="0.3277777777777778" />
         <entry key="..\:/kursovayaFinal/app/src/main/res/layout/activity_edit_recivier_data.xml" value="0.25" />
         <entry key="..\:/kursovayaFinal/app/src/main/res/layout/activity_loader.xml" value="0.22" />

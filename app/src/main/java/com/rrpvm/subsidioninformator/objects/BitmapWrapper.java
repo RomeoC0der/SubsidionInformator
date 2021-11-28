@@ -2,6 +2,7 @@ package com.rrpvm.subsidioninformator.objects;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Pair;
 
 
 import java.io.ByteArrayOutputStream;
@@ -13,20 +14,41 @@ import java.lang.ref.WeakReference;
 
 public class BitmapWrapper implements Serializable {
     private Bitmap bitmap;
-    public static final double SIZE = 200;
     private boolean normalized = false;
+    public static final double SIZE = 200;
 
     public BitmapWrapper(Bitmap bitmap) {
         this.bitmap = bitmap;
         normalize();
     }
-    public Bitmap getBitmap() {
-        return bitmap;
+
+    public BitmapWrapper(BitmapWrapper wrapper) {
+        this.bitmap = wrapper.bitmap;
+        this.normalized = wrapper.normalized;
     }
-    public void setBitmap(Bitmap bitmap) {
-        double aspectRatio = aspectRatio(bitmap);
-        //  this.bitmap = Bitmap.createScaledBitmap(bitmap, (int) (SIZE * aspectRatio), (int) SIZE, false);
-        this.bitmap = bitmap;
+
+
+    public void scaleTo(int width, int height) {
+        bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+    }
+    //16:9, width = 200 -> height = 200 /16/9 ->112,5.  width = height * 16/9
+    public void scaleWithAspectRatio(int maxHeight){
+        double aspect = aspectRatio(bitmap);
+        int height = maxHeight;
+        int width = (int)(height*aspect);
+        scaleTo(width,height);
+    }
+
+    public static double aspectRatio(Bitmap bitmap) {
+        return (double) bitmap.getWidth() / (double) bitmap.getHeight();
+    }
+
+    public void normalize() {
+        if (!normalized) {
+            double aspectRatio = aspectRatio(this.bitmap);
+            this.bitmap = Bitmap.createScaledBitmap(bitmap, (int) (SIZE * aspectRatio), (int) SIZE, false);
+            this.normalized = true;
+        }
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
@@ -50,14 +72,11 @@ public class BitmapWrapper implements Serializable {
         byteStream.close();
     }
 
-    public static double aspectRatio(Bitmap bitmap) {
-        return (double) bitmap.getWidth() / (double) bitmap.getHeight();
+    public Bitmap getBitmap() {
+        return bitmap;
     }
-    public void normalize() {
-        if (!normalized) {
-            double aspectRatio = aspectRatio(this.bitmap);
-            this.bitmap = Bitmap.createScaledBitmap(bitmap, (int) (SIZE * aspectRatio), (int) SIZE, false);
-            this.normalized = true;
-        }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 }

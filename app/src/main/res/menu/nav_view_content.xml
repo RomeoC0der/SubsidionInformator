@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <group android:checkableBehavior="none">
         <item
             android:id="@+id/menu_switch_men"
-            android:icon="@drawable/male_gender_icon_foreground"
-            android:title="@string/navigation_only_male"
             android:checked="true"
-            />
+            android:icon="@drawable/male_gender_icon_foreground"
+            android:title="@string/navigation_only_male" />
+
         <item
             android:id="@+id/menu_switch_women"
-            android:icon="@drawable/female_gender_icon_foreground"
-            android:title="@string/navigation_only_female"
             android:checked="true"
-           />
+            android:icon="@drawable/female_gender_icon_foreground"
+            android:title="@string/navigation_only_female" />
     </group>
     <group android:checkableBehavior="single">
         <item android:title="@string/navigation_geolocation">
@@ -22,30 +22,40 @@
                     android:id="@+id/menu_region_selector"
                     android:title=""
                     app:actionLayout="@layout/menu_input_filter"
-                    app:showAsAction="always"/>
+                    app:showAsAction="always" />
                 <item
                     android:id="@+id/menu_city_selector"
                     android:title=""
                     app:actionLayout="@layout/menu_input_filter"
-                    app:showAsAction="always"/>
+                    app:showAsAction="always" />
             </menu>
         </item>
     </group>
     <group android:checkableBehavior="single">
-        <item  android:title="@string/navigation_birthdate">
+        <item android:title="@string/navigation_birthdate">
             <menu>
                 <item
                     android:id="@+id/menu_birthdate_fill_year"
                     android:title=""
                     app:actionLayout="@layout/menu_input_filter"
-                    app:showAsAction="always"/>
+                    app:showAsAction="always" />
                 <item
                     android:id="@+id/menu_birthdate_fill_month"
                     android:title=""
                     app:actionLayout="@layout/menu_birthdate_input"
-                    app:showAsAction="always"/>
+                    app:showAsAction="always" />
             </menu>
         </item>
     </group>
-    <item android:id="@+id/logout_button" android:title="Log out" />
+    <group android:checkableBehavior="single">
+        <item android:title="Misc">
+            <menu>
+                <item
+                    android:id="@+id/logout_button"
+                    android:title="Log out" />
+            </menu>
+        </item>
+    </group>
+
+
 </menu>

@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -14,118 +15,74 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.rrpvm.subsidioninformator.R;
+import com.rrpvm.subsidioninformator.databinding.ActivityMainBinding;
 import com.rrpvm.subsidioninformator.handlers.AuthorizationHandler;
 import com.rrpvm.subsidioninformator.objects.RecivierFilter;
 import com.rrpvm.subsidioninformator.handlers.RecivierSubsidionHandler;
 import com.rrpvm.subsidioninformator.objects.User;
-
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+
     private void configSideMenu() {
-        this.drawerLayoutMenu = (DrawerLayout) findViewById(R.id.drawer_layout);
-        this.toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar); // устанавливаем тулбар как экшн бар
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, this.drawerLayoutMenu, this.toolbar, 0, 0);//вспомогательная кнопка для навбара
         drawerLayoutMenu.addDrawerListener(toggle);
         toggle.syncState();
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //init
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        this.addRecivierButton = (FloatingActionButton) findViewById(R.id.main_fab_add_recivier);
-        this.subsidionRecivierList = (ListView) findViewById(R.id.receivirs_list);
-        this.recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();
-        try {
-            FileInputStream fis = openFileInput(RecivierSubsidionHandler.RECIVIERS_DATA_FILENAME);
-            fis.close();
-        } catch (Exception e) {
-            this.recivierSubsidionHandler.bindContext(this);//debug
-            this.recivierSubsidionHandler.debugGenerateData();//debug
-            this.recivierSubsidionHandler.exportToJSON(this);//debug
-        }
-        if (DEBUG_RECREATE) {
-            this.recivierSubsidionHandler.bindContext(this);//debug
-            this.recivierSubsidionHandler.debugGenerateData();//debug
-            this.recivierSubsidionHandler.exportToJSON(this);//debug
-        }
-        this.recivierSubsidionHandler.importFromJSON(this);
-        this.recivierSubsidionHandler.bindDataToView(this, R.layout.subsidion_recivier_item);//create adapter for listview
-        this.subsidionRecivierList.setAdapter(recivierSubsidionHandler.getAdapter()); //bind
-        configSideMenu();//sidebar
-        NavigationView view = (NavigationView) findViewById(R.id.navigation_view);
-        TextView header_status = (TextView) (view.getHeaderView(0)).findViewById(R.id.nav_header_status);
-        header_status.setText(AuthorizationHandler.getInstance().getUserSession().getUserName());//в меню устанавливаем имя пользователя (RELEASE MODE)
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        //end binding
+        //you can remove these:
+        this.addRecivierButton = binding.mainFabAddRecivier;
+        this.subsidionRecivierList = binding.receivirsList;
+        this.drawerLayoutMenu = binding.drawerLayout;
+        this.toolbar = binding.toolbar;
+        //stop delete
+        this.setupDataJSON();
+        RecivierSubsidionHandler recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();
+        recivierSubsidionHandler.bindDataToView(this, R.layout.subsidion_recivier_item);//create adapter for listview
+        this.subsidionRecivierList.setAdapter(recivierSubsidionHandler.getAdapter());//set adapter
+        configSideMenu();//sidebar setup
+        NavigationView view = binding.navigationView;
+        this.setupNavigationViewItems(view.getMenu());
         view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.menu_switch_men: {
-                        if (item.isChecked()) item.setChecked(false);
-                        else item.setChecked(true);
-                        recivierSubsidionHandler.getSimpleFilter().getGenderFilter().object[0] = item.isChecked();
-                        break;
-                    }
-                    case R.id.menu_switch_women: {
-                        if (item.isChecked()) item.setChecked(false);
-                        else item.setChecked(true);
-                        recivierSubsidionHandler.getSimpleFilter().getGenderFilter().object[1] = item.isChecked();
-                        break;
-                    }
-                    case R.id.logout_button: {
-                        AuthorizationHandler.getInstance().logOut();
-                        Intent loginActivityI = new Intent(MainActivity.this, LoginFormActivity.class);
-                        startActivity(loginActivityI);
-                        finish();//close this activity
-                        break;
-                    }
-                    default:
-                        break;
-                }
-                recivierSubsidionHandler.filter();
-                // updateCounters();
-                return true;
+                return onNavigationViewItemSelected(item);
             }
         });
-        Menu nav_menu = view.getMenu();
-        this.setupNavigationViewItems(nav_menu);
-        this.recivierSubsidionHandler.sortData();
         this.addRecivierButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent activity_message = new Intent(MainActivity.this, EditRecivierDataActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt(EditRecivierDataActivity.bundleArgumentMode, EditRecivierDataActivity.EDIT_MODE.CREATE_NEW_USER.getValue());
-                activity_message.putExtras(bundle);
-                startActivity(activity_message);
+                onAddRecivierButtonClick();
             }
         });
         if (AuthorizationHandler.getInstance().getUserSession().getUserType() == User.UserType.C_USER) {
             this.addRecivierButton.setVisibility(View.INVISIBLE);
         }
+        recivierSubsidionHandler.sortData();
     }
 
     /*nav_header_menu method*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.header_menu, menu);
+        RecivierSubsidionHandler recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();
         searchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -152,11 +109,12 @@ public class MainActivity extends AppCompatActivity {
     /*nav_header_menu method*/
     @Override
     public boolean onOptionsItemSelected(MenuItem menu_item) {
+        RecivierSubsidionHandler recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();
         int id = menu_item.getItemId();
         switch (id) {
             case R.id.app_bar_sort: {
-                this.recivierSubsidionHandler.setaZSortMode(!this.recivierSubsidionHandler.isaZSortMode());
-                this.recivierSubsidionHandler.sortData();
+                recivierSubsidionHandler.setaZSortMode(!recivierSubsidionHandler.isaZSortMode());
+                recivierSubsidionHandler.sortData();
                 break;
             }
             default: {
@@ -167,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupNavigationViewItems(Menu menu) {
+        RecivierSubsidionHandler recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();
         MenuItem city_selector = menu.findItem(R.id.menu_city_selector);
         MenuItem region_selector = menu.findItem(R.id.menu_region_selector);
         MenuItem year_selector = menu.findItem(R.id.menu_birthdate_fill_year);
@@ -257,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
 
-            @Override /*ITS IMPLEMENTATION 3, on my mind - the best*/
+            @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String[] data = charSequence.toString().trim().toLowerCase(Locale.ROOT).split(",");
                 String[] allMonths = getResources().getStringArray(R.array.nav_menu_month_select);
@@ -266,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                     for (String substr : data) {
                         for (int x = 1; x < allMonths.length; x++) {
                             if (allMonths[x].contains(substr)) {
-                                result += Integer.toString(x - 1) + ",";
+                                result += x - 1 + ",";
                             }
                         }
                     }
@@ -277,21 +236,77 @@ public class MainActivity extends AppCompatActivity {
                 recivierSubsidionHandler.filter();
                 // updateCounters();
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
             }
         });
     }
 
-    //app_objects_start
-    private RecivierSubsidionHandler recivierSubsidionHandler;//but it's stil Singleton(we store only the link)
+    private boolean onNavigationViewItemSelected(@NonNull MenuItem item) {
+        RecivierSubsidionHandler recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();
+        switch (item.getItemId()) {
+            case R.id.menu_switch_men: {
+                item.setChecked(!item.isChecked());
+                recivierSubsidionHandler.getSimpleFilter().getGenderFilter().object[0] = item.isChecked();
+                break;
+            }
+            case R.id.menu_switch_women: {
+                item.setChecked(!item.isChecked());
+                recivierSubsidionHandler.getSimpleFilter().getGenderFilter().object[1] = item.isChecked();
+                break;
+            }
+            case R.id.logout_button: {
+                AuthorizationHandler.getInstance().logOut();
+                Intent loginActivityI = new Intent(MainActivity.this, LoginFormActivity.class);
+                startActivity(loginActivityI);
+                finish();
+                break;
+            }
+            default:
+                break;
+        }
+        recivierSubsidionHandler.filter();
+        return true;
+    }
+
+    private void setupDataJSON() {
+        RecivierSubsidionHandler recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();
+        if (DEBUG_RECREATE) {
+            recivierSubsidionHandler.bindContext(this);//debug
+            recivierSubsidionHandler.debugGenerateData();//debug
+            recivierSubsidionHandler.exportToJSON(this);//debug
+        } else {
+            try {
+                FileInputStream fis = openFileInput(RecivierSubsidionHandler.RECIVIERS_DATA_FILENAME);
+                fis.close();
+            } catch (Exception e) {//если файла не было - создаем с данными
+                recivierSubsidionHandler.bindContext(this);
+                recivierSubsidionHandler.debugGenerateData();
+                recivierSubsidionHandler.exportToJSON(this);
+            }
+        }
+        recivierSubsidionHandler.importFromJSON(this);
+    }
+
+    private void onAddRecivierButtonClick() {
+        Intent activity_message = new Intent(MainActivity.this, EditRecivierDataActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt(EditRecivierDataActivity.bundleArgumentMode, EditRecivierDataActivity.EDIT_MODE.CREATE_NEW_USER.getValue());
+        activity_message.putExtras(bundle);
+        startActivity(activity_message);
+        //dont finish this activity!! (we dont create new MainActivity in EditRecivierDataActivity, we only finish them);
+    }
+
     //app_objects_end
     //android_objects_start
-    private DrawerLayout drawerLayoutMenu;
-    private Toolbar toolbar;
-    private ListView subsidionRecivierList;
-    private SearchView searchView;
-    private FloatingActionButton addRecivierButton;
+    private DrawerLayout drawerLayoutMenu;//get's from binding
+    private Toolbar toolbar;//get's from binding
+    private ListView subsidionRecivierList;//get's from binding
+    private SearchView searchView;//get's from binding
+    private FloatingActionButton addRecivierButton;//get's from binding
+
+    private ActivityMainBinding binding;//gradle->viewBinding
     public static boolean DEBUG_RECREATE = false;
     //android_objects_end
 }
