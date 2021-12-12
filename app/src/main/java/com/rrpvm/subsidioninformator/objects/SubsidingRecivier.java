@@ -1,9 +1,6 @@
 package com.rrpvm.subsidioninformator.objects;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 
-import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -96,7 +93,8 @@ public class SubsidingRecivier implements Serializable {
         String strs[] = splitedString.split(" ");
         if (strs.length <= 1) {
             throw new Exception("full name too small(missed name or surname)");
-        } else if (strs.length == 2) {
+
+        } if (strs.length >= 2) {
             surname = strs[0];
             name = strs[1];
         }

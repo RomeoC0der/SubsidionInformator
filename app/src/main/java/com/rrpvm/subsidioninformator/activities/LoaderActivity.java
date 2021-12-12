@@ -57,6 +57,7 @@ public class LoaderActivity extends AppCompatActivity implements Redirectable {
                 } else {
                     Toast.makeText(this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
                 }
+               // redirect();
                 break;
             }
             case EXTERNAL_STORAGE_WRITE_PERMISSION_CODE: {
@@ -65,10 +66,11 @@ public class LoaderActivity extends AppCompatActivity implements Redirectable {
                 } else {
                     Toast.makeText(this, "Permission denied to write your External storage", Toast.LENGTH_SHORT).show();
                 }
-                redirect();
+             //   redirect();
                 break;
             }
         }
+        redirect();
     }
 
     private boolean checkIfAlreadyGrantedPermission(final String permissionName) {

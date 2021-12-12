@@ -16,7 +16,7 @@
         <item>December</item>
     </string-array>
     <!--different xml -->
-    <string name="app_name">SSH</string>
+    <string name="app_name">Sub Search</string>
     <string name="company_name">ДП "ІОЦ МІНСОЦПОЛІТИКИ УКРАЇНИ"</string>
     <string name="recivier_button_more">view</string>
     <string name="recivier_button_edit">edit</string>
@@ -37,8 +37,6 @@
     <string name="hint_region_name">Region</string>
     <string name="hint_street_name">Street</string>
     <string name="hint_genders_selection">Gender</string>
-    <string name="hint_month_subsidion_size">Розмір Субсидії ЖКП За Місяць, грн</string>
-    <string name="hint_year_subsidion_size">Розмір Субсидії СГТП Річний, грн.</string>
     
     <string name="string_arrived_diaposon">Arrived</string>
     <string name="string_taken_diaposon">Taken</string>
@@ -59,7 +57,7 @@
     <string name="dialog_confirm">Ok</string>
     <string name="dialog_denied">Cancel</string>
     <string name="dialog_close">Close</string>
-    <string name="toast_success">Sucess</string>
+    <string name="toast_success">Success</string>
     <string name="toast_deleted">Deleted successfully</string>
     <string name="datepicker_range_take">Arrived range</string>
     <string name="datepicker_range_send">Taken range</string>
@@ -90,10 +88,14 @@
     <string name="element_geodata">geolocation: %s</string>
     <string name="element_subsidion_statement_true">working</string>
     <string name="element_subsidion_statement_false">not work</string>
-    <string name="element_month_subsidion_size">Розмір Субсидії ЖКП За Місяць, грн: %.2f</string>
-    <string name="element_year_subsidion_size">Розмір Субсидії СГТП Річний, грн: %.2f</string>
+    <string name="element_month_subsidion_size">Value of subsidion in month, UAH: %.2f</string>
+    <string name="element_year_subsidion_size">Value of subsidion in year, UAH: %.2f</string>
     <string name="element_arrived_diaposon">Arrived: %s</string>
     <string name="element_taken_diaposon">Taken: %s</string>
+
+
+    <string name="hint_month_subsidion_size">Value of subsidion in month, UAH</string>
+    <string name="hint_year_subsidion_size">Value of subsidion in year, UAH.</string>
     <!--/ can be generic -->
     <!-- Toasts -->
     <string name="toast_document_saved">Exported to Documents folder</string>
@@ -112,4 +114,11 @@
     <string name="dialog_edit_message">You must fill all fields</string>
     <!--/EditElementDialog.java-->
 
+
+    <string name="string_header_greetings">Welcome back</string>
+    <string name="login_form_log_text">login</string>
+    <string name="login_form_pass_text">password</string>
+    <string name="login_form_access">log in</string>
+    <string name="sidebar_log_out">log out</string>
+    <string name="edit_img_select">select an image</string>
 </resources>

@@ -31,9 +31,9 @@ public class LoginFormActivity extends AppCompatActivity implements Redirectable
         loginForm = binding.loginForm;
         passwordForm = binding.passwordForm;
         debugFillUsers();//!release only -> provides creating data and export to json
-        AuthorizationHandler authorizationHandler = AuthorizationHandler.getInstance();//хто був ответственный за авторизацию?
+        AuthorizationHandler authorizationHandler = AuthorizationHandler.getInstance();
         authorizationHandler.importFromJSON(this);//take data of users(release)
-        if (authorizationHandler.getUserSession().calculateSessionStatement()) {   //did we import current statement?(return true if current)
+        if (authorizationHandler.getUserSession().calculateSessionStatement()) {
             redirect();
             return;
         }

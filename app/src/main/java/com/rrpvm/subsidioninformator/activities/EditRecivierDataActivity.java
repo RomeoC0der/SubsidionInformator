@@ -33,6 +33,7 @@ import com.rrpvm.subsidioninformator.handlers.RecivierSubsidionHandler;
 import com.rrpvm.subsidioninformator.interfaces.Redirectable;
 import com.rrpvm.subsidioninformator.objects.BitmapWrapper;
 import com.rrpvm.subsidioninformator.objects.SubsidingRecivier;
+import com.rrpvm.subsidioninformator.utilities.Utilities;
 
 
 import java.io.FileNotFoundException;
@@ -133,8 +134,8 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
     private void saveChanges() {
         ArrayList<TextInputLayout> invalids = inputValidation();
         if (!invalids.isEmpty()) {
-            EditElementDialog dialog = new EditElementDialog();
-            dialog.show(getFragmentManager(), "custom");
+            // EditElementDialog dialog = new EditElementDialog();
+            // dialog.show(getFragmentManager(), "custom");
             for (TextInputLayout textInputLayout : invalids) {
                 textInputLayout.setError(getString(R.string.error_save_changes_failure));
                 textInputLayout.setErrorEnabled(true);
@@ -150,10 +151,10 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
             return;
         }
         SubsidingRecivier foundedRecivier = null;
-        RecivierSubsidionHandler recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();//singleton в деле
+        RecivierSubsidionHandler recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();
         if (this.editMode == EDIT_MODE.EDIT_EXIST_USER.getValue()) {
             int position = RecivierSubsidionHandler.getInstance().getIdInPureData(currentSubsidionRecivier);
-            if (position == recivierSubsidionHandler.getPureData().size()) return;//not found
+            if (position == recivierSubsidionHandler.getPureData().size()) return;
             foundedRecivier = recivierSubsidionHandler.getPureData().get(position);
         } else {
             foundedRecivier = currentSubsidionRecivier;
@@ -168,6 +169,7 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
                 setErrorDisableOnClick(textInputLayoutName);
                 return;
             }
+            foundedRecivier.setSNP(textInputLayoutName.getEditText().getText().toString());
             foundedRecivier.setITN(editTIN.getEditText().getText().toString());
             foundedRecivier.setPassportId(editPassportID.getEditText().getText().toString());
             foundedRecivier.setRegion(editRegion.getEditText().getText().toString());
@@ -181,10 +183,21 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
             foundedRecivier.getSubsidionData().setCGTP(Double.parseDouble(editCGTPSize.getEditText().getText().toString()));
             foundedRecivier.getSubsidionData().setRecievRange(editArrived.getEditText().getText().toString());
             foundedRecivier.getSubsidionData().setGotRange(editTaken.getEditText().getText().toString());
-            BitmapWrapper newBitmap = currentSubsidionRecivier.getImage();
+           /* BitmapWrapper newBitmap = currentSubsidionRecivier.getImage();
             if (foundedRecivier.getImage() == null) {
                 foundedRecivier.setImage(newBitmap);
-            } else foundedRecivier.getImage().setBitmap(newBitmap.getBitmap());
+            } else foundedRecivier.getImage().setBitmap(newBitmap.getBitmap());*/
+            if(foundedRecivier.getImage() == null){
+                if(currentSubsidionRecivier.getImage() == null){
+                    foundedRecivier.setImage(new BitmapWrapper(Utilities.drawableToBitmap(context.getResources().getDrawable(foundedRecivier.isMale() ? R.drawable.default_man_icon_foreground : R.drawable.default_women_icon_foreground))));
+                }
+                else{
+                    foundedRecivier.setImage(currentSubsidionRecivier.getImage());
+                }
+            }
+            else{
+                foundedRecivier.getImage().setBitmap(currentSubsidionRecivier.getImage().getBitmap());
+            }
         } catch (Exception parseExecption) {
             parseExecption.printStackTrace();
             return;
@@ -220,7 +233,7 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
     }
 
     private void deleteRecivier() {
-        RecivierSubsidionHandler recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();//singleton в деле
+        RecivierSubsidionHandler recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();
         int position = RecivierSubsidionHandler.getInstance().getIdInPureData(currentSubsidionRecivier);
         if (position == recivierSubsidionHandler.getPureData().size()) return;//not found
         recivierSubsidionHandler.getPureData().remove(position);
@@ -382,8 +395,7 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                finish(); //->this works fine, мы не создаем новый объект мейн активити
-                //  EditRecivierDataActivity.super.onBackPressed();//finish activity
+                finish();
             }
         }.start();
     }
@@ -400,8 +412,8 @@ public class EditRecivierDataActivity extends AppCompatActivity implements Redir
     private TextInputLayout editCGTPSize;
     private TextInputLayout editArrived;
     private TextInputLayout editTaken;
-    private TextInputLayout editPosition;//street
-    private RadioGroup genderSwitch;//а чё, звучит мемно
+    private TextInputLayout editPosition;
+    private RadioGroup genderSwitch;
     private FloatingActionButton deleteActionButton;
     private ImageView imagePreview;
     private MaterialButton buttonSetImage;

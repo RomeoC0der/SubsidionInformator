@@ -29,6 +29,7 @@ import com.rrpvm.subsidioninformator.handlers.AuthorizationHandler;
 import com.rrpvm.subsidioninformator.objects.RecivierFilter;
 import com.rrpvm.subsidioninformator.handlers.RecivierSubsidionHandler;
 import com.rrpvm.subsidioninformator.objects.User;
+
 import java.io.FileInputStream;
 import java.util.Locale;
 
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayoutMenu.addDrawerListener(toggle);
         toggle.syncState();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //init
@@ -135,8 +137,8 @@ public class MainActivity extends AppCompatActivity {
         TextInputLayout til_year_selector = (TextInputLayout) year_selector.getActionView();
         TextInputLayout til_month_selector = (TextInputLayout) month_selector.getActionView();
         AutoCompleteTextView view_month_selector = til_month_selector.findViewById(R.id.menu_birthdate_month_autocomplete);
-        til_region_selector.setHint(R.string.hint_region_name);//использование 1 и того же ресурса
-        til_city_selector.setHint(R.string.hint_city_name);//использование 1 и того же ресурса
+        til_region_selector.setHint(R.string.hint_region_name);
+        til_city_selector.setHint(R.string.hint_city_name);
         til_year_selector.setHint(R.string.navigation_select_year);
         view_month_selector.setHint(R.string.navigation_select_month);
         til_year_selector.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -157,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
                 } else
                     recivierSubsidionHandler.getSimpleFilter().getCityFilter().state = RecivierFilter.statement.CLEAR;
                 recivierSubsidionHandler.filter();
-                //   updateCounters();
             }
 
             @Override
@@ -179,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
                 } else
                     recivierSubsidionHandler.getSimpleFilter().getOblastFilter().state = RecivierFilter.statement.CLEAR;
                 recivierSubsidionHandler.filter();
-                //  updateCounters();
             }
 
             @Override
@@ -204,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
                 } else
                     recivierSubsidionHandler.getSimpleFilter().getBirth_year().state = RecivierFilter.statement.CLEAR;
                 recivierSubsidionHandler.filter();
-                // updateCounters();
             }
 
             @Override
@@ -234,7 +233,6 @@ public class MainActivity extends AppCompatActivity {
                 } else
                     recivierSubsidionHandler.getSimpleFilter().getBirth_month().state = RecivierFilter.statement.CLEAR;
                 recivierSubsidionHandler.filter();
-                // updateCounters();
             }
 
             @Override
@@ -272,19 +270,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupDataJSON() {
         RecivierSubsidionHandler recivierSubsidionHandler = RecivierSubsidionHandler.getInstance();
-        if (DEBUG_RECREATE) {
-            recivierSubsidionHandler.bindContext(this);//debug
-            recivierSubsidionHandler.debugGenerateData();//debug
-            recivierSubsidionHandler.exportToJSON(this);//debug
-        } else {
-            try {
-                FileInputStream fis = openFileInput(RecivierSubsidionHandler.RECIVIERS_DATA_FILENAME);
-                fis.close();
-            } catch (Exception e) {//если файла не было - создаем с данными
-                recivierSubsidionHandler.bindContext(this);
-                recivierSubsidionHandler.debugGenerateData();
-                recivierSubsidionHandler.exportToJSON(this);
-            }
+        try {
+            FileInputStream fis = openFileInput(RecivierSubsidionHandler.RECIVIERS_DATA_FILENAME);
+            fis.close();
+        } catch (Exception e) {//если файла не было - создаем с данными
+            recivierSubsidionHandler.bindContext(this);
+            recivierSubsidionHandler.debugGenerateData();
+            recivierSubsidionHandler.exportToJSON(this);
         }
         recivierSubsidionHandler.importFromJSON(this);
     }
@@ -307,6 +299,5 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton addRecivierButton;//get's from binding
 
     private ActivityMainBinding binding;//gradle->viewBinding
-    public static boolean DEBUG_RECREATE = false;
     //android_objects_end
 }

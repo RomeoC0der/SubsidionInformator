@@ -1,0 +1,385 @@
+@startuml
+class com.rrpvm.subsidioninformator.activities.MainActivity {
+- DrawerLayout drawerLayoutMenu
+- Toolbar toolbar
+- ListView subsidionRecivierList
+- SearchView searchView
+- FloatingActionButton addRecivierButton
+- ActivityMainBinding binding
+- void configSideMenu()
+# void onCreate(Bundle)
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(MenuItem)
+- void setupNavigationViewItems(Menu)
+- boolean onNavigationViewItemSelected(MenuItem)
+- void setupDataJSON()
+- void onAddRecivierButtonClick()
+}
+class com.rrpvm.subsidioninformator.objects.Subsidion {
+- boolean statement
+- int id
+- double JKP
+- double CGTP
+- String recievRange
+- String gotRange
++ <<Create>> Subsidion()
++ <<Create>> Subsidion(boolean,int,double,double,String,String)
++ boolean getStatement()
++ int getId()
++ double getJKP()
++ double getCGTP()
++ String getRecievRange()
++ void setStatement(boolean)
++ void setId(int)
++ void setJKP(double)
++ void setCGTP(double)
++ void setRecievRange(String)
++ String getGotRange()
++ void setGotRange(String)
+}
+class com.rrpvm.subsidioninformator.fragments.EditElementDialog {
++ void onAttach(Context)
++ void onDismiss(DialogInterface)
++ Dialog onCreateDialog(Bundle)
+}
+class com.rrpvm.subsidioninformator.objects.ComparatorUp {
++ int compare(SubsidingRecivier,SubsidingRecivier)
+}
+class com.rrpvm.subsidioninformator.objects.UserSession {
++ {static} int SESSION_DURATION
++ {static} String SESSION_FILENAME
+- UserSessionData userSessionData
++ <<Create>> UserSession()
++ long getSessionStartTime()
++ boolean isSessionCurrent()
++ String getUserName()
++ User.UserType getUserType()
++ void setUserType(User.UserType)
++ void setSessionStartTime(long)
++ void setSessionStatement(boolean)
++ void setUserName(String)
++ boolean calculateSessionStatement()
++ void exportToJSON(Context)
++ void importFromJSON(Context)
+}
+class com.rrpvm.subsidioninformator.objects.UserSessionData {
++ boolean bSessionCurrent
++ long sessionStartTime
++ String userName
++ User.UserType userType
++ <<Create>> UserSessionData(boolean,long,String,User.UserType)
++ <<Create>> UserSessionData()
+}
+class com.rrpvm.subsidioninformator.activities.LoaderActivity {
+- int LOADER_DELAY
+- int EXTERNAL_STORAGE_READ_PERMISSION_CODE
+- int EXTERNAL_STORAGE_WRITE_PERMISSION_CODE
+# void onCreate(Bundle)
++ void redirect()
++ void onRequestPermissionsResult(int,String[],int[])
+- boolean checkIfAlreadyGrantedPermission(String)
+}
+class com.rrpvm.subsidioninformator.objects.filterObj {
++ T object
++ RecivierFilter.statement state
++ <<Create>> filterObj()
+}
+class com.rrpvm.subsidioninformator.utilities.Utilities {
++ {static} String getStringFromBitmap(Bitmap)
++ {static} Bitmap getBitmapFromString(String)
++ {static} Bitmap drawableToBitmap(Drawable)
+}
+class com.rrpvm.subsidioninformator.handlers.AuthorizationHandler {
++ {static} String DATA_FILENAME
+- {static} AuthorizationHandler instance
+- ArrayList<User> authorizationData
+- UserSession userSession
+- Context lastCtx
+- SimpleCryptography simpleCryptography
++ <<Create>> AuthorizationHandler()
++ {static} AuthorizationHandler getInstance()
++ void importFromJSON(Context)
++ void exportToJSON(Context)
++ UserSession getUserSession()
++ ArrayList<User> getAuthorizationData()
++ boolean signIn(String,String)
++ void logOut()
+}
+class com.rrpvm.subsidioninformator.handlers.RecivierSubsidionHandler {
++ {static} String RECIVIERS_DATA_FILENAME
++ {static} String RECIVIERS_BITMAP_SET
+- {static} RecivierSubsidionHandler instance
+- RecivierItemAdapter adapter
+- ArrayList<SubsidingRecivier> pureData
+- ArrayList<SubsidingRecivier> dataList
+- ArrayList<String> bitmapList
+- RecivierFilter simpleFilter
+- boolean aZSortMode
+- Context context
++ <<Create>> RecivierSubsidionHandler()
++ {static} RecivierSubsidionHandler getInstance()
++ void bindDataToView(Context,int)
++ void bindContext(Context)
++ void sortData()
++ int getIdInPureData(SubsidingRecivier)
++ void importFromJSON(Context)
++ void exportToJSON(Context)
++ RecivierItemAdapter getAdapter()
++ void setAdapter(RecivierItemAdapter)
++ ArrayList<SubsidingRecivier> getPureData()
++ void setPureData(ArrayList<SubsidingRecivier>)
++ ArrayList<SubsidingRecivier> getDataList()
++ void setDataList(ArrayList<SubsidingRecivier>)
++ RecivierFilter getSimpleFilter()
++ void setSimpleFilter(RecivierFilter)
++ boolean isaZSortMode()
++ void setaZSortMode(boolean)
++ void debugGenerateData()
++ void filter()
+}
+class com.rrpvm.subsidioninformator.activities.LoginFormActivity {
+- TextInputLayout loginForm
+- TextInputLayout passwordForm
+- Button singInBtn
+- ActivityLoginFormBinding binding
++ {static} int REDIRECT_DELAY
+# void onCreate(Bundle)
++ void redirect()
+- void debugFillUsers()
+- void onSignInButtonClick()
+}
+class com.rrpvm.subsidioninformator.utilities.JSONHelper {
++ {static} boolean exportToJSON(Context,List<T>,String)
++ {static} ArrayList<T> importFromJSON(Context,String,Type)
++ {static} boolean exportToJSON(Context,String,T)
++ {static} T importFromJSON(Context,String,TypeToken,boolean)
+}
+class com.rrpvm.subsidioninformator.fragments.RecivierDialogInformation {
+- Context ctx
++ void onAttach(Context)
++ Dialog onCreateDialog(Bundle)
++ void onDismiss(DialogInterface)
++ View generateLayoutData(View,SubsidingRecivier)
+}
+class com.rrpvm.subsidioninformator.adapters.RecivierItemAdapter {
+- LayoutInflater inflater
+- int layout
+- ArrayList<SubsidingRecivier> data
+- Context mainActivityContext
+- SubsidingRecivier toSerializeRecivier
+- {static} SimpleDateFormat dateFormat
++ <<Create>> RecivierItemAdapter(Context,int,ArrayList<SubsidingRecivier>)
++ void bindContext(Context)
++ View getView(int,View,ViewGroup)
++ void redirect()
+}
+class com.rrpvm.subsidioninformator.objects.RecivierFilter {
+- filterObj<String> stringFilter
+- filterObj<Boolean[]> genderFilter
+- filterObj<String> cityFilter
+- filterObj<String> oblastFilter
+- filterObj<Integer> birth_year
+- filterObj<String> birth_month
+- filterObj<Integer> birth_day
++ <<Create>> RecivierFilter()
++ filterObj<String> getStringFilter()
++ void setStringFilter(filterObj<String>)
++ filterObj<String> getCityFilter()
++ void setCityFilter(filterObj<String>)
++ filterObj<String> getOblastFilter()
++ void setOblastFilter(filterObj<String>)
++ filterObj<Integer> getBirth_year()
++ void setBirth_year(filterObj<Integer>)
++ filterObj<String> getBirth_month()
++ void setBirth_month(filterObj<String>)
++ filterObj<Integer> getBirth_day()
++ filterObj<Boolean[]> getGenderFilter()
++ void setGenderFilter(filterObj<Boolean[]>)
++ void setBirth_day(filterObj<Integer>)
+}
+class com.rrpvm.subsidioninformator.objects.ComparatorDn {
++ int compare(SubsidingRecivier,SubsidingRecivier)
+}
+class com.rrpvm.subsidioninformator.utilities.PDFHelper {
++ {static} String FONT_NAME
++ {static} String FONT_CHIVO_NAME
++ {static} Context context
+- {static} int TXT_START
+- {static} int TXT_MARGIN
++ {static} void initContext(Context)
++ {static} boolean export(SubsidingRecivier)
+}
+class com.rrpvm.subsidioninformator.utilities.PDFParagraph {
+- Paragraph paragraph
+- PdfFont font
+- Color fontColor
+- int fontSize
+- String value
+- boolean isCentered
+- int x
+- int y
++ <<Create>> PDFParagraph(Paragraph)
++ <<Create>> PDFParagraph(String)
++ <<Create>> PDFParagraph(String,int,int,Rectangle)
++ <<Create>> PDFParagraph(String,int,int,Rectangle,Color)
++ <<Create>> PDFParagraph(String,int,int,Rectangle,Color,int)
++ <<Create>> PDFParagraph(String,int,int,Rectangle,Color,int,boolean)
++ <<Create>> PDFParagraph(String,int,int,Rectangle,Color,PdfFont,int)
++ Paragraph getParagraph()
++ void setParagraph(Paragraph)
+}
+class com.rrpvm.subsidioninformator.utilities.PDFImage {
+- Image image
+- int heigth
++ <<Create>> PDFImage(Bitmap)
++ <<Create>> PDFImage(BitmapWrapper)
++ <<Create>> PDFImage(BitmapWrapper,int,int)
++ <<Create>> PDFImage(BitmapWrapper,int)
++ Image getImage()
++ void setImage(Image)
++ void setPosition(int,int,Rectangle)
+}
+class com.rrpvm.subsidioninformator.objects.User {
+- String login
+- String password
+- String name
+- UserType userType
++ <<Create>> User(String,String,String,UserType)
++ <<Create>> User(String,String,UserType)
++ String getLogin()
++ void setLogin(String)
++ String getPassword()
++ void setPassword(String)
++ String getName()
++ void setName(String)
++ UserType getUserType()
++ void setUserType(UserType)
+}
+interface com.rrpvm.subsidioninformator.interfaces.Redirectable {
+~ void redirect()
+}
+class com.rrpvm.subsidioninformator.activities.EditRecivierDataActivity {
+- TextInputLayout textInputLayoutName
+- TextInputLayout editRegion
+- TextInputLayout editCity
+- TextInputLayout editTIN
+- TextInputLayout editPassportID
+- TextInputLayout editSubsidionID
+- TextInputLayout editBirthdate
+- TextInputLayout editJKPSize
+- TextInputLayout editCGTPSize
+- TextInputLayout editArrived
+- TextInputLayout editTaken
+- TextInputLayout editPosition
+- RadioGroup genderSwitch
+- FloatingActionButton deleteActionButton
+- ImageView imagePreview
+- MaterialButton buttonSetImage
+- SubsidingRecivier currentSubsidionRecivier
+- Context context
+- int editMode
++ {static} SimpleDateFormat genericDateFormat
++ {static} String bundleArgumentMode
++ int Pick_image
+# void onCreate(Bundle)
+# void onSaveInstanceState(Bundle)
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(MenuItem)
+- ArrayList<TextInputLayout> inputValidation()
+- void saveChanges()
+- void setErrorDisableOnClick(TextInputLayout)
+- void deleteRecivier()
+- void initViews()
+- void fillViewWithData()
+- void bindListeners()
+# void onActivityResult(int,int,Intent)
++ void redirect()
+}
+class com.rrpvm.subsidioninformator.objects.SimpleCryptography {
++ {static} short XOR_KEY
++ String encrypt(String)
+}
+class com.rrpvm.subsidioninformator.objects.BitmapWrapper {
+- Bitmap bitmap
+- boolean normalized
++ {static} double SIZE
++ <<Create>> BitmapWrapper(Bitmap)
++ <<Create>> BitmapWrapper(BitmapWrapper)
++ void scaleTo(int,int)
++ void scaleWithAspectRatio(int)
++ {static} double aspectRatio(Bitmap)
++ void normalize()
+- void writeObject(ObjectOutputStream)
+- void readObject(ObjectInputStream)
++ Bitmap getBitmap()
++ void setBitmap(Bitmap)
+}
+class com.rrpvm.subsidioninformator.objects.SubsidingRecivier {
+- String name
+- String surname
+- String patronymic
+- String region
+- String city
+- String position
+- Date birthdate
+- boolean male
+- String ITN
+- String passportId
+- Subsidion subsidionData
+- BitmapWrapper image
++ <<Create>> SubsidingRecivier(boolean,String,String,String,String,String,Date,String,String,String,Subsidion,BitmapWrapper)
++ <<Create>> SubsidingRecivier()
++ String getName()
++ String getSurname()
++ String getPatronymic()
++ String getRegion()
++ String getPosition()
++ String getCity()
++ Date getBirthdate()
++ BitmapWrapper getImage()
++ String getITN()
++ String getPassportId()
++ boolean isMale()
++ Subsidion getSubsidionData()
++ String getPIB()
++ void setSNP(String)
++ void setName(String)
++ void setSurname(String)
++ void setPatronymic(String)
++ void setRegion(String)
++ void setCity(String)
++ void setPosition(String)
++ void setBirthdate(Date)
++ void setMale(boolean)
++ void setITN(String)
++ void setPassportId(String)
++ void setSubsidionData(Subsidion)
++ void setImage(BitmapWrapper)
++ boolean equals(Object)
+}
+interface com.rrpvm.subsidioninformator.interfaces.Packable {
+~ void importFromJSON(Context)
+~ void exportToJSON(Context)
+}
+
+
+androidx.appcompat.app.AppCompatActivity <|-- com.rrpvm.subsidioninformator.activities.MainActivity
+java.io.Serializable <|.. com.rrpvm.subsidioninformator.objects.Subsidion
+android.app.DialogFragment <|-- com.rrpvm.subsidioninformator.fragments.EditElementDialog
+java.util.Comparator <|.. com.rrpvm.subsidioninformator.objects.ComparatorUp
+com.rrpvm.subsidioninformator.interfaces.Packable <|.. com.rrpvm.subsidioninformator.objects.UserSession
+com.rrpvm.subsidioninformator.interfaces.Redirectable <|.. com.rrpvm.subsidioninformator.activities.LoaderActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.rrpvm.subsidioninformator.activities.LoaderActivity
+com.rrpvm.subsidioninformator.interfaces.Packable <|.. com.rrpvm.subsidioninformator.handlers.AuthorizationHandler
+com.rrpvm.subsidioninformator.interfaces.Packable <|.. com.rrpvm.subsidioninformator.handlers.RecivierSubsidionHandler
+com.rrpvm.subsidioninformator.interfaces.Redirectable <|.. com.rrpvm.subsidioninformator.activities.LoginFormActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.rrpvm.subsidioninformator.activities.LoginFormActivity
+android.app.DialogFragment <|-- com.rrpvm.subsidioninformator.fragments.RecivierDialogInformation
+com.rrpvm.subsidioninformator.interfaces.Redirectable <|.. com.rrpvm.subsidioninformator.adapters.RecivierItemAdapter
+android.widget.ArrayAdapter <|-- com.rrpvm.subsidioninformator.adapters.RecivierItemAdapter
+java.util.Comparator <|.. com.rrpvm.subsidioninformator.objects.ComparatorDn
+com.rrpvm.subsidioninformator.interfaces.Redirectable <|.. com.rrpvm.subsidioninformator.activities.EditRecivierDataActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.rrpvm.subsidioninformator.activities.EditRecivierDataActivity
+java.io.Serializable <|.. com.rrpvm.subsidioninformator.objects.BitmapWrapper
+java.io.Serializable <|.. com.rrpvm.subsidioninformator.objects.SubsidingRecivier
+@enduml

@@ -47,8 +47,6 @@ public class JSONHelper {
             ArrayList<T> dataItems = new ArrayList<T>();
             dataItems = gson.fromJson(streamReader, type);
             return dataItems;
-            //obj = gson.fromJson(streamReader, obj.getClass());
-            // obj=gson.fromJson(streamReader,typeMyType);
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {

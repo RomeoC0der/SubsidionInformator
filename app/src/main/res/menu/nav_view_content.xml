@@ -52,7 +52,7 @@
             <menu>
                 <item
                     android:id="@+id/logout_button"
-                    android:title="Log out" />
+                    android:title="@string/sidebar_log_out" />
             </menu>
         </item>
     </group>

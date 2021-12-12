@@ -154,6 +154,7 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
             e.printStackTrace();
         }
     }
+
     public void filter() {
         dataList.clear();
         try {
@@ -170,19 +171,19 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
                             && !(recivier.getITN().equals(filterString)))// you can replace it with contains
                         shouldAdd = false;
                 }
-                if (true) { //нарушение общей концепции стейтмента(условие всегда должно проходить), но так удобней. Условие нужно лишь для поддержания внешнего вида кода
-                    if (recivier.isMale() && !simpleFilter.getGenderFilter().object[0]) {//если ты мужчина + отключена выборка по мужчинам -> нет
-                        shouldAdd = false;
-                    }
-                    if (!recivier.isMale() && !simpleFilter.getGenderFilter().object[1]) {//если ты женщина + отключена выборка по женщинам -> нет
-                        shouldAdd = false;
-                    }
+                //if (true) { //нарушение общей концепции стейтмента(условие всегда должно проходить), но так удобней. Условие нужно лишь для поддержания внешнего вида кода
+                if (recivier.isMale() && !simpleFilter.getGenderFilter().object[0]) {//если ты мужчина + отключена выборка по мужчинам -> нет
+                    shouldAdd = false;
                 }
+                if (!recivier.isMale() && !simpleFilter.getGenderFilter().object[1]) {//если ты женщина + отключена выборка по женщинам -> нет
+                    shouldAdd = false;
+                }
+                // }
                 if (simpleFilter.getCityFilter().state == RecivierFilter.statement.WORK) {
                     String[] arr = simpleFilter.getCityFilter().object.split(",");
                     boolean inSet = false;
                     for (String str : arr) {
-                        if (recivier.getCity().toLowerCase(Locale.ROOT).contains(str.toLowerCase(Locale.ROOT)))
+                        if (recivier.getCity().toLowerCase(Locale.ROOT).contains(str.trim().toLowerCase(Locale.ROOT)))
                             inSet = true;
                     }
                     if (!inSet) shouldAdd = false;
@@ -191,7 +192,7 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
                     String[] arr = simpleFilter.getOblastFilter().object.split(",");
                     boolean inSet = false;
                     for (String str : arr) {
-                        if (recivier.getRegion().toLowerCase(Locale.ROOT).contains(str.toLowerCase(Locale.ROOT))) {
+                        if (recivier.getRegion().toLowerCase(Locale.ROOT).contains(str.trim().toLowerCase(Locale.ROOT))) {
                             inSet = true;
                             break;
                         }
@@ -224,6 +225,7 @@ public class RecivierSubsidionHandler implements Packable {//time to Singleton->
         }
         adapter.notifyDataSetChanged();
     }
+
     public final static String RECIVIERS_DATA_FILENAME = "ReciviersList.json";
     public final static String RECIVIERS_BITMAP_SET = "IMAGES_DATA.json";
     private static RecivierSubsidionHandler instance;

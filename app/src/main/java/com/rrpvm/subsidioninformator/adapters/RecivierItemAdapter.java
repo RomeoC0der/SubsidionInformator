@@ -73,7 +73,7 @@ public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> impleme
             public void onClick(View view) {
                 RecivierDialogInformation infoDialogFragment = new RecivierDialogInformation();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("recivier_data", currentReciever);//в поток
+                bundle.putSerializable("recivier_data", currentReciever);
                 infoDialogFragment.setArguments(bundle);//передаем фрагменту этот поток данных
                 infoDialogFragment.show(((Activity) getContext()).getFragmentManager(), "custom");
             }
@@ -93,7 +93,7 @@ public class RecivierItemAdapter extends ArrayAdapter<SubsidingRecivier> impleme
         Bundle bundle = new Bundle();
         Intent message = new Intent(mainActivityContext, EditRecivierDataActivity.class);
         message.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        bundle.putSerializable("recivier_data", toSerializeRecivier);//в поток
+        bundle.putSerializable("recivier_data", toSerializeRecivier);
         bundle.putInt(EditRecivierDataActivity.bundleArgumentMode, EditRecivierDataActivity.EDIT_MODE.EDIT_EXIST_USER.getValue());//в поток
         message.putExtras(bundle);
         mainActivityContext.startActivity(message);

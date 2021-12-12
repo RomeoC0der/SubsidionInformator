@@ -31,7 +31,6 @@ public class BitmapWrapper implements Serializable {
     public void scaleTo(int width, int height) {
         bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
     }
-    //16:9, width = 200 -> height = 200 /16/9 ->112,5.  width = height * 16/9
     public void scaleWithAspectRatio(int maxHeight){
         double aspect = aspectRatio(bitmap);
         int height = maxHeight;
@@ -67,8 +66,6 @@ public class BitmapWrapper implements Serializable {
             byteStream.write(b);
         byte bitmapBytes[] = byteStream.toByteArray();
         bitmap = BitmapFactory.decodeByteArray(bitmapBytes, 0, bitmapBytes.length);
-        // double aspectRatio = aspectRatio(bitmap);
-        // bitmap = Bitmap.createScaledBitmap(bitmap, (int) (SIZE / aspectRatio), (int) SIZE, false);
         byteStream.close();
     }
 

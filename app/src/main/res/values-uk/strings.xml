@@ -16,7 +16,7 @@
         <item>грудень</item>
     </string-array>
     <!--different xml -->
-    <string name="app_name">Пошук отримувачів субсидій</string>
+    <string name="app_name">Sub Search</string>
     <string name="company_name">ДП "ІОЦ МІНСОЦПОЛІТИКИ УКРАЇНИ"</string>
     <string name="recivier_button_more">переглянути</string>
     <string name="recivier_button_edit">редагувати</string>
@@ -83,11 +83,11 @@
     <!-- /RecivierItemAdapter-->
 
     <!-- can be generic : RecivierDialogInformation.java -->
-    <string name="element_tin_number">Ідентифікаційні номери платника податків: %s</string>
+    <string name="element_tin_number">Ідентифікаційній номер платника податків: %s</string>
     <string name="element_passport_ID">паспорт ID: %s</string>
     <string name="element_subsidion_ID">номер заяви: %d</string>
     <string name="element_subsidion_statement">стан субсидії: %s</string>
-    <string name="element_geodata">geolocation: %s</string>
+    <string name="element_geodata">геолокацiя: %s</string>
     <string name="element_subsidion_statement_true">працює</string>
     <string name="element_subsidion_statement_false">не працює</string>
     <string name="element_month_subsidion_size">Розмір Субсидії ЖКП За Місяць, грн: %.2f</string>
@@ -112,5 +112,12 @@
     <string name="dialog_edit_message">Ви повинні заповнити всі поля</string>
     <!--/EditElementDialog.java-->
 
+    <string name="string_header_greetings">З поверненням!</string>
 
+
+    <string name="login_form_log_text">логiн</string>
+    <string name="login_form_pass_text">пароль</string>
+    <string name="login_form_access">увійти</string>
+    <string name="sidebar_log_out">вийти</string>
+    <string name="edit_img_select">виберіть зображення</string>
 </resources>

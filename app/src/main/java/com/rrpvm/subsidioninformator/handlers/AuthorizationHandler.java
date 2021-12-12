@@ -12,9 +12,9 @@ import com.rrpvm.subsidioninformator.utilities.JSONHelper;
 import java.util.ArrayList;
 import java.util.Date;
 
-//final release class
-public class AuthorizationHandler implements Packable { //time to Singleton
-    public static AuthorizationHandler getInstance() {//->Singleton
+
+public class AuthorizationHandler implements Packable {
+    public static AuthorizationHandler getInstance() {
         if (instance == null) instance = new AuthorizationHandler();
         return instance;
     }
@@ -40,7 +40,7 @@ public class AuthorizationHandler implements Packable { //time to Singleton
         try {
             this.lastCtx = ctx;
             JSONHelper.exportToJSON(ctx, authorizationData, DATA_FILENAME);
-            userSession.exportToJSON(ctx);//могут возникнуть проблемы, когда нет даты и ты делаешь первый экспорт. Действия : создаем дату, комментируем экспорт
+            userSession.exportToJSON(ctx);
         } catch (Exception e) {
             e.printStackTrace();
         }

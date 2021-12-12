@@ -26,7 +26,7 @@
             android:id="@+id/login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="login"
+            android:hint="@string/login_form_log_text"
             app:startIconDrawable="@drawable/ic_login"
             android:layout_margin="10dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:endIconMode="password_toggle"
-            android:hint="password"
+            android:hint="@string/login_form_pass_text"
             app:startIconDrawable="@drawable/ic_baseline_lock_24"
             android:layout_margin="10dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -55,6 +55,6 @@
             android:padding="15dp"
             android:layout_margin="16dp"
             style="?attr/materialButtonOutlinedStyle"
-            android:text="login" />
+            android:text="@string/login_form_access" />
     </LinearLayout>
 </LinearLayout>
